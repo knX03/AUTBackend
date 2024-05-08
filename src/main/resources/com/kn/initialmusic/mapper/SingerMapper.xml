@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.SingerMapper">
+    <update id="createAlbum">
+        update singer
+        set singer_album=#{album_Name}
+        where singer_name = #{singer_Name}
+    </update>
+
+
+    <select id="isRepeatedByID" resultType="java.lang.String">
+        select singer_ID
+        from singer
+        where singer_ID = #{id}
+    </select>
+    <select id="selectDetailSinger" resultType="com.kn.initialmusic.pojo.Singer">
+        select singer_ID, singer_name, singer_avatar
+        from singer
+        where singer_ID = #{singer_ID}
+    </select>
+    <select id="selectAllSingers" resultType="com.kn.initialmusic.pojo.Singer">
+        select *
+        from singer
+    </select>
+    <select id="singerSelector" resultType="com.kn.initialmusic.pojo.Singer">
+        select singer_ID, singer_name, singer_avatar
+        from singer
+        where if(#{langType} = "全部", singer_lang = singer_lang, singer_lang = #{langType})
+          and if(#{singerType} = "全部", singer_type = singer_type, singer_type = #{singerType})
+          and if(#{alphabet} = "热门", singer_name = singer_name, get_first_pinyin_char(singer_name) = #{alphabet})
+    </select>
+</mapper>

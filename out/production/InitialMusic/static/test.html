@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<h5>测试页面</h5>
+<style>
+    .aaa {
+        color: #13ce66;
+    }
+</style>
+<body>
+<div id="app">
+    <button style="width: 120px;height: 120px" @click="selectSong">查询</button>
+
+
+    <label class="aaa">askdjask</label>
+    <table border="1">
+        <tr v-for="(song ) in songs">
+            <td>{{ song.id }}</td>
+            <td>{{ song.song_ID }}</td>
+            <td>{{ song.song_Name }}</td>
+            <td>{{ song.singer_ID }}</td>
+            <td>{{ song.album_ID }}</td>
+            <td>{{ song.created_Time }}</td>
+        </tr>
+    </table>
+    <button @click="changeLabel"></button>
+
+    <!--todo 文件上传模块-->
+    <div style="width: 500px;height: 150px">
+        <el-upload
+                class="upload-demo"
+                action="#"
+                :headers="headers"
+                :auto-upload="false"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="3"
+                :file-list="fileList"
+                :on-change="handleChange"
+        >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="confirmUpload()">上 传</el-button>
+        </div>
+    </div>
+    <div style="width: 300px ;display: none" id="upPer">
+        <div>{{ fileName }}</div>
+        <el-progress :text-inside="true" :stroke-width="15" :percentage="upPercent" status="warning"></el-progress>
+    </div>
+    <div style="width: 200px;height: 100px">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="搜索...">
+
+        <ul id="myUL">
+            <li><a href="#" class="header">A</a></li>
+            <li><a href="#">Adele</a></li>
+            <li><a href="#">Agnes</a></li>
+
+            <li><a href="#" class="header">B</a></li>
+            <li><a href="#">Billy</a></li>
+            <li><a href="#">Bob</a></li>
+
+            <li><a href="#" class="header">C</a></li>
+            <li><a href="#">Calvin</a></li>
+            <li><a href="#">Christina</a></li>
+            <li><a href="#">Cindy</a></li>
+        </ul>
+    </div>
+    <input type="file" @click="uploaddemo(e)"></input>
+</div>
+
+<script src="js/axios.min.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script src="element-ui/lib/index.js"></script>
+<style>
+    #myInput {
+        background-image: url('https://static.runoob.com/images/mix/searchicon.png'); /* 搜索按钮 */
+        background-position: 10px 12px; /* 定位搜索按钮 */
+        background-repeat: no-repeat; /* 不重复图片*/
+        width: 100%;
+        font-size: 16px; /* 加大字体 */
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+    }
+
+    #myUL {
+        /* 移除默认的列表样式 */
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #myUL li a {
+        border: 1px solid #ddd; /* 链接添加边框 */
+        margin-top: -1px;
+        background-color: #f6f6f6;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px;
+        color: black;
+        display: block;
+    }
+
+    #myUL li a.header {
+        background-color: #e2e2e2;
+        cursor: default;
+    }
+
+    #myUL li a:hover:not(.header) {
+        background-color: #eee;
+    }
+</style>
+<script>
+    function myFunction() {
+        // 声明变量
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // 循环所有列表，查找匹配项
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            fileList: [],
+            fileType: ["png", "jpg", "jpeg", "mp3", "mp4"],
+            fileSize: 50,
+            fileName: '',
+            upPercent: 0,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            songs: {
+                song_ID: '1',
+                song_Name: 'asdf',
+                singer_ID: '54',
+                album_ID: 'asd',
+                created_Time: '2012',
+            },
+            dfile: '',
+        },
+
+
+        methods: {
+            /*点击上传后验证文件*/
+            /*beforeUpload(file) {
+                console.log(file)
+                if (file.type !== "" || file.type != null || file.type !== undefined) {
+                    //截取文件的后缀，判断文件类型
+                    console.log(file.name)
+                    const FileExt = file.name.replace(/.+\./, "").toLowerCase();
+                    //计算文件的大小
+                    const isLt5M = file.size / 1024 / 1024 < 50; //这里做文件大小限制
+                    //如果大于50M
+                    if (!isLt5M) {
+                        this.$message('上传文件大小不能超过 50MB!');
+                        return false;
+                    }
+                    //如果文件类型不在允许上传的范围内
+                    if (this.fileType.includes(FileExt)) {
+                        return true;
+                    } else {
+                        this.$message.error("上传文件格式不正确!");
+                        return false;
+                    }
+                }
+            },*/
+            uploaddemo(file) {
+                console.log(file)
+            },
+
+            beforeRemove(file, fileList) {
+                return this.$confirm(`确定移除 ${file.name}？`);
+            },
+            /*在列表里，未点击上传*/
+            handleChange(file, fileList) { //文件数量改变
+                this.fileList = [];
+                console.log(fileList)
+                console.log(file)
+                const isMpeg = file.raw.type === 'audio/mpeg';
+                const a = file.raw.type === 'audio/mpeg';
+                if (!isMpeg && !a) {
+                    this.$message.error('上传的音频只能是MP3格式！');
+                } else {
+                    this.fileList = fileList;
+                }
+            },
+
+            /*//上传文件的事件
+            uploadFile(item) {
+                let upPer = document.getElementById('upPer');
+                upPer.style.display = 'block';
+                let that = this;
+                this.$message('文件上传中........')
+                //上传文件的需要formdata类型;所以要转
+                let FormDatas = new FormData()
+                FormDatas.append('file', item.file);
+                // 进度条
+                const uploadProgress = progressEvent => {
+                    this.upPercent = Number(
+                        ((progressEvent.loaded / progressEvent.total) * 100).toFixed(2)
+                    )
+                    // 当上传成功时设为90%，等接口返回结果设为100%
+                    if (this.upPercent >= 90) {
+                        this.upPercent = 90
+                    }
+                }
+                axios({
+                    method: 'post',
+                    url: 'http://localhost/song/uploadMusic',
+                    headers: this.headers,
+                    timeout: 30000,
+                    data: FormDatas
+                }).then(resp => {
+                    if (resp.data.code === 200) {
+                        that.upPercent = 100
+                        setTimeout(() => {
+                            upPer.style.display = 'none';
+                        }, 2000)
+                        this.$message({
+                            message: "上传成功！",
+                            duration: 1000
+                        });
+                    } else {
+                        this.$message({
+                            message: "上传失败！",
+                            duration: 1000
+                        });
+                    }
+                })
+            },*/
+            //确认上传
+            confirmUpload() {
+                let that = this;
+                let upPer = document.getElementById('upPer');
+                upPer.style.display = 'block';
+                this.isShowProgress = true
+                let param = new FormData();
+                this.fileList.forEach(
+                    (val, index) => {
+                        param.append("file", val.raw);
+                        that.fileName = val.name;
+                    },
+                );
+                /*todo 上传歌曲时将歌曲信息一起上传*/
+                param.append("song",
+                    new Blob([JSON.stringify(this.songs)], {type: 'application/json'})
+                )
+                // 进度条
+                console.log(that.fileList)
+                console.log(that.filename)
+                const uploadProgress = progressEvent => {
+                    this.upPercent = Number(
+                        ((progressEvent.loaded / progressEvent.total) * 100).toFixed(2)
+                    )
+                    // 当上传成功时设为90%，等接口返回结果设为100%
+                    if (this.upPercent >= 90) {
+                        this.upPercent = 90
+                    }
+                }
+                axios({
+                    method: 'POST',
+                    url: 'http://localhost/song/uploadMore',
+                    data: param,
+                }).then(resp => {
+                    console.log(resp.data)
+                    if (resp.data.code === 200) {
+                        that.upPercent = 100
+                        setTimeout(() => {
+                            that.fileList = []
+                            upPer.style.display = 'none';
+                        }, 2000)
+                        this.$message({
+                            message: "上传成功！",
+                            duration: 1000
+                        });
+                    } else {
+                        this.$message({
+                            message: "上传失败！",
+                            duration: 1000
+                        });
+                    }
+                })
+
+            },
+
+            selectSong() {
+                /*jquery修改css*/
+                $("label.aaa").css({
+                    display: '',
+                })
+
+
+                axios({
+                    method: "get",
+                    url: "http://localhost/getAll"
+                }).then(resp => {
+                    this.songs = resp.data
+                    console.log(resp.data)
+                })
+            },
+            changeLabel() {
+                /*类选择器*/
+                var aaa = document.querySelector(".aaa");
+                console.log(aaa)
+                aaa.style.display = 'none';
+                aaa.style.color = "#ce2f13"
+            }
+        }
+    })
+</script>
+</body>
+</html>

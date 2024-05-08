@@ -1,0 +1,36 @@
+server:
+  port: 80
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_music?allowMultiQueries=true&characterEncoding=utf8 #?servierTimezone=UTC
+    username: admin
+    password: 123456
+  servlet:
+    multipart:
+      # 单个文件最大大小
+      max-file-size: 50MB
+      # 所有上传文件最大大小
+      max-request-size: 100MB
+  devtools:
+    restart:
+      enabled: false  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+    freemarker:
+      cache: false    #页面不加载缓存，修改即时生效
+  mail:
+    host: smtp.qq.com                # 主机协议 如果是qq，那么不变，如果是163，将qq换成163
+    userName: 2254990841@qq.com  #邮箱账号，这里用的qq的
+    passWord: oyakttnzplztdiba #授权码，不是qq密码
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true

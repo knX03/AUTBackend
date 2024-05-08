@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>music</title>
+    <link rel="stylesheet" href="../../css/secondPage/musicPlay.css">
+</head>
+<body>
+<!--todo 播放页面-->
+<div id="app">
+    <!--音乐播放图片-->
+    <div class="musicImg_mod">
+        <img src="../../photos/songCover/说好不哭.jpg">
+    </div>
+    <!--音乐播放名字-->
+    <div class="musicName">
+        <label>说好不哭 - 周杰伦</label>
+    </div>
+
+    <div class="operate" id="main">
+        <audio id="audio" src=""></audio>
+        <div id="list" class="list" title="列表"></div>
+        <div id="collect" class="collect" title="收藏"></div>
+        <div id="selection" class="selection" title="循环播放"></div>
+        <div id="prev" class="prev" title="上一首"></div>
+        <div id="play" class="play" title="播放"></div>
+        <div id="next" class="next" title="下一首"></div>
+        <div id="volume" class="volume" title="音量">
+            <div class="volume_slider">
+                <el-slider
+                        v-model="volumeValue"
+                        vertical
+                        height="100px">
+                </el-slider>
+            </div>
+        </div>
+        <div id="comment" class="comment" title="评论"></div>
+        <div id="download" class="download" title="下载"></div>
+        <!-- 音量悬浮窗 -->
+    </div>
+
+    <div class="progress" id="progress">
+        <span class="cTime time" id="cTime">00:00</span> <!-- 当前时间 -->
+        <meter value="0" max="100" id="meter"></meter><!-- 进度条 -->
+        <span class="tTime time" id="tTime">00:00</span> <!-- 总的时间 -->
+    </div>
+</div>
+<script src="../../js/axios.min.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/jquery-3.7.1.min.js"></script>
+<script src="../../element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+<script src="../../js/music/musicplay.js"></script>
+</body>
+</html>

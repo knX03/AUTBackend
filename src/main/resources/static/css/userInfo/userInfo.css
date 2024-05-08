@@ -1,0 +1,254 @@
+/**
+导航栏
+ */
+.NavigationBar {
+    width: 1684px;
+    height: 80px;
+    z-index: 1000;
+}
+
+/**
+个人资料模块
+ */
+.INFO_mode {
+    width: 1684px;
+}
+
+/*用户资料*/
+.userInfo_mod {
+    width: 1684px;
+    height: 240px;
+    background-color: #2b2b2b;
+    /*margin-bottom: 50px;*/
+}
+
+/*用户头像模块*/
+.userAvatar_mod {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+}
+
+.userAvatar_mod img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    transition: 5s all ease-in-out;
+}
+
+.userAvatar_mod img:hover {
+    transition: 0.5s all ease-in-out;
+    transform: scale(1.2, 1.2);
+}
+
+
+/*用户信息展示模块*/
+.usernameLogo_mod {
+    position: relative;
+    top: -88px;
+    left: 298px;
+    width: 125px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.username_mod {
+    font-family: STXihei, serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: white;
+}
+
+/*编辑按钮*/
+.changeINFOButton_mod {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.InfoLogo {
+    position: relative;
+    top: -75px;
+    left: 298px;
+    width: 125px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.InfoLogo img {
+    width: 22px;
+    height: 22px;
+    margin-left: 10px;
+    border-radius: 50%;
+    transition: 0.5s all ease-in-out;
+    animation-play-state: paused;
+}
+
+.InfoLogo img:hover {
+    animation: rotation 0.5s linear infinite;
+    transition: 0.5s all ease-in-out;
+}
+
+/*性别logo动画旋转*/
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*创建的歌单列表*/
+.createSongPlaylistsInfo_mod {
+    width: 1684px;
+    height: 600px;
+    background-color: #ffffff;
+    margin-bottom: 50px;
+}
+
+/*标题*/
+.titleSong_mod {
+    font-family: STXihei, serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #000000;
+    margin-left: 20px;
+}
+
+/*歌单列表模块*/
+.songListInfo_mod {
+    width: 1684px;
+    height: 100%;
+    background-color: #2b2b2b;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+
+}
+
+.songListInfo_mod a {
+    text-decoration: none;
+    border-radius: 20px;
+}
+
+.songListInfo_mod a:hover {
+    background-color: #e8e5e5;
+}
+
+/*歌单封面*/
+.songPlaylistsCover_mod {
+    height: 200px;
+    width: 200px;
+    max-width: 200px;
+    max-height: 200px;
+    /*超出部分隐藏*/
+    overflow: hidden;
+    border-radius: 20px;
+    margin: 20px;
+}
+
+.songPlaylistsCover_mod img {
+    height: 200px;
+    width: 200px;
+    border-radius: 20px;
+    background-color: #C0C4CC;
+    transition: 0.5s all ease-in-out;
+
+}
+
+.songPlaylistsCover_mod img:hover {
+    transition: all 0.6s ease;
+    transform: scale(1.2, 1.2);
+}
+
+.songPlaylistsName_mod {
+    font-family: STXihei, serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    position: relative;
+    left: 30px;
+}
+
+/* 新建歌单*/
+.createPlaylist {
+    height: 200px;
+    width: 200px;
+    max-width: 200px;
+    max-height: 200px;
+    overflow: hidden;
+    border-radius: 20px;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.createPlaylist img {
+    height: 200px;
+    width: 200px;
+    border-radius: 20px;
+    transition: 0.5s all ease-in-out;
+
+}
+
+.createPlaylist img:hover {
+    transition: all 0.6s ease;
+    transform: scale(1.2, 1.2);
+}
+
+
+/*收藏的歌单列表*/
+.likeInfo_mod {
+    width: 1684px;
+    height: 600px;
+    margin-bottom: 50px;
+
+}
+
+/*标题*/
+.titleLike_mod {
+    font-family: STXihei, serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+/*歌单收藏列表*/
+.likeListInfo_mod {
+    width: 1684px;
+    height: 100%;
+    background-color: #2b2b2b;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.likeListInfo_mod a {
+    text-decoration: none;
+    border-radius: 20px;
+}
+
+.likeListInfo_mod a:hover {
+    background-color: #e8e5e5;
+}
+
+
+

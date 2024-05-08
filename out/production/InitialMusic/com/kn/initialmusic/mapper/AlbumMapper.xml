@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.AlbumMapper">
+    <insert id="creatAlbum">
+        insert into album (album_ID, album_name, singer_ID, create_time, album_introduction, album_cover)
+            value (#{album_ID}, #{album_Name}, #{singer_ID}, #{create_Time}, #{album_Introduction},
+                   #{album_Cover})
+    </insert>
+    <insert id="creatSingerAlbum">
+        insert into singeralbum(singer_name, album_name)
+            value (#{singer_Name}, #{album_Name})
+    </insert>
+    <insert id="collectAlbum">
+        insert into userlike(user_ID, album_Name)
+            value (#{user_ID}, #{album_Name})
+    </insert>
+
+
+    <select id="isRepeatedByID" resultType="java.lang.String">
+        select album_ID
+        from album
+        where album_ID = #{id}
+    </select>
+    <select id="selectAlbumNine" resultType="com.kn.initialmusic.pojo.Album">
+        SELECT*
+        FROM album
+        WHERE id >= (
+            SELECT floor(RAND() * (SELECT MAX(id) FROM album))
+        )
+        ORDER BY id
+        LIMIT 9;
+    </select>
+    <select id="checkAlbumName" resultType="java.lang.String">
+        select album_name
+        from album
+        where album_name = #{album_Name}
+    </select>
+    <select id="selectDetailAlbum" resultType="com.kn.initialmusic.pojo.Album">
+        select *
+        from album
+        where album_name = #{album_Name}
+    </select>
+    <select id="selectAllAlbum" resultType="com.kn.initialmusic.pojo.Album">
+        select *
+        from album
+    </select>
+    <select id="selectLikeAlbum" resultType="com.kn.initialmusic.pojo.Album">
+        select *
+        from album
+        where album_name in (
+            select album_name
+            from userlike
+            where user_ID = #{user_ID}
+        )
+    </select>
+    <select id="ifCollectAlbum" resultType="java.lang.String">
+        select album_name
+        from userlike
+        where user_ID = #{user_ID}
+          and album_name = #{album_Name}
+    </select>
+</mapper>

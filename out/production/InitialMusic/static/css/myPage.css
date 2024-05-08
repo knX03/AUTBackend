@@ -1,0 +1,486 @@
+.myPage_mod {
+    min-height: 800px;
+}
+
+/**
+头像与名称模块
+ */
+.myFirst_mod {
+    width: 1684px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-image: url("../photos/background/sky1.jpg");
+    background-size: cover;
+
+}
+
+.backgroundPage_mod {
+    width: 1684px;
+    height: 350px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    backdrop-filter: blur(50px);
+
+}
+
+/*头像*/
+.myAvatar_mod {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #fff4ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    z-index: 5;
+}
+
+.myAvatar_mod img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-color: #f0c78a;
+    transition: 3s all ease-in-out;
+
+}
+
+.myAvatar_mod img:hover {
+    transition: all 2s ease;
+    transform: scale(1.2, 1.2);
+}
+
+/*名称*/
+.myName {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    z-index: 5;
+}
+
+.myName label {
+    font-family: STXihei, serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.myName img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    transition: 0.5s all ease-in-out;
+    animation-play-state: paused;
+}
+
+.myName img:hover {
+    animation: rotation 3s linear infinite;
+    transition: 0.5s all ease-in-out;
+}
+
+/*性别logo动画旋转*/
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*关注和粉丝的模块待实现*/
+.followAndFans_mod {
+}
+
+
+/**
+选项和歌曲列表模块
+ */
+.mySecond_mod {
+    width: 100%;
+}
+
+/*选项列表*/
+.optionList_mod {
+    width: 200px;
+    height: 40px;
+    display: flex;
+    margin-left: 200px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.optionList_mod label {
+    font-family: 方正粗黑宋简体, serif;
+    font-size: 20px;
+    color: #2c2c2c;
+    cursor: pointer;
+}
+
+.optionList_mod label:hover {
+    color: #e58c43;
+}
+
+/*按钮列表*/
+.buttonList_mod {
+    width: 430px;
+    height: 60px;
+    margin-left: 200px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+
+.el-button--warning img {
+    width: 20px;
+    height: 20px;
+}
+
+.el-button--info {
+    color: #000000;
+    background-color: #ffffff;
+
+}
+
+
+/*歌曲列表*/
+.songList_mod {
+    width: 1260px;
+    background-color: #f7f7f7;
+    margin-left: 200px;
+    margin-top: 10px;
+    z-index: 2;
+    border-radius: 12px;
+}
+
+/*表头栏*/
+.listTitle_mod {
+    width: 100%;
+    height: 60px;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+
+
+}
+
+.listTitle_mod label {
+    color: #9999a5;
+    font-family: 方正粗黑宋简体, serif;
+}
+
+.songTitle {
+    margin-left: 50px;
+    width: 400px;
+}
+
+.singerTitle {
+    width: 300px;
+}
+
+.albumTitle {
+    width: 300px;
+}
+
+.optionTitle {
+
+}
+
+/*歌曲信息列表*/
+.listSong_mod {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+/*鼠标悬浮显示操作按钮*/
+.listSong_mod:hover .songName .playAndAdd {
+    display: flex;
+
+}
+
+.listSong_mod:hover .option_mod .deleteAndDownload {
+    display: flex;
+
+}
+
+.SN {
+    width: 50px;
+    height: 50px;
+    background-color: #f7f7f7;
+    color: #9999a5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.songName {
+    width: 400px;
+    height: 50px;
+    background-color: #f7f7f7;
+    color: #000000;
+    display: flex;
+    align-items: center;
+}
+
+.songName img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.songName label {
+    margin-left: 10px;
+    margin-right: 50px;
+    cursor: pointer;
+    font-family: STXihei, serif;
+    font-size: 15px;
+}
+
+.songName label:hover {
+    color: #e58c43;
+}
+
+.singerName {
+    width: 300px;
+    height: 50px;
+    color: #000000;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+}
+
+.singerName label {
+    cursor: pointer;
+    font-family: STXihei, serif;
+    font-size: 15px;
+}
+
+.singerName label:hover {
+    color: #e58c43;
+}
+
+.albumName {
+    width: 300px;
+    height: 50px;
+    color: #000000;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+}
+
+.albumName label {
+    cursor: pointer;
+    font-family: STXihei, serif;
+    font-size: 15px;
+}
+
+.albumName label:hover {
+    color: #e58c43;
+}
+
+.option_mod {
+    width: 210px;
+    height: 50px;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+
+/*操作的按钮*/
+
+.playAndAdd {
+    display: none;
+    transition: 0.5s all ease-in-out;
+}
+
+
+.playMusic_button {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #c7c7c7;
+    margin-right: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+}
+
+.playMusic_button img {
+    transition: 0.5s all ease-in-out;
+    width: 25px;
+    height: 25px;
+}
+
+.playMusic_button:hover {
+    transition: 0.2s all ease;
+    border-radius: 50%;
+    background-color: #e58c43;
+}
+
+
+.addPlaylist_button {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #c7c7c7;
+    cursor: pointer;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+}
+
+.addPlaylist_button img {
+    transition: 0.5s all ease-in-out;
+    width: 25px;
+    height: 25px;
+}
+
+.addPlaylist_button:hover {
+    transition: 0.2s all ease;
+    border-radius: 50%;
+    background-color: #e58c43;
+}
+
+
+.deleteAndDownload {
+    display: none;
+    align-items: center;
+    justify-content: right;
+}
+
+.download_button {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #c7c7c7;
+    cursor: pointer;
+    margin-right: 15px;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+}
+
+.download_button img {
+    width: 25px;
+    height: 25px;
+    transition: 0.5s all ease-in-out;
+}
+
+.download_button:hover {
+    transition: 0.2s all ease;
+    border-radius: 50%;
+    background-color: #e58c43;
+}
+
+
+.delete_button {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #c7c7c7;
+    cursor: pointer;
+    margin-right: 20px;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+}
+
+.delete_button img {
+    width: 25px;
+    height: 25px;
+    transition: 0.5s all ease-in-out;
+}
+
+.delete_button:hover {
+    transition: 0.2s all ease;
+    border-radius: 50%;
+    background-color: #e58c43;
+}
+
+/*播放器*/
+.player_mod {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: -5%;
+    transform: translate(-50%, -50%);
+}
+
+/*收藏音乐模块*/
+.collectToPL {
+}
+
+/*标题栏*/
+.collectToPL .el-dialog__title {
+    font-family: STXihei, serif;
+    font-size: 20px;
+    font-weight: 800;
+    margin-left: 10px;
+}
+
+.collectToPL .el-form-item__label {
+    width: 100px !important;
+    font-family: STXihei, serif;
+    font-weight: 800;
+    font-size: 16px;
+    position: relative;
+    top: -13px;
+}
+
+/*选项样式*/
+.collectToPL .el-radio {
+    margin-bottom: 30px;
+}
+
+.collectToPL .el-radio__input.is-checked .el-radio__inner {
+    border-color: #e58c43;
+    background: #e58c43;
+}
+
+.collectToPL .el-radio__input.is-checked + .el-radio__label {
+    color: #e58c43;
+}
+
+/*按钮样式*/
+.collectToPL .el-button--primary {
+    margin-left: 30px;
+    margin-top: 40px;
+    background-color: #e58c43;
+    border-color: #e58c43;
+}
+
+.collectToPL .el-button--primary:hover {
+    background-color: #fff4ea;
+    border-color: #fff4ea;
+    color: #e58c43;
+}
+
+.collectToPL .el-button--default:hover {
+    background-color: #fff4ea;
+    border-color: #fff4ea;
+    color: #e58c43;
+}

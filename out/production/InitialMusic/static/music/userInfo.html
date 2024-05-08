@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人资料</title>
+    <link rel="stylesheet" type="text/css" href="../css/nav.css">
+    <link rel="stylesheet" type="text/css" href="../css/userInfo/userInfo.css">
+    <link rel="stylesheet" type="text/css" href="../css/userInfo/userInfoEditForm.css">
+    <link rel="stylesheet" type="text/css" href="../css/userInfo/createPlaylist.css">
+    <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/util/bottom_mod.css">
+</head>
+<body>
+<div id="app">
+    <!--导航栏-->
+    <div class="NavigationBar">
+        <div class="header_nav">
+            <div class="music_logo">
+                <a href="home.html">
+                    <img src="../photos/logo/AUT.png">
+                </a>
+            </div>
+            <div class="search_mod">
+                <div class="search_mod_logo">
+                    <i class="el-icon-search"></i>
+                </div>
+                <input type="text"></input>
+            </div>
+            <!--上传音乐模块-->
+            <div class="createMusic_mod">
+                <a href="SecondaryPage/uploadMusic.html">音乐创作</a>
+                <div class="createMusic_mod_b"></div>
+            </div>
+
+            <div class="login_mod">
+                <!--头像跳转-->
+                <a href="userInfo.html">
+                    <img :src="user.user_Avatar" class="avatar_mod_default">
+                </a>
+                <!--悬停框-->
+                <label class="nickname_mod">
+                    {{ user.user_Name }}
+                </label>
+            </div>
+
+            <div class="message_mod">
+                <el-badge value="new" class="item">
+                    <i class="el-icon-message"></i>
+                </el-badge>
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+    <div class="INFO_mode">
+        <!--用户资料-->
+        <div class="userInfo_mod">
+            <div class="userAvatar_mod">
+                <img :src="user.user_Avatar">
+            </div>
+            <div class="usernameLogo_mod">
+                <label class="username_mod">{{ user.user_Name }}</label>
+                <img src="../photos/logo/editGray.png" class="changeINFOButton_mod" @click="dialogVisible=true">
+            </div>
+
+            <!--修改性别时切换性别logo-->
+            <div class="InfoLogo">
+                <img id="sexLogo" src="../photos/logo/alien.png">
+            </div>
+
+        </div>
+        <!--创建的歌单-->
+        <div class="createSongPlaylistsInfo_mod">
+            <label class="titleSong_mod">我创建的歌单</label>
+            <div class="songListInfo_mod">
+                <!--点击跳转歌单详情并传送关键值-->
+                <a href="#"
+                   @click="viewSongPlaylists(list.playlist_ID)"
+                   v-for="list in creatList"
+                >
+                    <div class="songPlaylistsCover_mod">
+                        <img :src="list.playlist_Cover"/>
+                    </div>
+                    <label class="songPlaylistsName_mod">{{ list.playlist_Name }}</label>
+                </a>
+                <!--todo 新建歌单-->
+                <a href="#" @click="dialogVisibleP=true" v-show="creatList.length<14">
+                    <div class="createPlaylist">
+                        <img src="../photos/logo/addPlaylist.png"/>
+                    </div>
+                    <label class="songPlaylistsName_mod">新建歌单</label>
+                </a>
+            </div>
+        </div>
+        <!--收藏的歌单-->
+        <div class="likeInfo_mod">
+            <label class="titleLike_mod">我收藏的歌单</label>
+            <div class="likeListInfo_mod">
+                <a href="#"
+                   @click="viewSongPlaylists(list.playlist_ID)"
+                   v-for="list in likeList"
+                >
+                    <div class="songPlaylistsCover_mod">
+                        <img :src="list.playlist_Cover"/>
+                    </div>
+                    <label class="songPlaylistsName_mod">{{ list.playlist_Name }}</label>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <!--底部模块-->
+    <div class="bottom_mod">
+        <div>
+            <i class="el-icon-service"></i>
+            <i class="el-icon-sunny"></i>
+            <i class="el-icon-sunrise"></i>
+            <i class="el-icon-cloudy-and-sunny"></i>
+            <i class="el-icon-partly-cloudy"></i>
+            <i class="el-icon-sunny"></i>
+            <i class="el-icon-light-rain"></i>
+            <i class="el-icon-heavy-rain"></i>
+            <i class="el-icon-lightning"></i>
+            <i class="el-icon-moon"></i>
+            <i class="el-icon-moon-night"></i>
+        </div>
+        <label>Copyright © 2003 - 2023 knx. All Rights Reserved.</label>
+    </div>
+
+    <!--编辑资料模块-->
+    <div class="editUserInfo" id="edituserinfo">
+        <el-dialog
+                title="编辑个人信息"
+                :visible.sync="dialogVisible"
+                width="50%"
+        >
+            <div class="editForm" id="editform">
+                <el-form ref="user" :model="user" label-width="80px">
+                    <el-form-item label="昵称：" id="username">
+                        <el-input v-model="user.new_user_Name" @blur="checkName(user.new_user_Name)"></el-input>
+                    </el-form-item>
+                    <el-form-item label="生日：">
+                        <el-col :span="11">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="user.user_Birthday"
+                                            value-format="yyyy-MM-dd"
+                                            style="width: 100%;"></el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="性别：">
+                        <el-radio-group v-model="user.user_Sex">
+                            <el-radio label="男"></el-radio>
+                            <el-radio label="女"></el-radio>
+                            <el-radio label="外星人"></el-radio>
+                            <el-radio label="沃尔玛"></el-radio>
+                            <el-radio label="不被定义的"></el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="简介：" id="eidtuserIntroduction">
+                        <el-input type="textarea" v-model="user.user_Introduction" placeholder="200"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button @click="catchSubmit()">取消</el-button>
+                        <el-button type="primary" @click="onSubmit()">保存</el-button>
+                    </el-form-item>
+                </el-form>
+                <!--更换头像-->
+                <div class="editAvatar">
+                    <label class="changeAvatar"><i class="el-icon-picture-outline-round"></i>切换头像</label>
+                    <el-upload
+                            class="avatar-uploader"
+                            action="#"
+                            :show-file-list="false"
+                            :before-upload="beforeUpload"
+                            :http-request="uploadAvatar"
+                    >
+                        <img :src="new_user_avatar" class="avatar">
+                    </el-upload>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+    </span>
+        </el-dialog>
+    </div>
+
+    <!--新建歌单模块-->
+    <div class="createPlaylistForm" id="createPlaylistForm">
+        <el-dialog
+                title="新建歌单"
+                :visible.sync="dialogVisibleP"
+                width="50%"
+                :before-close="handleClose">
+            <div class="creatForm" id="creatform">
+                <el-form ref="playlist" :model="playlist" label-width="80px">
+                    <el-form-item label="名称：" id="playlist_Name">
+                        <el-input v-model="playlist.playlist_Name" @blur="checkPlaylistName(playlist.playlist_Name)"></el-input>
+                    </el-form-item>
+                    <el-form-item label="简介：" id="playlist_Introduction">
+                        <el-input type="textarea" v-model="playlist.playlist_Introduction" placeholder="200"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button @click="dialogVisibleP=false">取消</el-button>
+                        <el-button type="primary" @click="createPlaylist()">保存</el-button>
+                    </el-form-item>
+                </el-form>
+                <!--上传封面-->
+                <div class="playlistCover">
+                    <label class="createCover"><i class="el-icon-picture-outline-round"></i>上传封面</label>
+                    <el-upload
+                            class="avatar-uploader"
+                            action="#"
+                            :show-file-list="false"
+                            :before-upload="beforeUpload"
+                            :http-request="uploadCover"
+                    >
+                        <img :src="new_playlist_Cover" class="Cover">
+                    </el-upload>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+    </div>
+
+</div>
+
+
+<script src="../js/axios.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../element-ui/lib/index.js"></script>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script src="../js/music/userInfo.js"></script>
+</body>
+</html>

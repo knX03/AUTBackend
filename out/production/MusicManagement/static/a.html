@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" onclick="home()">Home</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onclick="profile()">Profile</a></li>
+        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" onclick="message()">Messages</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" onclick="setting()">Settings</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">home</div>
+        <div role="tabpanel" class="tab-pane" id="profile">profile</div>
+        <div role="tabpanel" class="tab-pane" id="messages">message</div>
+        <div role="tabpanel" class="tab-pane" id="settings">setting</div>
+    </div>
+
+</div>
+<script>
+    var currenturl = window.location.href;
+    if(currenturl.indexOf('#')< 1) {
+        window.location.href = currenturl + '#home';
+    } else {
+        var hreftype = window.location.hash;//#后面的字段
+        $("a[href="+hreftype+"]").click();//触发此a的点击事件
+    }
+
+    var currenturl = window.location.href;
+    if(currenturl.indexOf('#')< 1) {
+        window.location.href = currenturl + '#home';
+    } else {
+        var hreftype = window.location.hash;//#后面的字段
+        window.location.href = (currenturl.split("#"))[0]+'#profile';
+
+    }
+</script>
+</body>
+</html>

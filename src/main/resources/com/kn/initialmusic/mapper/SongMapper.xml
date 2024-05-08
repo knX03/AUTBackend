@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.SongMapper">
+
+    <insert id="saveSong">
+        insert into song (song_ID, song_name, singer_name, album_name, created_time, song_directory, song_cover)
+            value (#{song_ID}, #{song_Name}, #{singer_name}, #{album_name}, #{created_Time}, #{song_Directory},
+                   #{song_Cover})
+    </insert>
+    <insert id="likeSong">
+        insert into userlike(user_ID, song_ID)
+            value (#{user_ID}, #{song_ID})
+    </insert>
+    <delete id="deleteLikeSong">
+        delete
+        from userlike
+        where user_ID = #{user_ID}
+          and song_ID = #{song_ID}
+    </delete>
+    <select id="isRepeatedByID" resultType="java.lang.String">
+        select Song_ID
+        from song
+        where Song_ID = #{id}
+    </select>
+    <select id="ifExistBySongDirectory" resultType="java.lang.String">
+        select song_name
+        from song
+        where song_directory = #{directory}
+    </select>
+    <select id="selectSongByAlbum" resultType="com.kn.initialmusic.pojo.Song">
+        select song_ID,
+               song_name,
+               singer_ID,
+               singer_name,
+               album.album_ID,
+               song.album_name as album_name,
+               song_directory,
+               song_cover
+        from song,
+             album
+        where album_ID = #{album_ID}
+          and song.album_name = album.album_name
+    </select>
+    <select id="selectSongBySinger" resultType="com.kn.initialmusic.pojo.Song">
+        select song_ID,
+               song_name,
+               singer_name,
+               album.album_ID,
+               song.album_name as album_name,
+               song_directory,
+               song_cover
+        from song,
+             album
+        where singer_name = (select singer_name
+                             from singer
+                             where singer_ID = #{singer_ID})
+          and song.album_name = album.album_name
+    </select>
+    <select id="selectSongByUser" resultType="com.kn.initialmusic.pojo.Song">
+        select song_ID,
+               song_name,
+               singer.singer_ID,
+               song.singer_name,
+               album.album_ID,
+               song.album_name,
+               song_cover,
+               song_directory
+        from song,
+             singer,
+             album
+        where song.song_ID in (select userlike.song_ID
+                               from userLike
+                               where user_ID = #{user_ID}
+                                 and song_ID is not null)
+          and singer.singer_name = song.singer_name
+          and album.album_name = song.album_name
+        limit #{begin},#{size}
+    </select>
+    <select id="searchSong" resultType="java.lang.String">
+        select song.song_name, singer.singer_name, album.album_name
+        from song
+                 join
+             singer
+                 join
+             album
+        where song.song_name like CONCAT('%', #{searchValue}, '%')
+           or singer.singer_name like CONCAT('%', #{searchValue}, '%')
+           or album.album_name like CONCAT('%', #{searchValue}, '%')
+    </select>
+    <select id="searchAll" resultMap="so,si,al">
+        select song.song_name
+        from song
+        where song.song_name like CONCAT('%', #{searchValue}, '%');
+
+        select singer.singer_name
+        from singer
+        where singer.singer_name like CONCAT('%', #{searchValue}, '%');
+
+        select album.album_name
+        from album
+        where album.album_name like CONCAT('%', #{searchValue}, '%');
+    </select>
+    <resultMap id="so" type="java.lang.String"/>
+    <resultMap id="si" type="java.lang.String"/>
+    <resultMap id="al" type="java.lang.String"/>
+
+    <select id="selectLikeSong" resultType="java.lang.String">
+        select userlike.song_ID
+        from userlike
+        where userlike.user_ID = #{user_ID}
+          and userlike.song_ID is not null
+    </select>
+    <select id="selectTotalCount" resultType="java.lang.Integer">
+        select count(*)
+        from song
+        where song_ID in (select userLike.song_ID
+                          from userLike
+                          where user_ID = #{user_ID}
+                            and song_ID is not null)
+    </select>
+
+</mapper>

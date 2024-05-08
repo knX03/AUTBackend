@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>歌单</title>
+    <link rel="stylesheet" type="text/css" href="../css/nav.css">
+    <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/util/bottom_mod.css">
+    <link rel="stylesheet" href="../css/songPlaylists.css">
+</head>
+<body>
+<div id="app">
+    <!--导航栏-->
+    <div class="NavigationBar">
+        <div class="header_nav">
+            <div class="music_logo">
+                <a href="home.html">
+                    <img src="../photos/logo/AUT.png">
+                </a>
+            </div>
+            <div class="search_mod">
+                <div class="search_mod_logo">
+                    <i class="el-icon-search"></i>
+                </div>
+                <input type="text"></input>
+            </div>
+
+            <!--上传音乐模块-->
+            <div class="createMusic_mod">
+                <a href="SecondaryPage/uploadMusic.html">音乐创作</a>
+                <div class="createMusic_mod_b"></div>
+            </div>
+
+            <div class="login_mod">
+
+                <div class="avatar_mod">
+                    <!--头像跳转-->
+                    <a href="userInfo.html" class="userAvatarA_mod">
+                        <img :src="user.user_Avatar" class="avatar_mod_default">
+                    </a>
+                    <!--悬停框-->
+                    <div class="avatar_mod_introduction">
+                        <a href="home.html" class="avatar_mod_introduction_avatar">
+                            <img :src="user.user_Avatar" class="avatar_mod_default">
+                        </a>
+                        <div class="avatar_mod_introduction_nickname">
+                            {{ user.user_Name }}
+                        </div>
+                        <a href="#" class="avatar_mod_introduction_exit" @click="exitLogin">退出登录</a>
+                    </div>
+                </div>
+                <label class="nickname_mod">
+                    {{ user.user_Name }}
+                </label>
+            </div>
+
+            <!--todo 消息通知模块-->
+            <div class="message_mod">
+                <el-badge value="new" class="item">
+                    <i class="el-icon-message"></i>
+                </el-badge>
+            </div>
+            <div></div>
+        </div>
+
+        <!--todo 导航栏，尝试使用其他方法实现-->
+        <div class="selection_nav">
+            <ul class="top_nav">
+                <li class="top_nav_item"><a href="./home.html">首页</a></li>
+                <li class="top_nav_item"><a href="./myPage.html">我的</a></li>
+                <li class="top_nav_item_active"><a href="./SongPlaylist.html">歌单</a></li>
+                <li class="top_nav_item"><a href="./Singer.html">歌手</a></li>
+                <li class="top_nav_item"><a href="./Album.html">专辑</a></li>
+            </ul>
+        </div>
+    </div>
+
+<!--    todo 筛选模块功能待实现(考虑添加别的模块，如轮播图)
+    <div class="spFirst_mod">
+        <div class="screen_mod"></div>
+    </div>-->
+
+    <div class="spSecond_mod">
+        <div class="List_mod">
+            <div class="songPlaylist_mod" v-for="item in SPlist">
+                <div class="img_container">
+                    <!--todo 歌单详情页面跳转-->
+                    <img :src="item.playlist_Cover" @click="toSongPlaylist(item.playlist_ID)">
+                </div>
+                <!--todo 歌单详情页面跳转-->
+                <label @click="toSongPlaylist(item.playlist_ID)">{{ item.playlist_Name }}</label>
+            </div>
+        </div>
+    </div>
+
+
+    <!--底部模块-->
+    <div class="bottom_mod">
+        <div>
+            <i class="el-icon-service"></i>
+            <i class="el-icon-sunny"></i>
+            <i class="el-icon-sunrise"></i>
+            <i class="el-icon-cloudy-and-sunny"></i>
+            <i class="el-icon-partly-cloudy"></i>
+            <i class="el-icon-sunny"></i>
+            <i class="el-icon-light-rain"></i>
+            <i class="el-icon-heavy-rain"></i>
+            <i class="el-icon-lightning"></i>
+            <i class="el-icon-moon"></i>
+            <i class="el-icon-moon-night"></i>
+        </div>
+        <label>Copyright © 2003 - 2023 knx. All Rights Reserved.</label>
+    </div>
+</div>
+
+
+<script src="../js/axios.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../element-ui/lib/index.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                messageCode: "",
+                user: {
+                    user_Name: '',
+                    user_Avatar: '../photos/logo/avatarWhite.png',
+                },
+                SPlist: [
+                    {
+                        playlist_ID: '',
+                        playlist_Name: '',
+                        playlist_Cover: '',
+                    },
+                ],
+            }
+        },
+        mounted() {
+            var FUser_ID = window.sessionStorage.getItem('user_ID');
+            this.selectUserDetail(FUser_ID)
+            this.selectALlPlaylist()
+        },
+        methods: {
+            /*用户详情查询*/
+            selectUserDetail(user_ID) {
+
+                let that = this;
+                console.log(that.user)
+                axios({
+                    method: 'GET',
+                    url: 'http://localhost/user/DetailByID?user_ID=' + user_ID,
+                }).then(resp => {
+                    if (resp.data.code === 200) {
+                        that.user = resp.data.data;
+                    } else if (resp.data.code === 500) {
+                        console.error(resp.data.msg)
+                    }
+                })
+            },
+            /*查询所有歌单*/
+            selectALlPlaylist() {
+                let that = this;
+                axios({
+                    method: 'get',
+                    url: 'http://localhost/songPlaylist/allPlaylists',
+                }).then(resp => {
+                    if (resp.data.code === 200) {
+                        that.SPlist = resp.data.data;
+                    } else if (resp.data.code === 500) {
+                        console.log(resp.data.msg)
+                    }
+                })
+            },
+
+            /*退出登录*/
+            exitLogin() {
+                location.href = "http://localhost/music/LRF/SignIn.html";
+                window.sessionStorage.setItem('user_ID', null);
+            },
+
+
+            /*歌单详情跳转*/
+            toSongPlaylist(row) {
+                location.href = "/music/SecondaryPage/SingerDetail.html";
+                window.sessionStorage.setItem('playlist_ID', row);
+            },
+        }
+    })
+</script>
+</body>
+</html>

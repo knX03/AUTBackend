@@ -1,0 +1,135 @@
+/**
+编辑资料模块
+ */
+/*头像展示*/
+.editAvatar {
+    width: 150px;
+    height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    /*超出部分隐藏*/
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    top: 84px;
+    left: 550px;
+    cursor: pointer;
+}
+
+.editAvatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    transition: 0.5s all ease-in-out;
+}
+
+.editAvatar:hover img {
+    transform: scale(1.2, 1.2);
+    transition: 0.5s all ease-in-out;
+}
+
+/*需要切换时显示*/
+.changeAvatar {
+    color: white;
+    font-family: STXihei, serif;
+    font-weight: 600;
+    font-size: 20px;
+    position: absolute;
+    top: 62px;
+    left: 30px;
+    display: none;
+
+}
+
+/*鼠标在头像处显示*/
+.editAvatar:hover .changeAvatar {
+    display: block;
+    cursor: pointer;
+}
+
+
+/*编辑资料模块框架*/
+.editUserInfo .el-dialog {
+    width: 40%;
+    height: 70%;
+    border-radius: 20px;
+    background-color: #13131a;
+}
+
+/*标题*/
+.editUserInfo .el-dialog__title {
+    font-size: 25px;
+    font-family: STXihei, serif;
+    font-weight: 900;
+    position: relative;
+    top: 10px;
+    left: 20px;
+    color: white;
+}
+
+
+.editUserInfo .el-dialog__body {
+    padding-left: 40px;
+}
+
+/*按钮位置*/
+.editUserInfo .el-dialog__footer {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    padding-left: 40px;
+}
+
+/*使用id选择器提高权重，覆写组件样式 ,按钮样式*/
+#edituserinfo .el-button--primary {
+    margin-left: 30px;
+    margin-top: 40px;
+    background-color: #e58c43;
+    border-color: #e58c43;
+}
+
+#edituserinfo .el-button--primary:hover {
+    background-color: #fff4ea;
+    border-color: #fff4ea;
+    color: #e58c43;
+}
+
+#edituserinfo .el-button--default:hover {
+    background-color: #fff4ea;
+    border-color: #fff4ea;
+    color: #e58c43;
+}
+
+
+/**
+编辑表单
+ */
+
+/*表单文字*/
+.editForm .el-form-item__label {
+    color: white;
+    font-family: STXihei, serif;
+}
+
+/*昵称输入框*/
+#username .el-input__inner {
+    width: 300px;
+}
+
+/*表单输入框*/
+.editForm .el-input__inner {
+    width: 200px;
+    color: black;
+}
+
+
+#editform .el-date-editor.el-input {
+    width: 200px !important;
+}
+
+/*简介输入框*/
+#eidtuserIntroduction .el-textarea__inner {
+    width: 300px;
+    height: 100px;
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.AlbumMapper">
+    <insert id="creatAlbum">
+        insert into album (album_ID, album_name, singer_ID, create_time, album_introduction, album_cover)
+            value (#{album_ID}, #{album_Name}, #{singer_ID}, #{create_Time}, #{album_Introduction},
+                   #{album_Cover})
+    </insert>
+    <insert id="creatSingerAlbum">
+        insert into singeralbum(singer_name, album_name)
+            value (#{singer_Name}, #{album_Name})
+    </insert>
+    <insert id="collectAlbum">
+        insert into userlike(user_ID, album_ID)
+            value (#{user_ID}, #{album_ID})
+    </insert>
+    <delete id="deleteLikeAlbum">
+        delete
+        from userlike
+        where user_ID = #{user_ID}
+          and album_ID = #{album_ID}
+    </delete>
+
+
+    <select id="isRepeatedByID" resultType="java.lang.String">
+        select album_ID
+        from album
+        where album_ID = #{id}
+    </select>
+    <select id="selectAlbumNine" resultType="com.kn.initialmusic.pojo.Album">
+        SELECT album_ID, album_name, album.singer_ID, singer_name, album_cover
+        FROM album,
+             singer
+        WHERE album.id >= (SELECT floor(RAND() * (SELECT MAX(album.id) FROM album)))
+          and album.singer_ID = singer.singer_ID
+        ORDER BY album.id
+        LIMIT 9;
+    </select>
+    <select id="checkAlbumName" resultType="java.lang.String">
+        select album_name
+        from album
+        where album_name = #{album_Name}
+    </select>
+    <select id="selectDetailAlbum" resultType="com.kn.initialmusic.pojo.Album">
+        select album_ID, album_name, album.singer_ID as singer_ID, singer_name, create_time, album_cover
+        from album,
+             singer
+        where album_ID = #{album_ID}
+          and album.singer_ID = singer.singer_ID
+    </select>
+    <select id="selectAllAlbum" resultType="com.kn.initialmusic.pojo.Album">
+        select *
+        from album
+    </select>
+    <select id="selectLikeAlbum" resultType="com.kn.initialmusic.pojo.Album">
+        select album_ID, album_name, album.singer_ID as singer_ID, singer_name, create_time, album_cover
+        from album,
+             singer
+        where album.singer_ID = singer.singer_ID
+          and album_ID in (select userlike.album_ID
+                           from userlike
+                           where user_ID = #{user_ID}
+                             and userlike.album_ID is not null)
+    </select>
+    <select id="ifCollectAlbum" resultType="java.lang.String">
+        select album_ID
+        from userlike
+        where user_ID = #{user_ID}
+          and album_ID = #{album_ID}
+    </select>
+    <select id="getSingerAlbums" resultType="com.kn.initialmusic.pojo.Album">
+        select album_ID, album_name, album_cover
+        from album
+        where singer_ID = #{singer_ID}
+    </select>
+</mapper>

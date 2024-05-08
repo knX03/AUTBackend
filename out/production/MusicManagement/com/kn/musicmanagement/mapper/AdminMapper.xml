@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.musicmanagement.mapper.AdminMapper">
+
+
+    <select id="detailByAdminID" resultType="com.kn.musicmanagement.pojo.Admin">
+        select admin_ID, admin_name
+        from admin
+        where admin_ID = #{admin_ID}
+    </select>
+    <select id="selectPasswordByEmail" resultType="java.lang.String">
+        select admin_password
+        from admin
+        where admin_email = #{admin_Email}
+    </select>
+    <select id="selectAdminIDByEmail" resultType="java.lang.String">
+        select admin_ID
+        from admin
+        where admin_email = #{admin_Email}
+    </select>
+</mapper>

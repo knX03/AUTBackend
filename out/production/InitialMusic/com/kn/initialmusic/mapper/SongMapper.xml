@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.SongMapper">
+
+    <insert id="saveSong">
+        insert into song (song_ID, song_name, singer_ID, album_ID, created_time, song_directory, song_cover)
+            value (#{song_ID}, #{song_Name}, #{singer_ID}, #{album_ID}, #{created_Time}, #{song_Directory},
+                   #{song_Cover})
+    </insert>
+    <insert id="likeSong">
+        insert into userlike(user_ID, song_name)
+            value (#{user_ID}, #{song_Name})
+    </insert>
+    <delete id="deleteSong">
+        delete
+        from userlike
+        where user_ID = #{user_ID}
+          and song_name = #{song_Name}
+    </delete>
+    <select id="isRepeatedByID" resultType="java.lang.String">
+        select Song_ID
+        from song
+        where Song_ID = #{id}
+    </select>
+    <select id="ifExistBySongDirectory" resultType="java.lang.String">
+        select song_name
+        from song
+        where song_directory = #{directory}
+    </select>
+    <select id="selectSongByAlbum" resultType="com.kn.initialmusic.pojo.Song">
+        select *
+        from song
+        where album_ID = #{album_Name}
+    </select>
+    <select id="selectSongBySinger" resultType="com.kn.initialmusic.pojo.Song">
+        select *
+        from song
+        where singer_ID = #{singer_Name}
+    </select>
+    <select id="selectSongByUser" resultType="com.kn.initialmusic.pojo.Song">
+        select *
+        from song
+        where song_name in (
+            select song_name
+            from userLike
+            where user_ID = #{user_ID}
+        )
+    </select>
+    <select id="searchSong" resultType="java.lang.String">
+        select song.song_name, singer.singer_name, album.album_name
+        from song
+                 join
+             singer
+                 join
+             album
+        where song.song_name like CONCAT('%', #{searchValue}, '%')
+           or singer.singer_name like CONCAT('%', #{searchValue}, '%')
+           or album.album_name like CONCAT('%', #{searchValue}, '%')
+    </select>
+    <select id="searchAll" resultMap="so,si,al">
+        select song.song_name
+        from song
+        where song.song_name like CONCAT('%', #{searchValue}, '%');
+
+        select singer.singer_name
+        from singer
+        where singer.singer_name like CONCAT('%', #{searchValue}, '%');
+
+        select album.album_name
+        from album
+        where album.album_name like CONCAT('%', #{searchValue}, '%');
+    </select>
+    <resultMap id="so" type="java.lang.String"/>
+    <resultMap id="si" type="java.lang.String"/>
+    <resultMap id="al" type="java.lang.String"/>
+
+    <select id="selectLikeSong" resultType="java.lang.String">
+        select song_name
+        from userlike
+        where user_ID = #{user_ID}
+    </select>
+
+</mapper>

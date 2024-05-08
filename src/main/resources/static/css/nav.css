@@ -1,0 +1,397 @@
+
+body {
+
+    min-width: 1200px;
+
+    overflow: scroll;
+    margin: 0 auto;
+
+    /*max-width:100%;*/
+
+}
+
+/*导航栏模块*/
+.NavigationBar {
+    /*width: 100%;*/
+    width: 1684px;
+    height: 150px;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/*导航栏第一栏*/
+.header_nav {
+    width: 100%;
+    height: 80px;
+    background-color: #E58C43;
+    display: flex;
+    align-items: center;
+    /*justify-content: space-between;*/
+}
+
+/*logo模块*/
+.music_logo {
+    display: flex;
+    align-items: center;
+    margin-left: 350px;
+}
+
+.music_logo image {
+    height: 50px;
+    width: 150px;
+}
+
+/*搜索模块*/
+.search_mod {
+    width: 280px;
+    height: 30px;
+    position: relative;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    background-image: linear-gradient(90deg, rgba(171, 165, 159, 0.73), #E0985CFF, #e0985c);
+    margin-left: 50px;
+    /*margin-left: 90px;*/
+}
+
+.search_mod_logo {
+    z-index: 2;
+    position: absolute;
+    color: #fff;
+    line-height: 30px;
+    margin-left: 15px;
+    font-size: 15px;
+}
+
+.search_mod input {
+    width: 100%;
+    height: 30px;
+    outline: none;
+    border: none;
+    padding: 4px 10px 4px 40px;
+    -webkit-box-sizing: border-box;
+    font-size: 14px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    background: transparent;
+
+
+}
+
+.searchBox_mod {
+    width: 230px;
+    height: 100px;
+    margin-left: 35px;
+    display: none;
+    background-color: #ffffff;
+    border: 0;
+    overflow-y: scroll;
+}
+
+.searchBox_mod ul, li {
+    margin: 0px;
+    padding: 0px;
+}
+
+.searchBox_mod li {
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.searchResult {
+    width: 100%;
+}
+
+.searchResult:hover {
+    background-color: #e58c43;
+}
+
+/*创作模块*/
+.createMusic_mod {
+    height: 50px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 100px;
+}
+
+.createMusic_mod a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+}
+
+.createMusic_mod_b {
+    margin-left: 54px;
+    width: 1px;
+    background: rgb(255, 255, 255, 0.5);
+    height: 14px;
+}
+
+/**
+登录模块
+ */
+.login_mod {
+    height: 50px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    justify-content: space-around;
+}
+
+.avatar_mod_default {
+    height: 50px;
+    width: 50px;
+    background-color: #8c939d;
+    border-radius: 100%;
+}
+
+/*显示悬浮框*/
+.userAvatarA_mod:hover + .avatar_mod_introduction {
+    opacity: 1;
+    transition: 0.5s all ease-in-out;
+
+}
+
+
+.avatar_mod_introduction:hover {
+    opacity: 1;
+    transition: 0.5s all ease-in-out;
+
+}
+
+.avatar2_mod_default {
+    height: 50px;
+    width: 50px;
+    background-color: #8c939d;
+    border-radius: 100%;
+}
+
+.nickname_mod {
+
+}
+
+/*悬停显示*/
+.avatar_mod_introduction {
+    background-color: #D2DCE2;
+    width: 220px;
+    height: 250px;
+    position: absolute;
+    top: 70px;
+    right: 292px;
+    z-index: 3;
+    opacity: 0;
+    border-radius: 10px;
+    transition: 0.5s all ease-in-out;
+}
+
+.avatar_mod_introduction_avatar {
+    position: absolute;
+    left: 20px;
+    top: 15px;
+}
+
+.avatar_mod_introduction_nickname {
+    position: absolute;
+    top: 30px;
+    left: 80px;
+}
+
+.avatar_mod_introduction_exit {
+    text-decoration: none;
+    color: black;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.avatar_mod_introduction_exit:hover {
+    color: #e58c43;
+}
+
+/*消息通知*/
+.message_mod {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+.message_List_mod {
+    width: 280px;
+    height: 600px;
+    position: absolute;
+    top: 80px;
+    right: 30px;
+    z-index: 99;
+    transition: all 0.5s ease-out;
+}
+
+.message_List {
+    width: 100%;
+    height: 100%;
+    background-color: #eeeeee;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    list-style: none;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.close_mod {
+    width: 100%;
+    height: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close_mod .p {
+    font-family: "微软雅黑 Light", serif;
+    font-size: large;
+}
+
+#closeLogo {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border-radius: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    transition: all 0.5s ease-out;
+}
+
+#closeLogo:hover {
+    transition: all 0.5s ease-out;
+    background-color: #cbcbcb;
+}
+
+.message {
+    width: 85%;
+    height: 15%;
+    background-color: #8cc5ff;
+    margin-bottom: 10px;
+}
+
+/**
+导航栏第二栏
+ */
+.selection_nav {
+    width: 100%;
+    height: 70px;
+    background-color: #F4D5B7;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6));
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    backdrop-filter: none;
+}
+
+.top_nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.top_nav_item {
+    float: left;
+    height: 70px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+
+}
+
+.top_nav_item a {
+    display: block;
+    color: black;
+    text-align: center;
+    height: 40px;
+    width: 100px;
+    margin-top: 24px;
+    text-decoration: none;
+    transition: all 0.5s ease-out
+}
+
+.top_nav_item:hover {
+    float: left;
+    height: 70px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+}
+
+.top_nav_item:hover a {
+    /*color: #F16F4A;
+    transition: 0.5s all ease-in-out;
+    transform: scale(1.2, 1.2);*/
+    display: flex;
+    background-color: #7D8561;
+    color: white;
+    text-align: center;
+    height: 40px;
+    width: 100px;
+    border-radius: 30px;
+    text-decoration: none;
+    /*垂直居中*/
+    align-items: center;
+    /*水平居中*/
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+    margin: 0;
+}
+
+/**
+导航栏选中的选项
+ */
+
+.top_nav_item_active {
+    float: left;
+    height: 70px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.top_nav_item_active a {
+    display: flex;
+    background-color: #7D8561;
+    color: #e58c43;
+    text-align: center;
+    height: 40px;
+    width: 100px;
+    border-radius: 30px;
+    text-decoration: none;
+    /*垂直居中*/
+    align-items: center;
+    /*水平居中*/
+    justify-content: center;
+    transition: 0.5s all ease-in-out;
+
+}
+
+
+.top_nav_item_active:hover a {
+    color: #F16F4A;
+    transition: 0.5s all ease-in-out;
+    transform: scale(1.1, 1.1);
+}

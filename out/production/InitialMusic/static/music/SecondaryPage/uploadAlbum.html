@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传</title>
+    <link rel="stylesheet" href="../../css/secondPage/uploadAlbum.css">
+</head>
+<body>
+<div id="app">
+    <div class="upload_page">
+        <div class="uploadAlbum_mod">
+            <!--歌曲信息模块-->
+            <div class="albumUpInfo_mod">
+                <label class="upTitle">上传您的作品</label>
+                <el-form ref="form" :model="album" label-width="80px">
+                    <el-form-item label="专辑名称">
+                        <el-input v-model="album.album_Name" @blur="checkAlbumName(album.album_Name)"></el-input>
+                    </el-form-item>
+                    <el-form-item label="创作者">
+                        <el-input v-model="album.singer_ID"></el-input>
+                    </el-form-item>
+                    <el-form-item label="创作时间">
+                        <el-col :span="11">
+                            <el-date-picker type="date" placeholder="选择日期"
+                                            v-model="album.create_Time"
+                                            value-format="yyyy-MM-dd"
+                                            style="width: 100%;"></el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="简介：" id="eidtuserIntroduction">
+                        <el-input type="textarea" v-model="album.album_Introduction" placeholder="200"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button>取消</el-button>
+                        <el-button type="warning" @click="confirmUpload()">上传</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <!--文件上传模块-->
+            <div class="uploadAl_mod">
+                <el-upload
+                        id=""
+                        class="avatar-uploader"
+                        action="#"
+                        :show-file-list="false"
+                        :before-upload="beforeUpload"
+                        :http-request="uploadCover"
+                >
+                    <img v-if="imageUrl" :src="imageUrl" class="Cover">
+                    <i v-else class="el-icon-picture-outline avatar-uploader-icon"></i>
+                </el-upload>
+
+
+                <el-upload
+                        id="uploadSong"
+                        class="upload-demo"
+                        action="#"
+                        :headers="headers"
+                        :auto-upload="false"
+                        :before-remove="beforeRemove"
+                        multiple
+                        :file-list="fileList"
+                        :on-change="handleChange"
+                >
+                    <el-button size="small" type="warning">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传MP3文件，且不超过20MB</div>
+                </el-upload>
+                <div id="upPer">
+                    <div>{{ fileName }}</div>
+                    <el-progress :text-inside="true" :stroke-width="15" :percentage="upPercent"
+                                 status="warning"></el-progress>
+                </div>
+            </div>
+            <label class="returnHome">返回<a href="../home.html">首页</a></label>
+            <div class="upAl"><a href="uploadMusic.html">上传歌曲</a></div>
+        </div>
+    </div>
+</div>
+<script src="../../js/axios.min.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
+<script src="../../element-ui/lib/index.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                fileList: [],
+                fileType: ["png", "jpg", "jpeg"],
+                fileSize: 50,
+                fileName: '',
+                upPercent: 0,
+                imageUrl: '',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                album: {
+                    album_Name: '',
+                    singer_ID: '',
+                    create_Time: '',
+                    album_Introduction: '',
+                },
+            }
+        },
+
+        methods: {
+            beforeRemove(file, fileList) {
+                return this.$confirm(`确定移除 ${file.name}？`);
+            },
+
+            checkAlbumName(row) {
+                let that = this;
+                console.log(row)
+                axios({
+                    method: 'GET',
+                    url: 'http://localhost/album/checkAlbumName?album_Name=' + row,
+                }).then(resp => {
+                    if (resp.data.code === 302) {
+                        this.$message.error("专辑已经存在！")
+                        that.album.album_Name = ''
+                    } else {
+
+                    }
+                })
+            },
+
+            /*上传封面前的验证*/
+            beforeUpload(file) {
+                if (file.type !== "" || file.type != null || file.type !== undefined) {
+                    //截取文件的后缀，判断文件类型
+                    const FileExt = file.name.replace(/.+\./, "").toLowerCase();
+                    //计算文件的大小
+                    const isLt5M = file.size / 1024 / 1024 < 20; //这里做文件大小限制
+                    //如果大于50M
+                    if (!isLt5M) {
+                        this.$message('上传文件大小不能超过 20MB!');
+                        return false;
+                    }
+                    //如果文件类型不在允许上传的范围内
+                    if (this.fileType.includes(FileExt)) {
+                        this.imageUrl = URL.createObjectURL(new Blob([file]));//赋值图片的url，用于图片回显功能
+                        return true;
+                    } else {
+                        this.$message.error("上传文件格式不正确!");
+                        return false;
+                    }
+
+                }
+            },
+            /*上传歌曲封面*/
+            uploadCover(item) {
+                let that = this;
+                this.$message.success("封面正在上传！")
+                //上传文件的需要formdata类型;所以要转
+                let FormDatas = new FormData()
+                FormDatas.append('file', item.file);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost/album/uploadMuCover',
+                    headers: this.headers,
+                    timeout: 30000,
+                    data: FormDatas
+                }).then(resp => {
+                    if (resp.data.code === 200) {
+                        this.$message.success("封面上传成功！")
+                    } else {
+                        this.$message({
+                            message: "上传失败！",
+                            duration: 1000
+                        });
+                    }
+                })
+
+            },
+
+
+            /*在列表里，未点击上传( 歌曲文件上传)*/
+            handleChange(file, fileList) { //文件数量改变
+                console.log(file.raw)
+                this.fileList = [];
+                const isMpeg = file.raw.type === 'audio/mpeg';
+                const isFlac = file.raw.type === 'audio/flac';
+                const isWav = file.raw.type === 'audio/wav';
+                if (!isMpeg && !isFlac && !isWav) {
+                    this.$message.error('上传的音频格式错误！');
+                } else {
+                    this.fileList = fileList;
+                }
+            },
+
+            //确认上传
+            confirmUpload() {
+                let that = this;
+                if (this.album.album_Name === null) {
+                    this.$message.error("请完善好专辑信息！")
+                    return false;
+                }
+                let upPer = document.getElementById('upPer');
+                upPer.style.display = 'block';
+                this.isShowProgress = true
+                let param = new FormData();
+                this.fileList.forEach(
+                    (val, index) => {
+                        param.append("file", val.raw);
+                        that.fileName = val.name;
+                    },
+                );
+                /*上传歌曲时将歌曲信息一起上传*/
+                param.append("album",
+                    new Blob([JSON.stringify(that.album)], {type: 'application/json'})
+                )
+                // 进度条
+                const uploadProgress = progressEvent => {
+                    this.upPercent = Number(
+                        ((progressEvent.loaded / progressEvent.total) * 100).toFixed(2)
+                    )
+                    // 当上传成功时设为90%，等接口返回结果设为100%
+                    if (this.upPercent >= 90) {
+                        this.upPercent = 90
+                    }
+                }
+                axios({
+                    method: 'POST',
+                    url: 'http://localhost/album/uploadMore',
+                    data: param,
+                }).then(resp => {
+                    if (resp.data.code === 200) {
+                        that.upPercent = 100
+                        this.$message({
+                            message: "上传成功！",
+                            duration: 1000
+                        });
+                        setTimeout(() => {
+                            that.album.album_Name = ''
+                            that.album.singer_ID = ''
+                            that.album.album_Introduction = ''
+                            that.album.create_Time = ''
+                            that.fileList = []
+                            that.imageUrl = ''
+                            upPer.style.display = 'none';
+                        }, 2000)
+                    } else {
+                        this.$message({
+                            message: "上传失败！",
+                            duration: 1000
+                        });
+                    }
+                })
+
+            },
+        }
+    })
+</script>
+</body>
+</html>

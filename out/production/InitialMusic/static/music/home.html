@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../css/home.css">
+    <link rel="stylesheet" type="text/css" href="../css/nav.css">
+    <link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/util/bottom_mod.css">
+</head>
+<body>
+
+<div id="app" class="mainPage">
+
+    <div class="NavigationBar">
+        <div class="header_nav">
+            <div class="music_logo">
+                <a href="home.html">
+                    <img src="../photos/logo/AUT.png">
+                </a>
+            </div>
+            <div class="search_mod">
+                <div class="search_mod_logo">
+                    <i class="el-icon-search"></i>
+                </div>
+                <input type="text" v-model="searchValue"  @blur="hiddenBox()" @change="search()"></input>
+                <div id="searchBox" class="searchBox_mod">
+                    <ul v-for="item in searchList">
+                        <li>
+                            <div class="searchResult"><span>{{ item }}</span></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--上传音乐模块-->
+            <div class="createMusic_mod">
+                <a href="SecondaryPage/uploadMusic.html">音乐创作</a>
+                <div class="createMusic_mod_b"></div>
+            </div>
+
+            <div class="login_mod">
+
+                <div class="avatar_mod">
+                    <!--头像跳转-->
+                    <a href="#" class="userAvatarA_mod" @click="toUserInfo(user.user_ID)">
+                        <img :src="user.user_Avatar" class="avatar_mod_default">
+                    </a>
+                    <!--todo 悬停框element下拉菜单有可能实现-->
+                    <div class="avatar_mod_introduction">
+                        <a href="home.html" class="avatar_mod_introduction_avatar">
+                            <img :src="user.user_Avatar" class="avatar2_mod_default">
+                        </a>
+                        <div class="avatar_mod_introduction_nickname">
+                            {{ user.user_Name }}
+                        </div>
+                        <a href="#" class="avatar_mod_introduction_exit" @click="exitLogin">退出登录</a>
+                    </div>
+                </div>
+                <label class="nickname_mod">
+                    {{ user.user_Name }}
+                </label>
+            </div>
+
+            <!--todo 消息通知模块-->
+            <div class="message_mod">
+                <el-badge value="new" class="item">
+                    <i class="el-icon-message"></i>
+                </el-badge>
+            </div>
+            <div></div>
+        </div>
+
+        <div class="selection_nav">
+            <ul class="top_nav">
+                <li class="top_nav_item_active"><a href="./home.html">首页</a></li>
+                <li class="top_nav_item"><a href="./myPage.html">我的</a></li>
+                <li class="top_nav_item"><a href="./SongPlaylist.html">歌单</a></li>
+                <li class="top_nav_item"><a href="./Singer.html">歌手</a></li>
+                <li class="top_nav_item"><a href="./Album.html">专辑</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="swiper_mod">
+        <el-carousel :interval="4000" type="card" indicator-position="none" arrow="never">
+            <el-carousel-item v-for="item in swiperImg" :key="item">
+                <!--todo 每张图片有不同对应页面-->
+                <a href="#" @click="swiperDetail(item)">
+                    <div class="imgContainer">
+                        <img :src="item.idView">
+                    </div>
+                </a>
+            </el-carousel-item>
+        </el-carousel>
+    </div>
+
+    <!--歌单推荐模块（随机推荐9个歌单）-->
+    <div class="recommend_mod">
+        <div class="recommendTitle_mod">歌 单 推 荐</div>
+        <!--todo 尝试使用原生js实现切换走马灯的效果（改变left的值参考qq音乐新碟首发）-->
+        <div class="reSongPlaylist_mod">
+<!--            <div>
+                <div class="songPlaylistCover">
+                    <img :src="DailyRe"/>
+                </div>
+                <label>每日推荐</label>
+            </div>-->
+            <div v-for="i in SongPlaylist">
+                <!--歌单详情跳转-->
+                <div class="songPlaylistCover">
+                    <img :src="i.playlist_Cover" @click="toSongPlaylist(i.playlist_ID)"/>
+                </div>
+                <label>{{ i.playlist_Name }}</label>
+            </div>
+        </div>
+    </div>
+
+    <!--专辑推荐模块（随机推荐10个专辑）-->
+    <div class="AlbumRecommend_mod">
+        <div class="recommendTitle_mod">专 辑 推 荐</div>
+        <div class="reAlbumList_mod">
+            <div v-for="i in AlbumList">
+                <!--专辑详情跳转-->
+                <div class="albumCover_mod">
+                    <img :src="i.album_Cover" @click="toAlbum(i.album_Name)"/>
+                </div>
+                <div class="AlbumText_mod">
+                    <label class="AlbumName">{{ i.album_Name }}</label>
+                    <!--歌手跳转-->
+                    <label class="singerName" @click="toSinger(i.singer_ID)">{{ i.singer_ID }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--todo 播放器模块-->
+    <div class="player_mod">
+
+    </div>
+
+    <!--底部模块-->
+    <div id="a" class="bottom_mod">
+        <div>
+            <i class="el-icon-service"></i>
+            <i class="el-icon-sunny"></i>
+            <i class="el-icon-sunrise"></i>
+            <i class="el-icon-cloudy-and-sunny"></i>
+            <i class="el-icon-partly-cloudy"></i>
+            <i class="el-icon-sunny"></i>
+            <i class="el-icon-light-rain"></i>
+            <i class="el-icon-heavy-rain"></i>
+            <i class="el-icon-lightning"></i>
+            <i class="el-icon-moon"></i>
+            <i class="el-icon-moon-night"></i>
+        </div>
+        <label>Copyright © 2003 - 2023 knx. All Rights Reserved.</label>
+    </div>
+</div>
+
+<script src="../js/axios.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../element-ui/lib/index.js"></script>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script src="../js/music/home.js"></script>
+</body>
+</html>

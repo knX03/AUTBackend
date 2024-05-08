@@ -1,0 +1,205 @@
+body {
+    background-size: cover;
+    backdrop-filter: blur(100px);
+    background-image: url("../../photos/songCover/说好不哭.jpg");
+}
+
+#app {
+    height: 903px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.musicImg_mod {
+    height: 500px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.musicImg_mod img {
+    width: 400px;
+    height: 400px;
+    animation: totate 30s linear infinite;
+    border-radius: 50%;
+    animation-play-state: paused;
+
+}
+
+@keyframes totate {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    50% {
+        transform: rotateZ(180deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
+.musicName {
+    height: 80px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+.musicName label {
+    font-size: 30px
+}
+
+.operate {
+    width: 800px;
+    height: 160px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+/*各类操作*/
+.collect {
+    background: url("../../photos/logo/like.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.selection {
+    background: url("../../photos/logo/循环播放.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.list {
+    background: url("../../photos/logo/歌曲列表.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.play {
+    background: url("../../photos/logo/play.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.prev {
+    background: url("../../photos/logo/上一首.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.next {
+    background: url("../../photos/logo/下一首.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.volume {
+    background: url("../../photos/logo/声音_实体.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+
+.comment {
+    background: url("../../photos/logo/评论.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.download {
+    background: url("../../photos/logo/下载.png");
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+/*音量条*/
+.volume_slider {
+    position: relative;
+    display: none;
+    bottom: 105px;
+}
+
+.volume_slider:focus {
+    outline: none;
+}
+
+.volume_slider .el-slider__bar {
+    background-color: #e58c43;
+}
+
+.volume_slider .el-slider__button {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #e58c43;
+}
+
+
+/*进度条*/
+.progress {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 50px;
+    /*background-color: cyan;*/
+}
+
+#cTime {
+    /*float: left;*/
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 18px;
+
+    width: 20px;
+}
+
+#tTime {
+    /*float: right;*/
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 18px;
+    width: 300px;
+}
+
+
+#meter {
+    width: 720px;
+    height: 18px;
+    /*background: azure;
+    margin-bottom: ;*/
+
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.musicmanagement.mapper.UserMapper">
+
+
+    <select id="getAll" resultType="com.kn.musicmanagement.pojo.User">
+        select *
+        from user
+    </select>
+    <select id="getAge" resultType="java.lang.String">
+        select user_age
+        from user
+    </select>
+    <select id="getUserChangeByMonth" resultType="java.util.LinkedHashMap">
+        select
+            sum(case month(create_time) when '01'  then 1 else 0 end) as '一月',
+            sum(case month(create_time) when '02'  then 1 else 0 end) as '二月',
+            sum(case month(create_time) when '03'  then 1 else 0 end) as '三月',
+            sum(case month(create_time) when '04'  then 1 else 0 end) as '四月',
+            sum(case month(create_time) when '05'  then 1 else 0 end) as '五月',
+            sum(case month(create_time) when '06'  then 1 else 0 end) as '六月',
+            sum(case month(create_time) when '07'  then 1 else 0 end) as '七月',
+            sum(case month(create_time) when '08'  then 1 else 0 end) as '八月',
+            sum(case month(create_time) when '09'  then 1 else 0 end) as '九月',
+            sum(case month(create_time) when '10' then 1  else 0 end) as '十月',
+            sum(case month(create_time) when '11' then 1  else 0 end) as '十一月',
+            sum(case month(create_time) when '12' then 1  else 0 end) as '十二月'
+        from `user`
+        where year(create_time)='2023';
+
+    </select>
+</mapper>

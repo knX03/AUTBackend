@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+}
+
+.MusicManage {
+    display: flex;
+
+}
+
+
+/*导航栏展开后的样式*/
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+}
+
+/*导航栏整体样式*/
+.NavigationBar_mod .el-menu {
+    height: 903px;
+    top: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 99;
+}
+
+.NavigationBar_mod .el-menu a {
+    text-decoration: none;
+}
+
+/*选线样式*/
+.NavigationBar_mod .el-menu-item {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/**
+内容部分
+ */
+.content_mod {
+    width: 100%;
+}
+
+/*顶部栏*/
+.TopBar_mod {
+    background-color: #e58c43;
+    height: 70px;
+    width: 100%;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*logo模块*/
+.logo_mod {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.isCollapse_mod {
+    width: 30px;
+    height: 30px;
+}
+
+.isCollapse_mod img {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+
+/*LOGO*/
+.SYIcon_mod img {
+    width: 150px;
+    height: 50px;
+}
+
+/*管理员信息*/
+.adminInfo_mod {
+    width: 200px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*选项模块*/
+.option_mod {
+
+}
+
+.option_mod span {
+    cursor: pointer;
+}
+
+

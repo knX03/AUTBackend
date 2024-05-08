@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../css/home.css">
+</head>
+<body>
+<div id="app">
+    <div class="MusicManage">
+        <div class="NavigationBar_mod">
+            <el-menu default-active="1-4-1"
+                     class="el-menu-vertical-demo"
+                     :collapse="isCollapse"
+                     background-color="#545c64"
+                     text-color="#fff"
+                     active-text-color="#e58c43"
+            >
+                <a href="#/home.html">
+                    <el-menu-item index="1">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">首页</span>
+                    </el-menu-item>
+                </a>
+                <a href="#/songLibrary.html">
+                    <el-menu-item index="2" @click="pushState()">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">歌曲库</span>
+                    </el-menu-item>
+                </a>
+                <a href="#/3">
+                    <el-menu-item index="3">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">导航二</span>
+                    </el-menu-item>
+                </a>
+                <a href="#/4">
+                    <el-menu-item index="4">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">导航二</span>
+                    </el-menu-item>
+                </a>
+            </el-menu>
+        </div>
+        <div class="content_mod">
+            <div class="TopBar_mod">
+                <div class="logo_mod">
+                    <div class="isCollapse_mod" @click="expand()">
+                        <img src="../img/logo/展开.png" v-if="isCollapse">
+                        <img src="../img/logo/收起.png" v-if="isCollapse===false">
+                    </div>
+                    <div class="SYIcon_mod">
+                        <img src="../img/logo/AUT.png">
+                    </div>
+                </div>
+                <div class="adminInfo_mod">
+                    <label>aaa</label>
+                    <div class="option_mod">
+                        <el-dropdown trigger="click">
+                            <span class="el-dropdown-link"><i class="el-icon-caret-bottom"></i></span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>首页</el-dropdown-item>
+                                <el-dropdown-item>编辑资料</el-dropdown-item>
+                                <el-dropdown-item>切换用户</el-dropdown-item>
+                                <el-dropdown-item divided style="color: red">退出登录</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="../js/axios.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="../element-ui/lib/theme-chalk/index.css">
+<script src="../element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                isCollapse: true,
+            }
+        },
+        mounted() {
+        },
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            /*导航栏展开与折叠*/
+            expand() {
+                this.isCollapse = !this.isCollapse;
+
+            },
+
+            pushState(e) {
+                let url = $('a').attr('href');
+                let href = 'http:localhost/' + url
+                console.log(href);
+                location.hash=href
+
+            },
+        }
+    })
+</script>
+</body>
+</html>

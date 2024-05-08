@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.SongCommentMapper">
+    <insert id="postPlaylistComment">
+        insert into songcomment(playlist_ID, creator, comment)
+            value (#{ID}, #{user_ID}, #{comment})
+
+    </insert>
+    <insert id="postSongComment">
+        insert into songcomment(song_ID, creator, comment)
+            value (#{ID}, #{user_ID}, #{comment})
+    </insert>
+    <insert id="postAlbumComment">
+        insert into songcomment(album_ID, creator, comment)
+            value (#{ID}, #{user_ID}, #{comment})
+    </insert>
+    <select id="getPlaylistComments" resultType="com.kn.initialmusic.pojo.commentList">
+        select comment, user_name, postingTime,user_avatar
+        from songcomment,
+             user
+        where playlist_ID = #{ID}
+          and creator = user.user_ID
+    </select>
+    <select id="getSongComments" resultType="com.kn.initialmusic.pojo.commentList">
+        select comment, user_name, postingTime, user_avatar
+        from songcomment,
+             user
+        where song_ID = #{ID}
+          and creator = user.user_ID
+    </select>
+    <select id="getAlbumComments" resultType="com.kn.initialmusic.pojo.commentList">
+        select comment, user_name, postingTime,user_avatar
+        from songcomment,
+             user
+        where album_ID = #{ID}
+          and creator = user.user_ID
+    </select>
+</mapper>

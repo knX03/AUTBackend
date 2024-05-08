@@ -1,0 +1,132 @@
+/**
+新建歌单
+ */
+/*封面展示*/
+.playlistCover {
+    width: 200px;
+    height: 200px;
+    max-width: 200px;
+    max-height: 200px;
+    /*超出部分隐藏*/
+    overflow: hidden;
+    border-radius: 15px;
+    position: absolute;
+    top: 84px;
+    left: 550px;
+    cursor: pointer;
+}
+
+.playlistCover img {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    transition: 0.5s all ease-in-out;
+}
+
+.playlistCover:hover img {
+    transform: scale(1.2, 1.2);
+    transition: 0.5s all ease-in-out;
+}
+
+/*需要切换时显示*/
+.createCover {
+    color: white;
+    font-family: STXihei, serif;
+    font-weight: 600;
+    font-size: 20px;
+    position: absolute;
+    top: 62px;
+    left: 30px;
+    display: none;
+}
+
+/*鼠标在头像处显示*/
+.playlistCover:hover .createCover {
+    display: block;
+    cursor: pointer;
+}
+
+/*新建歌单模块框架*/
+.createPlaylistForm .el-dialog {
+    width: 40%;
+    height: 70%;
+    border-radius: 20px;
+    background-color: #3c3ca4;
+}
+
+/*标题*/
+.createPlaylistForm .el-dialog__title {
+    font-size: 25px;
+    font-family: STXihei, serif;
+    font-weight: 900;
+    position: relative;
+    top: 10px;
+    left: 20px;
+    color: white;
+}
+
+.createPlaylistForm .el-dialog__body {
+    padding-left: 40px;
+}
+
+/*按钮位置*/
+.createPlaylistForm .el-dialog__footer {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    padding-left: 40px;
+}
+
+/*使用id选择器提高权重，覆写组件样式 ,按钮样式*/
+#createPlaylistForm .el-button--primary {
+    margin-left: 30px;
+    margin-top: 40px;
+    background-color: #e58c43;
+    border-color: #e58c43;
+}
+
+#createPlaylistForm .el-button--primary:hover {
+    background-color: #fff4ea;
+    border-color: #fff4ea;
+    color: #e58c43;
+}
+
+#createPlaylistForm .el-button--default:hover {
+    background-color: #fff4ea;
+    border-color: #fff4ea;
+    color: #e58c43;
+}
+
+
+/**
+编辑表单
+ */
+
+/*表单文字*/
+.creatForm .el-form-item__label {
+    color: white;
+    font-family: STXihei, serif;
+}
+
+/*昵称输入框*/
+#playlist_Name .el-input__inner {
+    width: 300px;
+}
+
+/*表单输入框*/
+.creatForm .el-input__inner {
+    width: 200px;
+    color: black;
+}
+
+
+#creatform .el-date-editor.el-input {
+    width: 200px !important;
+}
+
+/*简介输入框*/
+#playlist_Introduction .el-textarea__inner {
+    width: 300px;
+    height: 100px;
+}

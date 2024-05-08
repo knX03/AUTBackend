@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.musicmanagement.mapper.SongMapper">
+
+    <insert id="saveSong">
+        insert into song (id, name, type, description)
+            value (null, #{name}, #{type}, #{description})
+    </insert>
+    <update id="ApprovedSong">
+        update song
+        set examine=1
+        where song_ID = #{song_ID}
+    </update>
+    <update id="banSong">
+        update song
+        set examine= -1
+        where song_ID = #{song_ID}
+    </update>
+    <update id="arriveSong">
+        update song
+        set examine= 1
+        where song_ID = #{song_ID}
+    </update>
+    <select id="getById" resultType="com.kn.musicmanagement.pojo.Song">
+        select *
+        from song
+        where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.kn.musicmanagement.pojo.Song">
+        select song_ID, song_name, singer_ID, album_ID
+        from song
+        where examine = 1
+           or examine = -1
+    </select>
+    <select id="getDirectory" resultType="java.lang.String">
+        select song_directory
+        from song
+        where id = #{id}
+    </select>
+    <select id="getAudit" resultType="com.kn.musicmanagement.pojo.Song">
+        select song_ID, song_name, singer_ID, created_time
+        from song
+        where examine = 0
+    </select>
+    <select id="getBanSong" resultType="com.kn.musicmanagement.pojo.Song">
+        select song_ID, song_name, singer_ID, created_time
+        from song
+        where examine = -1
+    </select>
+
+</mapper>

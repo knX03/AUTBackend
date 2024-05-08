@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.SongPlaylistsMapper">
+    <insert id="collectPlaylist">
+        insert into userlike(user_ID, playlist_ID)
+            value (#{user_ID}, #{playlist_ID})
+    </insert>
+    <insert id="createNewPlaylist">
+        insert into songplaylists(playlist_ID, playlist_name, create_by, playlist_introduction, playlist_cover)
+            value (#{playlist_ID}, #{playlist_Name}, #{create_By}, #{playlist_Introduction}, #{playlist_Cover})
+    </insert>
+    <insert id="collectSongToPlaylist">
+        insert into playlistdetail(playlist_ID, song_ID)
+            value (#{playlist_ID}, #{song_ID})
+    </insert>
+
+    <update id="changePlaylistInfo">
+        update songplaylists
+        set playlist_name=#{songPlaylists.playlist_Name},
+            playlist_introduction=#{songPlaylists.playlist_Introduction},
+            playlist_cover=#{songPlaylists.playlist_Cover}
+        where playlist_ID = #{playlist_ID};
+    </update>
+    <update id="changeDailyListInfo">
+        update songplaylists
+        set playlist_name=#{day},
+            create_time=#{create_time},
+            playlist_cover=#{cover}
+        where playlist_ID = 10000
+    </update>
+    <update id="changeDailyList">
+        update playlistdetail
+        set song_ID = #{song_ID}
+        where id = #{id}
+    </update>
+    <delete id="deleteSongByPlaylistID">
+        delete
+        from playlistdetail
+        where playlist_ID = #{playlist_ID}
+          and song_ID = #{song_ID}
+    </delete>
+    <delete id="deletePlaylistByUser">
+        delete
+        from songplaylists
+        where create_by = #{user_ID}
+          and playlist_ID = #{playlist_ID};
+        delete
+        from playlistdetail
+        where playlist_ID = #{playlist_ID}
+    </delete>
+    <!--${参数}表名 可以动态查询不同表的数据
+ 例如 from ${playlist_ID}userlike-->
+    <delete id="deleteLikePlaylist">
+        delete
+        from userlike
+        where user_ID = #{user_ID}
+          and playlist_ID = #{playlist_ID}
+    </delete>
+
+    <select id="isRepeatedByID" resultType="java.lang.String">
+        select playlist_ID
+        from songplaylists
+        where playlist_ID = #{id}
+    </select>
+    <select id="selectNine" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+        SELECT playlist_ID, playlist_name, playlist_cover
+        FROM songplaylists
+        WHERE id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM songplaylists)))
+          and id != 1
+        ORDER BY id
+        LIMIT 9;
+    </select>
+    <select id="selectDetailByID" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+        select playlist_ID, playlist_name, create_by, create_time, playlist_introduction, playlist_cover
+        from songplaylists
+        where playlist_ID = #{playlist_ID}
+    </select>
+    <select id="selectCreatePlaylist" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+        select playlist_ID, playlist_name, playlist_cover
+        from songplaylists
+        where create_by = #{user_ID}
+    </select>
+    <select id="selectLikePlaylist" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+        select playlist_ID,
+               playlist_name,
+               playlist_cover,
+               user_name as create_By,
+               songplaylists.create_time
+        from songplaylists,
+             user
+        where user_ID = songplaylists.create_by
+          and songplaylists.playlist_ID = ANY (select userlike.playlist_ID
+                                               from userlike
+                                               where user_ID = #{user_ID}
+                                                 and playlist_ID IS NOT NULL)
+    </select>
+    <select id="selectSongByPlaylist" resultType="com.kn.initialmusic.pojo.Song">
+        select song_ID,
+               song_name,
+               singer.singer_ID,
+               singer.singer_name,
+               album.album_ID,
+               song.album_name as album_name,
+               song_directory,
+               song_cover
+        from song,
+             album,
+             singer
+        where song_ID in (SELECT playlistdetail.song_ID
+                          from playlistDetail
+                          where playlist_ID = #{playlist_ID})
+          and song.album_name = album.album_name
+          and singer.singer_name = song.singer_name
+    </select>
+    <select id="ifCollectPlaylist" resultType="java.lang.String">
+        select playlist_ID
+        from userlike
+        where user_ID = #{user_ID}
+          and playlist_ID = #{playlist_ID}
+    </select>
+    <select id="checkPlaylistName" resultType="java.lang.String">
+        select playlist_name
+        from songplaylists
+        where playlist_name = #{playlist_Name}
+    </select>
+    <select id="selectAllPlaylists" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+        select playlist_ID, playlist_name, playlist_cover
+        from songplaylists
+        where playlist_ID != 10000
+    </select>
+    <select id="ifExistSong" resultType="java.lang.String">
+        select playlist_ID
+        from playlistdetail
+        where playlist_ID = #{playlist_ID}
+          and song_ID = #{song_ID}
+    </select>
+    <select id="getDailySong" resultType="java.lang.String">
+        SELECT song_ID
+        FROM song
+        WHERE id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM song)))
+        ORDER BY id
+        LIMIT 10;
+    </select>
+
+</mapper>
