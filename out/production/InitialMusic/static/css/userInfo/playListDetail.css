@@ -1,0 +1,419 @@
+.NavigationBar {
+    width: 1684px;
+    height: 79px;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/**
+整体页面
+ */
+.playListDetail_mod {
+    width: 1684px;
+}
+
+/**
+用户和歌单信息部分
+ */
+.first_mod {
+    width: 1684px;
+    height: 250px;
+    background-color: #2b2b2b;
+}
+
+/*歌单封面*/
+.cover_mod {
+    width: 200px;
+    height: 200px;
+    border-radius: 30px;
+    position: relative;
+    top: 50%;
+    left: 18%;
+    transform: translate(-50%, -50%);
+}
+
+/*选项模块*/
+.option_mod {
+
+    height: 250px;
+
+    position: absolute;
+    top: 79px;
+    left: 430px;
+}
+
+/*歌单基础信息*/
+.basicInfo_mod {
+    width: 300px;
+    height: 40px;
+
+    display: flex;
+    position: relative;
+    top: 30px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.playListName_mod {
+    font-family: STXihei, serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: white;
+}
+
+/*编辑选项*/
+.editInfo_mod {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+
+/*用户信息模块*/
+.userInfo_mod {
+    width: 206px;
+    height: 30px;
+    position: relative;
+    top: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    left: 15px;
+}
+
+.userInfo_mod img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
+.userInfo_mod label {
+    font-family: STXihei, serif;
+    font-size: 12px;
+    color: #a0948d;
+}
+
+.userName_mod {
+    cursor: pointer;
+}
+
+/*播放和下载按钮*/
+.playAndLoad_mod {
+    width: 233px;
+    height: 50px;
+    position: absolute;
+    bottom: 24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+.playAndLoad_mod label {
+    font-family: STXihei, serif;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.playAndLoad_mod img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.playAndLoad_mod .el-button {
+    color: #FFF;
+    border-radius: 12px;
+
+}
+
+.playAndLoad_mod .el-button span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*播放按钮*/
+.playAndLoad_mod .el-button--warning {
+
+}
+
+/*下载按钮*/
+.playAndLoad_mod .el-button--info {
+
+    color: #FFF;
+    backdrop-filter: blur(8px);
+    background: #FFFFFF33;
+}
+
+/*收藏按钮*/
+.collect_mod {
+    width: 90px;
+    height: 47px;
+    position: relative;
+    top: 109px;
+    left: 241px;
+}
+.collect_mod label {
+    font-family: STXihei, serif;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.collect_mod img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.collect_mod .el-button {
+    color: #FFF;
+    border-radius: 12px;
+
+}
+
+.collect_mod .el-button span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/**
+歌曲信息部分
+ */
+.second_mod {
+    width: 100%;
+    /*根据歌曲数量自适应*/
+    /*height: 550px;*/
+    background-color: #ffffff;
+}
+
+.ListOption_mod {
+}
+
+.ListOption_mod label {
+    font-family: STXihei, serif;
+    color: black;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+/*歌曲列表模块*/
+.songList_mod {
+    width: 1260px;
+    background-color: #f7f7f7;
+    margin-left: 200px;
+    margin-top: 10px;
+    z-index: 2;
+    border-radius: 12px;
+}
+
+/*表头模块*/
+.ListTitle_mod {
+    width: 100%;
+    height: 60px;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+}
+
+.ListTitle_mod label {
+    font-family: STXihei, serif;
+    color: #2f2f2f;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.snTitle {
+    width: 74px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.songTitle {
+    margin-left: 10px;
+    width: 570px;
+}
+
+.albumTitle {
+    width: 500px;
+}
+
+.likeTitle {
+    width: 87px;
+}
+
+.downloadTitle {
+    width: 70px;
+}
+
+/*表体模块*/
+.ListBody_mod {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #b2b2b2;
+}
+
+.ListBody_mod:hover .playButton_mod {
+    display: flex;
+}
+
+.ListBody_mod:hover .SN_mod {
+    display: none;
+}
+
+/*播放按钮（悬浮显示）*/
+.playButton_mod {
+    display: none;
+    height: 65px;
+    width: 74px;
+    justify-content: center;
+    align-items: center;
+}
+
+.playButton_mod img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #82848a;
+    transition: 0.5s all ease-in-out;
+}
+
+.playButton_mod img:hover {
+    transition: 0.5s all ease-in-out;
+    border-radius: 50%;
+    background-color: #e58c43;
+}
+
+
+/*序号*/
+.SN_mod {
+    height: 65px;
+    width: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*歌曲名称*/
+.songName_mod {
+    height: 65px;
+    width: 637px;
+    display: flex;
+    align-items: center;
+
+}
+
+.songName_mod img {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+}
+
+.songInfo_mod {
+    width: 180px;
+    height: 57px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.song_Name {
+    font-family: STXihei, serif;
+    color: white;
+    font-weight: 900;
+    font-size: 20px;
+
+}
+
+.singer_Name {
+    font-family: STXihei, serif;
+    color: #5d5d5d;
+    font-size: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.singer_Name:hover {
+    color: #e58c43;
+}
+
+/*专辑名称*/
+.albumName_mod {
+    width: 549px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+}
+
+.albumName_mod label {
+    font-family: STXihei, serif;
+    color: #5d5d5d;
+    cursor: pointer;
+}
+
+.albumName_mod label:hover {
+    color: #e58c43;
+}
+
+/*喜欢按钮*/
+.like_mod {
+    height: 65px;
+    width: 96px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.like_mod img {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    transition: 0.5s all ease-in-out;
+
+}
+
+.like_mod img:hover {
+    transition: 0.2s all ease-in-out;
+    transform: scale(1.1, 1.1);
+}
+
+/*下载按钮*/
+.download_mod {
+    height: 65px;
+    width: 79px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.download_mod img {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    transition: 0.5s all ease-in-out;
+
+}
+
+.download_mod img:hover {
+    transition: 0.2s all ease-in-out;
+    transform: scale(1.1, 1.1);
+}
