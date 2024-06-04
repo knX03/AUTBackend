@@ -7,8 +7,9 @@ public class Code {
     public static final Integer SUCCESS = 200;
     public static final Integer ERROR = 500;
     public static final Integer PARAM_ERROR = 400;
-    public static final Integer NOT_FOUND = 404;
     public static final Integer UNAUTHORIZED = 401;
+    public static final Integer NOT_FOUND = 404;
+
 
     /*返回结果错误*/
     public static final Integer CODE_ERROR = 300;

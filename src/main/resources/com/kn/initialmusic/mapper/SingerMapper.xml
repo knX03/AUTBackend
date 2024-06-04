@@ -9,14 +9,13 @@
         where singer_name = #{singer_Name}
     </update>
 
-
     <select id="isRepeatedByID" resultType="java.lang.String">
         select singer_ID
         from singer
         where singer_ID = #{id}
     </select>
     <select id="selectDetailSinger" resultType="com.kn.initialmusic.pojo.Singer">
-        select singer_ID, singer_name, singer_avatar
+        select singer_ID, user_ID, singer_name, singer_avatar
         from singer
         where singer_ID = #{singer_ID}
     </select>

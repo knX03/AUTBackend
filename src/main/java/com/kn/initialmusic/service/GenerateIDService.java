@@ -19,6 +19,8 @@ public class GenerateIDService {
     private SingerMapper singerMapper;
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private MessageMapper messageMapper;
 
 
     public String generateUserID() {
@@ -89,6 +91,17 @@ public class GenerateIDService {
             repeatedByID = adminMapper.isRepeatedByID(AdminID);
         }
         return AdminID;
+    }
+
+    public String generateMessageID() {
+        String MessageID = null;
+        MessageID = String.valueOf((int) ((Math.random() * 9 + 1) * 10000));
+        String repeatedByID = messageMapper.isRepeatedByID(MessageID);
+        while (repeatedByID != null) {
+            MessageID = String.valueOf((int) ((Math.random() * 9 + 1) * 10000));
+            repeatedByID = messageMapper.isRepeatedByID(MessageID);
+        }
+        return MessageID;
     }
 
 }

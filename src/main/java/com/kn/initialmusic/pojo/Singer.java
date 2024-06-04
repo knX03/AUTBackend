@@ -10,6 +10,7 @@ import lombok.*;
 public class Singer {
     private Integer id;
     private String singer_ID;
+    private String user_ID;
     private String singer_Name;
     private Integer singer_Age;
     private String singer_Sex;

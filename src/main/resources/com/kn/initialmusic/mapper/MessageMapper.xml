@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.MessageMapper">
+    <insert id="createMessage">
+        insert into message(message_id, poster_id, message_content)
+            value (#{message_id}, #{poster_id}, #{message_content})
+    </insert>
+    <insert id="insertUserMessage">
+        insert into usermessage(user_id, message_id)
+            value (#{user_ID}, #{message_id})
+    </insert>
+    <delete id="delMess">
+        delete
+        from usermessage
+        where message_id = #{message_id}
+          and user_id = #{user_ID}
+    </delete>
+
+
+    <select id="isRepeatedByID" resultType="java.lang.String">
+        select message_id
+        from message
+        where message_id = #{id}
+    </select>
+    <select id="getMessages" resultType="com.kn.initialmusic.pojo.Message">
+        select message.message_id,
+               poster_id,
+               user_name   as poster_name,
+               user_avatar as poster_avatar,
+               post_time,
+               message_content
+        from usermessage,
+             message,
+             user
+        where usermessage.user_id = #{user_ID}
+          and message.message_id = usermessage.message_id
+          and poster_id = user.user_ID
+    </select>
+</mapper>

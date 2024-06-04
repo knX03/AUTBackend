@@ -1,10 +1,9 @@
 package com.kn.initialmusic.controller;
 
 
-import com.kn.initialmusic.pojo.Result;
-import com.kn.initialmusic.pojo.Song;
-import com.kn.initialmusic.pojo.SongPlaylists;
+import com.kn.initialmusic.pojo.*;
 import com.kn.initialmusic.service.SongPlaylistsService;
+import com.kn.initialmusic.util.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +22,7 @@ public class songPlaylistsController {
 
     //歌单封面存放的系统磁盘路径
     private final static String SAVE_PATH_songPlaylistCover =
-            "D:\\Workspeace\\vue3\\vue3\\src\\photos\\songPlaylistCover\\";
+            "D:\\Workspeace\\vue3\\src\\photos\\songPlaylistCover\\";
 
     //歌单封面项目路径
     private final static String FILE_SAVE_PREFIX_songPlaylistCover = "static/photos/songPlaylistCover/";
@@ -64,10 +63,10 @@ public class songPlaylistsController {
 
 
     /*随机查询十个歌单*/
-    @GetMapping("/selectSongPlaylist")
-    public Result selectSongPlaylist() {
+    @GetMapping("/NineRandomPlaylist")
+    public Result NineRandomPlaylist() {
         Result result = new Result();
-        List<SongPlaylists> songPlaylists = songPlaylistsService.selectSongPlaylist();
+        List<SongPlaylists> songPlaylists = songPlaylistsService.NineRandomPlaylist();
         if (songPlaylists != null) {
             result.setCode(200);
             result.setData(songPlaylists);
@@ -83,7 +82,6 @@ public class songPlaylistsController {
     public Result selectByName(@RequestParam("playlist_ID") String playlist_ID) {
         Result result = new Result();
         SongPlaylists songPlaylist = songPlaylistsService.selectDetailByID(playlist_ID);
-
         if (songPlaylist != null) {
             result.setCode(200);
             result.setData(songPlaylist);
@@ -94,10 +92,27 @@ public class songPlaylistsController {
         return result;
     }
 
-    /*根据用户ID查询创建歌单详情*/
-    @GetMapping("/createPlaylist")
-    public Result selectCreatePlaylist(@RequestParam String user_ID) {
+    /*查询歌单的标签列表*/
+    @GetMapping("/selectPlaylistTags")
+    public Result selectPlaylistTags(@RequestParam("playlist_ID") String playlist_ID) {
         Result result = new Result();
+        List<PLTag> plTags = songPlaylistsService.selectPlaylistTags(playlist_ID);
+        if (plTags != null) {
+            result.setCode(200);
+            result.setData(plTags);
+        } else {
+            result.setCode(500);
+            result.setMsg("内部服务器异常！");
+        }
+        return result;
+    }
+
+    /*根据用户ID查询创建歌单列表*/
+    @GetMapping("/createPlaylist")
+    public Result selectCreatePlaylist() {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         List<SongPlaylists> songPlaylists = songPlaylistsService.selectCreatePlaylist(user_ID);
         if (songPlaylists != null) {
             result.setCode(200);
@@ -106,13 +121,16 @@ public class songPlaylistsController {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
-    /*根据用户ID查询收藏歌单详情*/
+    /*根据用户ID查询收藏歌单列表*/
     @GetMapping("/likePlaylist")
-    public Result selectLikePlaylist(@RequestParam String user_ID) {
+    public Result selectLikePlaylist() {
         Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         List<SongPlaylists> songPlaylists = songPlaylistsService.selectLikePlaylist(user_ID);
         if (songPlaylists != null) {
             result.setCode(200);
@@ -121,6 +139,7 @@ public class songPlaylistsController {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
@@ -162,8 +181,10 @@ public class songPlaylistsController {
 
     /*收藏歌单*/
     @GetMapping("/collectPlaylist")
-    public Result collectPlaylist(@RequestParam("playlist_ID") String playlist_ID, @RequestParam("user_ID") String user_ID) {
+    public Result collectPlaylist(@RequestParam("playlist_ID") String playlist_ID) {
         Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Boolean flag = songPlaylistsService.collectPlaylist(playlist_ID, user_ID);
         if (flag) {
             result.setCode(200);
@@ -172,13 +193,16 @@ public class songPlaylistsController {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
     /*查询是否已收藏歌单*/
     @GetMapping("/ifCollectPlaylist")
-    public Result ifCollectPlaylist(@RequestParam("playlist_ID") String playlist_ID, @RequestParam("user_ID") String user_ID) {
+    public Result ifCollectPlaylist(@RequestParam("playlist_ID") String playlist_ID) {
         Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Boolean flag = songPlaylistsService.ifCollectPlaylist(playlist_ID, user_ID);
         if (flag) {
             result.setCode(302);
@@ -187,6 +211,19 @@ public class songPlaylistsController {
             result.setCode(200);
             result.setMsg("歌单未收藏！");
         }
+        UserHolder.removeUser();
+        return result;
+    }
+
+    @GetMapping("/ifMyPlaylist")
+    public Result ifMyPlaylist(@RequestParam("playlist_ID") String playlist_ID) {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        Boolean flag = songPlaylistsService.ifMyPlaylist(playlist_ID, user_ID);
+        result.setCode(200);
+        result.setData(flag);
+        UserHolder.removeUser();
         return result;
     }
 
@@ -195,20 +232,15 @@ public class songPlaylistsController {
     @PostMapping("/changePlaylistInfo")
     public Result changeUserInfo(@RequestBody SongPlaylists songPlaylists) {
         Result result = new Result();
-        String playlist_ID = songPlaylists.getPlaylist_ID();
-        if (songPlaylistCover_PATH != null) {
-            songPlaylists.setPlaylist_Cover(songPlaylistCover_PATH);
-        }
-        Boolean spFlag = songPlaylistsService.changePlaylistInfo(songPlaylists, playlist_ID);
+        Boolean spFlag = songPlaylistsService.changePlaylistInfo(songPlaylists);
         if (spFlag) {
             result.setCode(200);
-            result.setData(songPlaylistCover_PATH);
+            result.setData(spFlag);
             result.setMsg("修改成功！");
         } else {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
-
         return result;
     }
 
@@ -239,7 +271,9 @@ public class songPlaylistsController {
     @PostMapping("/createNewPlaylist")
     public Result createNewPlaylist(@RequestBody SongPlaylists songPlaylists) {
         Result result = new Result();
-        songPlaylists.setPlaylist_Cover(songPlaylistCover_PATH);
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        songPlaylists.setCreate_By(user_ID);
         /*存入数据库*/
         Boolean flag = songPlaylistsService.createNewPlaylist(songPlaylists);
         if (flag) {
@@ -249,6 +283,7 @@ public class songPlaylistsController {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
@@ -293,23 +328,59 @@ public class songPlaylistsController {
 
     /*删除歌单*/
     @GetMapping("/DEPlaylist")
-    public Result deletePlaylistByUser(@RequestParam String user_ID, @RequestParam String playlist_ID) {
+    public Result deletePlaylistByUser(@RequestParam String playlist_ID) {
         Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Boolean flag = songPlaylistsService.deletePlaylistByUser(user_ID, playlist_ID);
         if (flag) {
             result.setCode(200);
             result.setMsg("success");
         }
+        UserHolder.removeUser();
         return result;
     }
 
     /*移除喜欢的歌单*/
     @GetMapping("/deleteLikePlaylist")
-    public Result deleteLikePlaylist(@RequestParam("playlist_ID") String playlist_ID, @RequestParam("user_ID") String user_ID) {
+    public Result deleteLikePlaylist(@RequestParam("playlist_ID") String playlist_ID) {
         Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Boolean flag = songPlaylistsService.deleteLikePlaylist(playlist_ID, user_ID);
         if (flag) {
             result.setCode(200);
+        } else {
+            result.setCode(500);
+            result.setMsg("服务器内部错误！");
+        }
+        UserHolder.removeUser();
+        return result;
+    }
+
+    /*查询所有歌单标签*/
+    @GetMapping("/getAllPLTag")
+    public Result getAllPLTag() {
+        Result result = new Result();
+        List<PLTag> plTags = songPlaylistsService.getAllPLTag();
+        if (!plTags.isEmpty()) {
+            result.setCode(200);
+            result.setData(plTags);
+        } else {
+            result.setCode(500);
+            result.setMsg("服务器内部错误！");
+        }
+        return result;
+    }
+
+    /*根据歌单标签查询*/
+    @GetMapping("/selectPlaylistByTag")
+    public Result selectPlaylistByTag(@RequestParam("playlist_tag") String playlist_Tag) {
+        Result result = new Result();
+        List<SongPlaylists> songPlaylists = songPlaylistsService.selectPlaylistByTag(playlist_Tag);
+        if (!songPlaylists.isEmpty()) {
+            result.setCode(200);
+            result.setData(songPlaylists);
         } else {
             result.setCode(500);
             result.setMsg("服务器内部错误！");

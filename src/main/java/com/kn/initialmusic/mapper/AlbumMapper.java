@@ -29,7 +29,7 @@ public interface AlbumMapper {
      *
      * @return
      */
-    List<Album> selectAlbumNine();
+    List<Album> selectTenRandomAlbum();
 
     /**
      * 创建专辑

@@ -3,9 +3,11 @@ package com.kn.initialmusic.controller;
 import com.kn.initialmusic.pojo.Album;
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Song;
+import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.AlbumService;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.service.SongService;
+import com.kn.initialmusic.util.UserHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class albumController {
     private final static String FILE_SAVE_PREFIX_song = "static/songDirectory/";
 
     //专辑封面绝对路径
-    private final static String SAVE_PATH_ALBUMCOVER = "D:\\Workspeace\\vue3\\vue3\\src\\photos\\albumCover\\";
+    private final static String SAVE_PATH_ALBUMCOVER = "D:\\Workspeace\\vue3\\src\\photos\\albumCover\\";
 
     //专辑封面项目路径
     private final static String FILE_SAVE_PREFIX_albumCover = "static/photos/albumCover/";
@@ -56,11 +58,11 @@ public class albumController {
         return result;
     }
 
-    //随机查询9个专辑
-    @GetMapping("/selectAlbumNine")
-    public Result selectAlbumNine() {
+    //随机查询10个专辑
+    @GetMapping("/TenRandomAlbum")
+    public Result TenRandomAlbum() {
         Result result = new Result();
-        List<Album> albums = albumService.selectAlbumNine();
+        List<Album> albums = albumService.TenRandomAlbum();
         if (albums != null) {
             result.setCode(200);
             result.setData(albums);
@@ -174,17 +176,22 @@ public class albumController {
 
     //查询用户收藏的专辑
     @GetMapping("/likeAlbum")
-    public Result selectLikeAlbum(@RequestParam String user_ID) {
+    public Result selectLikeAlbum() {
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Result result = new Result();
         List<Album> albums = albumService.selectLikeAlbum(user_ID);
         result.setCode(200);
         result.setData(albums);
+        UserHolder.removeUser();
         return result;
     }
 
     /*查询是否已收藏专辑*/
     @GetMapping("/ifCollectAlbum")
-    public Result ifCollectAlbum(@RequestParam("album_ID") String album_ID, @RequestParam("user_ID") String user_ID) {
+    public Result ifCollectAlbum(@RequestParam("album_ID") String album_ID) {
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Result result = new Result();
         Boolean flag = albumService.ifCollectAlbum(album_ID, user_ID);
         if (flag) {
@@ -194,13 +201,16 @@ public class albumController {
             result.setCode(200);
             result.setMsg("专辑未收藏！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
     /*收藏专辑*/
     @GetMapping("/collectAlbum")
-    public Result collectAlbum(@RequestParam("album_ID") String album_ID, @RequestParam("user_ID") String user_ID) {
+    public Result collectAlbum(@RequestParam("album_ID") String album_ID) {
         Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Boolean flag = albumService.collectAlbum(album_ID, user_ID);
         if (flag) {
             result.setCode(200);
@@ -209,13 +219,16 @@ public class albumController {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
     /*移除喜欢的专辑*/
     @GetMapping("/deleteLikeAlbum")
-    public Result deleteLikeAlbum(@RequestParam("album_ID") String album_ID, @RequestParam("user_ID") String user_ID) {
+    public Result deleteLikeAlbum(@RequestParam("album_ID") String album_ID) {
         Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         Boolean flag = albumService.deleteLikeAlbum(user_ID, album_ID);
         if (flag) {
             result.setCode(200);
@@ -223,15 +236,16 @@ public class albumController {
             result.setCode(500);
             result.setMsg("服务器内部错误！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
-    /*移除喜欢的专辑*/
+    /*歌手的专辑*/
     @GetMapping("/getSingerAlbums")
     public Result getSingerAlbums(@RequestParam("singer_ID") String singer_ID) {
         Result result = new Result();
         List<Album> albums = albumService.getSingerAlbums(singer_ID);
-        if (albums!=null) {
+        if (albums != null) {
             result.setCode(200);
             result.setData(albums);
         } else {

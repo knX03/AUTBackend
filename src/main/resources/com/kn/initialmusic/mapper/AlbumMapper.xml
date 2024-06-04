@@ -29,7 +29,7 @@
         from album
         where album_ID = #{id}
     </select>
-    <select id="selectAlbumNine" resultType="com.kn.initialmusic.pojo.Album">
+    <select id="selectTenRandomAlbum" resultType="com.kn.initialmusic.pojo.Album">
         SELECT album_ID, album_name, album.singer_ID, singer_name, album_cover
         FROM album,
              singer

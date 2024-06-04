@@ -5,6 +5,7 @@ import com.kn.initialmusic.pojo.PageBean;
 import com.kn.initialmusic.pojo.Song;
 import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.service.SongService;
+import com.kn.initialmusic.util.songUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,12 +44,15 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public List<Song> selectSongByAlbum(String album_ID) {
-        return songMapper.selectSongByAlbum(album_ID);
+        List<Song> songs = songMapper.selectSongByAlbum(album_ID);
+        songUtil.formatSDirectory(songs);
+        return songs;
     }
 
     @Override
     public List<Song> selectSongBySinger(String singer_ID) {
         List<Song> songs = songMapper.selectSongBySinger(singer_ID);
+        songUtil.formatSDirectory(songs);
         return songs;
     }
 
@@ -61,6 +65,7 @@ public class SongServiceImpl implements SongService {
         int totalCount = songMapper.selectTotalCount(user_ID);
 
         List<Song> songs = songMapper.selectSongByUser(user_ID, begin, size);
+        songUtil.formatSDirectory(songs);
 
         PageBean<Song> pageBean = new PageBean<>();
         pageBean.setRows(songs);
@@ -81,10 +86,6 @@ public class SongServiceImpl implements SongService {
         return flag > 0;
     }
 
-    @Override
-    public Boolean dislikeSong(String user_ID, String song_Name) {
-        return null;
-    }
 
     @Override
     public List<String> searchSong(String searchValue) {

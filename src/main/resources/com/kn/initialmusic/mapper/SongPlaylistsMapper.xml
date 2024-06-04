@@ -15,12 +15,16 @@
         insert into playlistdetail(playlist_ID, song_ID)
             value (#{playlist_ID}, #{song_ID})
     </insert>
+    <insert id="insertPlaylistTag">
+        insert into playlistTags(playlist_id, tag_id)
+            VALUE (#{playlist_ID}, #{tag_ID})
+    </insert>
 
     <update id="changePlaylistInfo">
         update songplaylists
-        set playlist_name=#{songPlaylists.playlist_Name},
-            playlist_introduction=#{songPlaylists.playlist_Introduction},
-            playlist_cover=#{songPlaylists.playlist_Cover}
+        set playlist_name=#{playlist_Name},
+            playlist_introduction=#{playlist_Introduction},
+            playlist_cover=#{playlist_Cover}
         where playlist_ID = #{playlist_ID};
     </update>
     <update id="changeDailyListInfo">
@@ -58,13 +62,18 @@
         where user_ID = #{user_ID}
           and playlist_ID = #{playlist_ID}
     </delete>
+    <delete id="deletePlaylistTag">
+        delete
+        from playlisttags
+        where playlist_id = #{playlist_ID}
+    </delete>
 
     <select id="isRepeatedByID" resultType="java.lang.String">
         select playlist_ID
         from songplaylists
         where playlist_ID = #{id}
     </select>
-    <select id="selectNine" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+    <select id="selectNineRandomPlaylist" resultType="com.kn.initialmusic.pojo.SongPlaylists">
         SELECT playlist_ID, playlist_name, playlist_cover
         FROM songplaylists
         WHERE id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM songplaylists)))
@@ -73,9 +82,14 @@
         LIMIT 9;
     </select>
     <select id="selectDetailByID" resultType="com.kn.initialmusic.pojo.SongPlaylists">
-        select playlist_ID, playlist_name, create_by, create_time, playlist_introduction, playlist_cover
+        select songplaylists.playlist_ID,
+               playlist_name,
+               create_by,
+               create_time,
+               playlist_introduction,
+               playlist_cover
         from songplaylists
-        where playlist_ID = #{playlist_ID}
+        where songplaylists.playlist_ID = #{playlist_ID}
     </select>
     <select id="selectCreatePlaylist" resultType="com.kn.initialmusic.pojo.SongPlaylists">
         select playlist_ID, playlist_name, playlist_cover
@@ -143,5 +157,31 @@
         ORDER BY id
         LIMIT 10;
     </select>
+    <select id="selectPlaylistByTag" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+        select songplaylists.playlist_ID, playlist_name, playlist_cover
+        from songplaylists,
+             playlisttags
+        where songplaylists.playlist_ID != 10000
+          and tag_id = #{playlist_tag}
+          and songplaylists.playlist_ID = playlisttags.playlist_id
+    </select>
+    <select id="getAllPLTag" resultType="com.kn.initialmusic.pojo.PLTag">
+        select tag_id, tag_name
+        from tag
+    </select>
+    <select id="selectPlaylistTags" resultType="com.kn.initialmusic.pojo.PLTag">
+        select tag.tag_id, tag.tag_name
+        from tag,
+             playlisttags
+        where tag.tag_id = playlisttags.tag_id
+          and playlisttags.playlist_id = #{playlist_ID}
+    </select>
+    <select id="ifMyPlaylist" resultType="java.lang.Integer">
+        select *
+        from songplaylists
+        where playlist_ID = #{playlist_ID}
+          and create_by = #{user_ID}
+    </select>
+
 
 </mapper>

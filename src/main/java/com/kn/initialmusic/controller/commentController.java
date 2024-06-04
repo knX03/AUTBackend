@@ -2,8 +2,10 @@ package com.kn.initialmusic.controller;
 
 
 import com.kn.initialmusic.pojo.Result;
+import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.pojo.commentList;
 import com.kn.initialmusic.service.SongCommentService;
+import com.kn.initialmusic.util.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +39,8 @@ public class commentController {
     //发表评论
     @PostMapping("/postComment")
     public Result postComment(@RequestBody Map<String, String> commentForm) {
-        String user_ID = commentForm.get("user_ID");
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
         String ID = commentForm.get("ID");
         String text = commentForm.get("text");
         String type = commentForm.get("type");
@@ -49,6 +52,7 @@ public class commentController {
             result.setCode(500);
             result.setMsg("内部服务器错误！");
         }
+        UserHolder.removeUser();
         return result;
     }
 

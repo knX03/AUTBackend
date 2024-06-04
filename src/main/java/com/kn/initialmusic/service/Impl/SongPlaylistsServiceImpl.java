@@ -1,15 +1,18 @@
 package com.kn.initialmusic.service.Impl;
 
 import com.kn.initialmusic.mapper.SongPlaylistsMapper;
+import com.kn.initialmusic.pojo.PLTag;
 import com.kn.initialmusic.pojo.Song;
 import com.kn.initialmusic.pojo.SongPlaylists;
 import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.service.SongPlaylistsService;
+import com.kn.initialmusic.util.songUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -25,7 +28,6 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
     private static final int DAILYLIST_ID = 1000;
 
 
-
     @Override
     public List<SongPlaylists> selectAllPlaylists() {
         List<SongPlaylists> songPlaylists = songPlaylistsMapper.selectAllPlaylists();
@@ -39,8 +41,8 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
     }
 
     @Override
-    public List<SongPlaylists> selectSongPlaylist() {
-        List<SongPlaylists> songPlaylists = songPlaylistsMapper.selectNine();
+    public List<SongPlaylists> NineRandomPlaylist() {
+        List<SongPlaylists> songPlaylists = songPlaylistsMapper.selectNineRandomPlaylist();
 
         return songPlaylists;
     }
@@ -48,13 +50,23 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
     @Override
     public SongPlaylists selectDetailByID(String playlist_ID) {
         SongPlaylists songPlaylist = songPlaylistsMapper.selectDetailByID(playlist_ID);
-
+        List<PLTag> plTags = songPlaylistsMapper.selectPlaylistTags(playlist_ID);
+        String[] tags = new String[plTags.size()];
+        for (int i = 0; i < plTags.size(); i++) {
+            tags[i] = plTags.get(i).getTag_id();
+        }
+        songPlaylist.setPlaylist_Tag(tags);
         return songPlaylist;
     }
 
     @Override
-    public List<SongPlaylists> selectCreatePlaylist(String user_ID) {
+    public List<PLTag> selectPlaylistTags(String playlist_ID) {
+        List<PLTag> plTags = songPlaylistsMapper.selectPlaylistTags(playlist_ID);
+        return plTags;
+    }
 
+    @Override
+    public List<SongPlaylists> selectCreatePlaylist(String user_ID) {
         List<SongPlaylists> songPlaylists = songPlaylistsMapper.selectCreatePlaylist(user_ID);
 
         return songPlaylists;
@@ -71,6 +83,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
     @Override
     public List<Song> selectSongByPlaylist(String playlist_ID) {
         List<Song> songs = songPlaylistsMapper.selectSongByPlaylist(playlist_ID);
+        songUtil.formatSDirectory(songs);
         return songs;
     }
 
@@ -87,8 +100,20 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
     }
 
     @Override
-    public Boolean changePlaylistInfo(SongPlaylists songPlaylists, String playlist_ID) {
-        int flag = songPlaylistsMapper.changePlaylistInfo(songPlaylists, playlist_ID);
+    public Boolean ifMyPlaylist(String playlist_ID, String user_ID) {
+        int flag = songPlaylistsMapper.ifMyPlaylist(playlist_ID, user_ID);
+        return flag > 0;
+    }
+
+    @Override
+    public Boolean changePlaylistInfo(SongPlaylists songPlaylists) {
+        int flag = songPlaylistsMapper.changePlaylistInfo(songPlaylists);
+        String playlistId = songPlaylists.getPlaylist_ID();
+        String[] playlistTags = songPlaylists.getPlaylist_Tag();
+        songPlaylistsMapper.deletePlaylistTag(playlistId);
+        for (String playlistTag : playlistTags) {
+            songPlaylistsMapper.insertPlaylistTag(playlistId, playlistTag);
+        }
         return flag > 0;
     }
 
@@ -97,6 +122,10 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         String playlist_ID = generateIDService.generateSongPlaylistsID();
         songPlaylists.setPlaylist_ID(playlist_ID);
         int flag = songPlaylistsMapper.createNewPlaylist(songPlaylists);
+        String[] playlistTags = songPlaylists.getPlaylist_Tag();
+        for (String playlistTag : playlistTags) {
+            songPlaylistsMapper.insertPlaylistTag(playlist_ID, playlistTag);
+        }
         return flag > 0;
     }
 
@@ -151,5 +180,15 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
     public Boolean deleteLikePlaylist(String playlist_ID, String user_ID) {
         int flag = songPlaylistsMapper.deleteLikePlaylist(playlist_ID, user_ID);
         return flag > 0;
+    }
+
+    @Override
+    public List<SongPlaylists> selectPlaylistByTag(String playlist_tag) {
+        return songPlaylistsMapper.selectPlaylistByTag(playlist_tag);
+    }
+
+    @Override
+    public List<PLTag> getAllPLTag() {
+        return songPlaylistsMapper.getAllPLTag();
     }
 }

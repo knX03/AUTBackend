@@ -1,5 +1,6 @@
 package com.kn.initialmusic.mapper;
 
+import com.kn.initialmusic.pojo.PLTag;
 import com.kn.initialmusic.pojo.Song;
 import com.kn.initialmusic.pojo.SongPlaylists;
 import org.apache.ibatis.annotations.Mapper;
@@ -40,7 +41,7 @@ public interface SongPlaylistsMapper {
      *
      * @return
      */
-    List<SongPlaylists> selectNine();
+    List<SongPlaylists> selectNineRandomPlaylist();
 
     /**
      * 根据歌单的名字查询详情
@@ -97,14 +98,22 @@ public interface SongPlaylistsMapper {
                              @Param("user_ID") String user_ID);
 
     /**
+     * 是否为自己创建的歌单
+     *
+     * @param playlist_ID 歌单ID
+     * @param user_ID     用户ID
+     * @return 是否
+     */
+    int ifMyPlaylist(@Param("playlist_ID") String playlist_ID,
+                         @Param("user_ID") String user_ID);
+
+    /**
      * 修改歌单资料
      *
      * @param songPlaylists
-     * @param playlist_ID
      * @return
      */
-    int changePlaylistInfo(@Param("songPlaylists") SongPlaylists songPlaylists,
-                           @Param("playlist_ID") String playlist_ID);
+    int changePlaylistInfo(SongPlaylists songPlaylists);
 
     /**
      * 创建歌单
@@ -113,6 +122,31 @@ public interface SongPlaylistsMapper {
      * @return
      */
     int createNewPlaylist(SongPlaylists songPlaylists);
+
+    /**
+     * 保存歌单的标签
+     *
+     * @param playlist_ID 歌单ID
+     * @param tag_ID      标签ID
+     * @return 修改的数据库条数
+     */
+    int insertPlaylistTag(@Param("playlist_ID") String playlist_ID, @Param("tag_ID") String tag_ID);
+
+    /**
+     * 查询相应歌单的标签列表
+     *
+     * @param playlist_ID 歌单ID
+     * @return 歌单的标签列表
+     */
+    List<PLTag> selectPlaylistTags(String playlist_ID);
+
+    /**
+     * 删除歌单的标签
+     *
+     * @param playlist_ID 歌单ID
+     * @return
+     */
+    int deletePlaylistTag(String playlist_ID);
 
     /**
      * 歌曲是否已经收藏至歌单
@@ -186,5 +220,20 @@ public interface SongPlaylistsMapper {
      * @return
      */
     int deleteLikePlaylist(@Param("playlist_ID") String playlist_ID,
-                               @Param("user_ID") String user_ID);
+                           @Param("user_ID") String user_ID);
+
+    /**
+     * 根据歌单标签查询其他相同标签的歌单
+     *
+     * @param playlist_tag 歌单标签
+     * @return 歌单列表
+     */
+    List<SongPlaylists> selectPlaylistByTag(String playlist_tag);
+
+    /**
+     * 查询所有歌单标签
+     *
+     * @return 歌单标签List
+     */
+    List<PLTag> getAllPLTag();
 }

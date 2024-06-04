@@ -2,8 +2,10 @@ package com.kn.initialmusic.service.Impl;
 
 import com.kn.initialmusic.mapper.AlbumMapper;
 import com.kn.initialmusic.pojo.Album;
+import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.AlbumService;
 import com.kn.initialmusic.service.GenerateIDService;
+import com.kn.initialmusic.util.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,8 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public List<Album> selectAlbumNine() {
-        return albumMapper.selectAlbumNine();
+    public List<Album> TenRandomAlbum() {
+        return albumMapper.selectTenRandomAlbum();
     }
 
     @Override

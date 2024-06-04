@@ -15,4 +15,5 @@ public class SongPlaylists {
     private String create_Time;
     private String playlist_Introduction;
     private String playlist_Cover;
+    private String[] playlist_Tag;
 }

@@ -1,13 +1,21 @@
 package com.kn.initialmusic.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.UUID;
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.User;
+import com.kn.initialmusic.pojo.UserDTO;
+import com.kn.initialmusic.pojo.userFans;
 import com.kn.initialmusic.service.*;
+import com.kn.initialmusic.util.UserHolder;
+import com.kn.initialmusic.util.randomUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,9 +24,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import static com.kn.initialmusic.util.RedisConstants.*;
 
 
 @RestController
@@ -28,7 +37,7 @@ public class userController {
 
     //头像绝对路径
     private final static String SAVE_PATH_USERAVATAR =
-            "D:\\Workspeace\\vue3\\vue3\\src\\photos\\userAvatar\\";
+            "D:\\Workspeace\\vue3\\src\\photos\\userAvatar\\";
 
 
     //头像项目路径
@@ -41,6 +50,8 @@ public class userController {
     private UserService userService;
     @Autowired
     private EmailSendService emailSendService;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
 
     /*用户名是否存在*/
@@ -59,7 +70,7 @@ public class userController {
         }
     }
 
-    /*登录接口*/
+    /*密码登录接口*/
     @PostMapping("/userLogin")
     public Result loginUser(HttpServletResponse response, @RequestBody Map<String, Object> map) {
         Result result = new Result();
@@ -78,17 +89,32 @@ public class userController {
                 response.addCookie(cUserEmail);
                 response.addCookie(cPassword);
             }
-            String user_ID = userService.selectIDByEmail(email);
+            User user = userService.selectDetailByEmail(email);
+            UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+            //生成token
+            String token = UUID.randomUUID().toString(true);
+            //将user信息存到redis
+            Map<String, Object> userMap = BeanUtil.beanToMap(userDTO);
+            String tokenKey = LOGIN_USER_KEY + token;
+            stringRedisTemplate.opsForHash().putAll(tokenKey,
+                    userMap);
+            stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.DAYS);
             result.setCode(200);
-            result.setData(user_ID);
+            result.setData(token);
             result.setMsg("登录成功！");
         } else {
             result.setCode(400);
             result.setData("error");
             result.setMsg("账号或密码错误，请重试！");
         }
-
         return result;
+    }
+
+
+    /*验证码登录接口*/
+    @PostMapping("/userLoginCode")
+    public Result userLoginCode(@RequestBody Map<String, Object> map) {
+        return userService.userLoginCode(map);
     }
 
     /*获取cookie接口*/
@@ -97,7 +123,6 @@ public class userController {
                             @CookieValue(name = "user_Email", defaultValue = "") String user_Email,
                             @CookieValue(name = "user_Password", defaultValue = "") String user_Password
     ) {
-
         Result result = new Result();
         Map<String, String> map = new HashMap<String, String>();
         map.put("user_Email", user_Email);
@@ -106,7 +131,7 @@ public class userController {
         return result;
     }
 
-    /*注册接口*/
+    /*todo 注册接口(前端传递user对象)*/
     @PostMapping("/userReg")
     public Result registerUser(HttpServletRequest request, @RequestBody Map<String, Object> map) throws MessagingException {
         Result result = new Result();
@@ -117,17 +142,14 @@ public class userController {
         String user_Password = (String) map.get("user_Password");
         String code = (String) map.get("code");
         String user_Avatar = "../photos/logo/avatarWhite.png";
-
-
-        /*获取生成的验证码*/
-        String checkCode = (String) request.getSession().getAttribute("code");
+        /*从redis获取生成的验证码*/
+        String checkCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + user_Email);
         //比对验证码
-        if (!checkCode.equals(code)) {
+        if (checkCode != null && !checkCode.equals(code)) {
             result.setCode(300);
             result.setMsg("CODE_ERROR");
             return result;
         }
-
         User user = new User(user_Name, user_Email, user_Password, user_Sex, user_Age);
         user.setUser_Avatar(user_Avatar);
         //注册账户
@@ -158,8 +180,7 @@ public class userController {
 
 
         /*获取生成的验证码*/
-        boolean session = request.getSession().isNew();
-        String checkCode = (String) request.getSession().getAttribute("code");
+        String checkCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + user_Email);
         //比对验证码
         if (!checkCode.equals(code)) {
             result.setCode(300);
@@ -185,27 +206,22 @@ public class userController {
 
     /*查询用户是否已经登录的接口*/
 
+
     /*生成随机验证码并发送至指定邮箱接口*/
     @PostMapping("/generateCode")
     public Result generateCode(HttpServletRequest request, @RequestBody Map<String, String> map) throws MessagingException {
         Result result = new Result();
-        /*随机生成4位验证码*/
-        Random random = new Random();
         String user_Email = map.get("user_Email");
-        String code = "";
-        for (int i = 0; i < 4; i++) {
-            String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "num";
-            if ("char".equalsIgnoreCase(charOrNum)) {
-                int temp = random.nextInt(2) % 2 == 0 ? 65 : 97;
-                code += (char) (random.nextInt(26) + temp);
-            } else if ("num".equalsIgnoreCase(charOrNum)) {
-                code += String.valueOf(random.nextInt(10));
-            }
-        }
+        /*随机生成4位验证码*/
+        randomUtil randomUtil = new randomUtil();
+        String code = randomUtil.fourCode();
         /*存储生成验证码*/
-        HttpSession session = request.getSession();
-        session.setAttribute("code", code);
+        stringRedisTemplate.opsForValue().set(
+                LOGIN_CODE_KEY + user_Email,
+                code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
+
         //向指定邮箱发送验证码
+        request.getSession().setAttribute("code", code);
         Boolean sendFlag = emailSendService.sendCode(user_Email, code);
         if (sendFlag) {
             result.setCode(200);
@@ -267,28 +283,44 @@ public class userController {
         return result;
     }
 
-    /*todo 修改用户资料(其他表使用user_ID存储，试着改变)*/
+    @GetMapping("/userDetail")
+    public Result userDetail() {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        User lUser = userService.selectDetailByID(user.getUser_ID());
+        if (lUser != null) {
+            result.setCode(200);
+            result.setData(lUser);
+        } else {
+            result.setCode(401);
+            result.setMsg("用户未登录！");
+        }
+        UserHolder.removeUser();
+        return result;
+    }
+
+
+    /*修改用户资料*/
     @PostMapping("/changeUserInfo")
     public Result changeUserInfo(@RequestBody User user) {
         Result result = new Result();
-        String user_ID = user.getUser_ID();//user_ID
-        if (userAvatar_PATH != null) {
-            user.setUser_Avatar(userAvatar_PATH);
-        }
+        User userH = UserHolder.getUser();
+        String user_ID = userH.getUser_ID();
         Boolean flag = userService.changeUserInfo(user, user_ID);
         if (flag) {
             result.setCode(200);
-            result.setData(user_ID);
+            result.setData(flag);
             result.setMsg("修改成功！");
         } else {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
+        UserHolder.removeUser();
         return result;
     }
 
 
-    /*上传头像(todo 得回到idea刷新才会出现头像)*/
+    /*上传头像*/
     @PostMapping("/uploadAvatar")
     public Result uploadAvatar(@RequestParam("file") MultipartFile file) throws IOException {
         Result result = new Result();
@@ -309,4 +341,116 @@ public class userController {
         result.setMsg("上传成功！");
         return result;
     }
+
+    //退出登录
+    @GetMapping("/logOff")
+    public Result logOff(@RequestParam("user_token") String user_token) {
+        Boolean flag = userService.logOff(user_token);
+        Result result = new Result();
+        result.setCode(200);
+        result.setData(flag);
+        result.setMsg("退出登录");
+        return result;
+    }
+
+
+    @PostMapping("/test")
+    public String test() {
+        System.out.println("successTest");
+        return "successTest";
+    }
+
+    @GetMapping("/getSumFollowAndFan")
+    public Result getSumFollowAndFan(@RequestParam("user_ID") String user_ID) {
+        Result result = new Result();
+        Map<String, Integer> sumFollowAndFan = userService.getSumFollowAndFan(user_ID);
+        if (sumFollowAndFan != null) {
+            result.setCode(200);
+            result.setData(sumFollowAndFan);
+        } else {
+            result.setCode(301);
+        }
+
+        return result;
+    }
+
+    @GetMapping("/getUserFans")
+    public Result getUserFans(@RequestParam("user_ID") String user_ID) {
+        Result result = new Result();
+        List<userFans> userFans = userService.getUserFans(user_ID);
+        if (!userFans.isEmpty()) {
+            result.setCode(200);
+            result.setData(userFans);
+        } else {
+            result.setCode(301);
+        }
+
+        return result;
+    }
+
+    @GetMapping("/userFollowFan")
+    public Result userFollowFan(@RequestParam("fan_id") String fan_id) {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        boolean flag = userService.followUser(user_ID, fan_id);
+        if (flag) {
+            result.setCode(200);
+        }
+        UserHolder.removeUser();
+        return result;
+    }
+
+    @GetMapping("/userUnfollowFan")
+    public Result userUnfollowFan(@RequestParam("fan_id") String fan_id) {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        boolean flag = userService.unFollowUser(user_ID, fan_id);
+        if (flag) {
+            result.setCode(200);
+        }
+        UserHolder.removeUser();
+        return result;
+    }
+
+    @GetMapping("/getUserFollow")
+    public Result getUserFollow(@RequestParam("user_ID") String user_ID) {
+        Result result = new Result();
+        List<User> userList = userService.getUserFollow(user_ID);
+        if (!userList.isEmpty()) {
+            result.setCode(200);
+            result.setData(userList);
+        } else {
+            result.setCode(301);
+        }
+        UserHolder.removeUser();
+        return result;
+    }
+
+    @GetMapping("/ifFollowUser")
+    public Result ifFollowUser(@RequestParam("ID") String ID) {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        Boolean flag = userService.ifFollowUser(user_ID, ID);
+        result.setData(flag);
+        UserHolder.removeUser();
+        return result;
+    }
+
+    @GetMapping("/followUser")
+    public Result followUser(@RequestParam("ID") String ID) {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        Boolean flag = userService.followUser(user_ID, ID);
+        if (flag) {
+            result.setCode(200);
+        }
+        UserHolder.removeUser();
+        return result;
+    }
 }
+
+

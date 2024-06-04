@@ -4,16 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kn.initialmusic.mapper.UserMapper">
 
+
+    <insert id="followUser">
+        insert into userfollow(user_id, follow_id)
+            value (#{user_ID}, #{ID})
+    </insert>
+    <insert id="addUserFan">
+        insert into userfans(user_id, fan_id, fan_follow)
+            value (#{ID}, #{user_ID}, #{fanFoll})
+    </insert>
     <insert id="registerUser">
         insert into user(user_ID, user_name, user_email, user_password, user_sex, user_age, user_avatar)
             value (#{user_ID}, #{user_Name}, #{user_Email}, #{user_Password}, #{user_Sex}, #{user_Age}, #{user_Avatar})
-
     </insert>
-    <update id="changePassword">
-        update user
-        set user_password=#{user_Password}
-        where user_email = #{user_Email}
-    </update>
+
     <update id="changeUserInfo">
         update user
         set user_name=#{user.user_Name},
@@ -23,8 +27,36 @@
             user_avatar=#{user.user_Avatar}
         where user_ID = #{user_ID}
     </update>
+    <update id="userFollowFan">
+        update userfans
+        set fan_follow = 1
+        where user_id = #{user_ID}
+          and fan_id = #{fan_id}
+    </update>
+    <update id="userUnfollowFan">
+        update userfans
+        set fan_follow = 0
+        where user_id = #{user_ID}
+          and fan_id = #{fan_id}
+    </update>
+    <update id="changePassword">
+        update user
+        set user_password=#{user_Password}
+        where user_email = #{user_Email}
+    </update>
+    <delete id="unFollowUser">
+        delete
+        from userfollow
+        where user_id = #{user_ID}
+          and follow_id = #{ID}
 
-
+    </delete>
+    <delete id="delUserFan">
+        delete
+        from userfans
+        where user_id = #{ID}
+          and fan_id = #{user_ID}
+    </delete>
     <select id="selectPasswordByEmail" resultType="java.lang.String">
         select user_password
         from user
@@ -57,7 +89,7 @@
         where user_name = #{user_Name}
     </select>
     <select id="selectDetailByEmail" resultType="com.kn.initialmusic.pojo.User">
-        select *
+        select user_ID, user_name, user_avatar, user_email
         from user
         where user_email = #{user_Email}
     </select>
@@ -65,5 +97,47 @@
         select user_ID
         from user
         where user_email = #{user_Email}
+    </select>
+    <select id="getUserFans" resultType="com.kn.initialmusic.pojo.userFans">
+        SELECT fan_id,
+               user_name         as fan_name,
+               user_avatar       as fan_avatar,
+               user_introduction as fan_introduction,
+               fan_follow
+        FROM userfans,
+             user
+        WHERE userfans.user_id = #{user_ID}
+          AND userfans.fan_id = user.user_ID
+    </select>
+    <select id="getUserFollow" resultType="com.kn.initialmusic.pojo.User">
+        select user.user_ID, user_name, user_avatar, user_introduction
+        from userfollow,
+             user
+        where userfollow.user_id = #{user_ID}
+          and userfollow.follow_id = user.user_ID
+    </select>
+    <select id="getSumFollowAndFan" resultType="java.util.Map">
+        SELECT SUM(followSum) as followSum, SUM(fanSum) as fanSum
+        FROM (SELECT COUNT(*) followSum, 0 fanSum
+              FROM userfollow
+              where userfollow.user_id = #{user_ID}
+              UNION
+                  ALL
+              SELECT 0 followSum, COUNT(*) fanSum
+              FROM userfollow
+              where userfollow.follow_id = #{user_ID}) t;
+    </select>
+
+    <select id="ifFanForUser" resultType="java.lang.String">
+        select *
+        from userfans
+        where userfans.user_id = #{user_ID}
+          and fan_id = #{ID}
+    </select>
+    <select id="ifFollowUser" resultType="java.lang.String">
+        select *
+        from userfollow
+        where user_id = #{user_ID}
+          and follow_id = #{ID}
     </select>
 </mapper>

@@ -18,10 +18,10 @@ public class singerController {
     private final static String FILE_SAVE_PREFIX_song = "static/songDirectory/";
 
     //歌曲绝对路径
-    private final static String SAVE_PATH_SONG = "D:\\Workspeace\\vue3\\vue3\\src\\songDirectory\\";
+    private final static String SAVE_PATH_SONG = "D:\\Workspeace\\vue3\\src\\songDirectory\\";
 
     //歌曲绝对项目路径
-    private final static String SAVE_PATH_SONGCOVER = "D:\\Workspeace\\vue3\\vue3\\src\\photos\\songCover\\";
+    private final static String SAVE_PATH_SONGCOVER = "D:\\Workspeace\\vue3\\src\\photos\\songCover\\";
 
     //歌曲封面项目路径
     private final static String FILE_SAVE_PREFIX_singerCover = "static/photos/albumCover/";
@@ -56,7 +56,7 @@ public class singerController {
         return result;
     }
 
-    /**/
+    /*筛选歌手*/
     @PostMapping("/singerSelector")
     public Result singerSelector(@RequestBody String[] selectorList) {
         List<Singer> singers = singerService.singerSelector(selectorList[0],

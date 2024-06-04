@@ -20,7 +20,7 @@ public class EmailSendService {
         //创建邮件对象
         MimeMessage message = new MimeMessage(session);
         message.setSubject("AUT音乐");
-        message.setText("您的验证码为：" + code);
+        message.setText("您的验证码为：" + code + "\n有效期5分钟。");
         message.setFrom(new InternetAddress("2254990841@qq.com"));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
 
