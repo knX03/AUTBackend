@@ -176,7 +176,7 @@
         where tag.tag_id = playlisttags.tag_id
           and playlisttags.playlist_id = #{playlist_ID}
     </select>
-    <select id="ifMyPlaylist" resultType="java.lang.Integer">
+    <select id="ifMyPlaylist" resultType="java.lang.String">
         select *
         from songplaylists
         where playlist_ID = #{playlist_ID}

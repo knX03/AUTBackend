@@ -120,25 +120,6 @@ public interface UserService {
      */
     List<userFans> getUserFans(String user_ID);
 
-    //暂时不用
-    /**
-     * 用户回关粉丝
-     *
-     * @param user_ID 用户ID
-     * @param fan_id  粉丝ID
-     * @return 是否互关成功
-     */
-    boolean userFollowFan(String user_ID, String fan_id);
-
-    //暂时不用
-    /**
-     * 用户取关粉丝
-     *
-     * @param user_ID 用户ID
-     * @param fan_id  粉丝ID
-     * @return 是否取关成功
-     */
-    boolean userUnfollowFan(String user_ID, String fan_id);
 
     /**
      * 获取用户的关注列表

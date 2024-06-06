@@ -101,8 +101,8 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
 
     @Override
     public Boolean ifMyPlaylist(String playlist_ID, String user_ID) {
-        int flag = songPlaylistsMapper.ifMyPlaylist(playlist_ID, user_ID);
-        return flag > 0;
+        String flag = songPlaylistsMapper.ifMyPlaylist(playlist_ID, user_ID);
+        return flag != null;
     }
 
     @Override

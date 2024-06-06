@@ -104,7 +104,7 @@ public interface SongPlaylistsMapper {
      * @param user_ID     用户ID
      * @return 是否
      */
-    int ifMyPlaylist(@Param("playlist_ID") String playlist_ID,
+    String ifMyPlaylist(@Param("playlist_ID") String playlist_ID,
                          @Param("user_ID") String user_ID);
 
     /**

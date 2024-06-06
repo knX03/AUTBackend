@@ -361,43 +361,44 @@ public class userController {
     }
 
     @GetMapping("/getSumFollowAndFan")
-    public Result getSumFollowAndFan(@RequestParam("user_ID") String user_ID) {
+    public Result getSumFollowAndFan(@RequestParam("user_ID") String userID) {
         Result result = new Result();
-        Map<String, Integer> sumFollowAndFan = userService.getSumFollowAndFan(user_ID);
+        Map<String, Integer> sumFollowAndFan;
+        if (userID.isEmpty()) {
+            User user = UserHolder.getUser();
+            String user_ID = user.getUser_ID();
+            sumFollowAndFan = userService.getSumFollowAndFan(user_ID);
+            UserHolder.removeUser();
+        } else {
+            sumFollowAndFan = userService.getSumFollowAndFan(userID);
+        }
         if (sumFollowAndFan != null) {
             result.setCode(200);
             result.setData(sumFollowAndFan);
         } else {
             result.setCode(301);
         }
-
         return result;
     }
 
     @GetMapping("/getUserFans")
-    public Result getUserFans(@RequestParam("user_ID") String user_ID) {
+    public Result getUserFans(@RequestParam("user_ID") String userID) {
         Result result = new Result();
-        List<userFans> userFans = userService.getUserFans(user_ID);
+        List<userFans> userFans;
+        if (userID.isEmpty()) {
+            User user = UserHolder.getUser();
+            String user_ID = user.getUser_ID();
+            userFans = userService.getUserFans(user_ID);
+            UserHolder.removeUser();
+        } else {
+            userFans = userService.getUserFans(userID);
+        }
         if (!userFans.isEmpty()) {
             result.setCode(200);
             result.setData(userFans);
         } else {
             result.setCode(301);
         }
-
-        return result;
-    }
-
-    @GetMapping("/userFollowFan")
-    public Result userFollowFan(@RequestParam("fan_id") String fan_id) {
-        Result result = new Result();
-        User user = UserHolder.getUser();
-        String user_ID = user.getUser_ID();
-        boolean flag = userService.followUser(user_ID, fan_id);
-        if (flag) {
-            result.setCode(200);
-        }
-        UserHolder.removeUser();
         return result;
     }
 
@@ -415,16 +416,23 @@ public class userController {
     }
 
     @GetMapping("/getUserFollow")
-    public Result getUserFollow(@RequestParam("user_ID") String user_ID) {
+    public Result getUserFollow(@RequestParam("user_ID") String userID) {
         Result result = new Result();
-        List<User> userList = userService.getUserFollow(user_ID);
+        List<User> userList;
+        if (userID.isEmpty()) {
+            User user = UserHolder.getUser();
+            String user_ID = user.getUser_ID();
+            userList = userService.getUserFollow(user_ID);
+            UserHolder.removeUser();
+        } else {
+            userList = userService.getUserFollow(userID);
+        }
         if (!userList.isEmpty()) {
             result.setCode(200);
             result.setData(userList);
         } else {
             result.setCode(301);
         }
-        UserHolder.removeUser();
         return result;
     }
 
@@ -448,6 +456,18 @@ public class userController {
         if (flag) {
             result.setCode(200);
         }
+        UserHolder.removeUser();
+        return result;
+    }
+
+    @GetMapping("/ifMy")
+    public Result ifMy(@RequestParam("ID") String user_ID) {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String userID = user.getUser_ID();
+        boolean flag = user_ID.equals(userID);
+        result.setCode(200);
+        result.setData(flag);
         UserHolder.removeUser();
         return result;
     }

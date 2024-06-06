@@ -109,11 +109,17 @@ public class songPlaylistsController {
 
     /*根据用户ID查询创建歌单列表*/
     @GetMapping("/createPlaylist")
-    public Result selectCreatePlaylist() {
+    public Result selectCreatePlaylist(@RequestParam("user_ID") String user_ID) {
         Result result = new Result();
-        User user = UserHolder.getUser();
-        String user_ID = user.getUser_ID();
-        List<SongPlaylists> songPlaylists = songPlaylistsService.selectCreatePlaylist(user_ID);
+        List<SongPlaylists> songPlaylists;
+        if (user_ID.isEmpty()) {
+            User user = UserHolder.getUser();
+            String userID = user.getUser_ID();
+            songPlaylists = songPlaylistsService.selectCreatePlaylist(userID);
+            UserHolder.removeUser();
+        } else {
+            songPlaylists = songPlaylistsService.selectCreatePlaylist(user_ID);
+        }
         if (songPlaylists != null) {
             result.setCode(200);
             result.setData(songPlaylists);
@@ -121,17 +127,22 @@ public class songPlaylistsController {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
-        UserHolder.removeUser();
         return result;
     }
 
     /*根据用户ID查询收藏歌单列表*/
     @GetMapping("/likePlaylist")
-    public Result selectLikePlaylist() {
+    public Result selectLikePlaylist(@RequestParam("user_ID") String user_ID) {
         Result result = new Result();
-        User user = UserHolder.getUser();
-        String user_ID = user.getUser_ID();
-        List<SongPlaylists> songPlaylists = songPlaylistsService.selectLikePlaylist(user_ID);
+        List<SongPlaylists> songPlaylists;
+        if (user_ID.isEmpty()) {
+            User user = UserHolder.getUser();
+            String userID = user.getUser_ID();
+            songPlaylists = songPlaylistsService.selectLikePlaylist(userID);
+            UserHolder.removeUser();
+        } else {
+            songPlaylists = songPlaylistsService.selectLikePlaylist(user_ID);
+        }
         if (songPlaylists != null) {
             result.setCode(200);
             result.setData(songPlaylists);
@@ -139,7 +150,6 @@ public class songPlaylistsController {
             result.setCode(500);
             result.setMsg("内部服务器异常！");
         }
-        UserHolder.removeUser();
         return result;
     }
 
@@ -346,8 +356,8 @@ public class songPlaylistsController {
     public Result deleteLikePlaylist(@RequestParam("playlist_ID") String playlist_ID) {
         Result result = new Result();
         User user = UserHolder.getUser();
-        String user_ID = user.getUser_ID();
-        Boolean flag = songPlaylistsService.deleteLikePlaylist(playlist_ID, user_ID);
+        String userID = user.getUser_ID();
+        Boolean flag = songPlaylistsService.deleteLikePlaylist(playlist_ID, userID);
         if (flag) {
             result.setCode(200);
         } else {

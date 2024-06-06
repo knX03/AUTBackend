@@ -34,8 +34,8 @@ public class SpringMVCConfig implements WebMvcConfigurer {
                 "/songPlaylist/deleteLikePlaylist", "/songPlaylist/ifMyPlaylist", "/songPlaylist/createPlaylist",
                 "/songPlaylist/likePlaylist", "/songPlaylist/createNewPlaylist", "/songPlaylist/DEPlaylist",
                 "/user/changeUserInfo", "/user/logOff", "/user/userDetail",
-                "/user/userFollowFan", "/user/userUnfollowFan", "/user/ifFollowUser", "/user/followUser");
-        //registry.addInterceptor(new loginInterceptor(stringRedisTemplate)).addPathPatterns("/songPlaylist/**");
+                "/user/userFollowFan", "/user/userUnfollowFan", "/user/ifFollowUser", "/user/followUser",
+                "/user/getSumFollowAndFan", "/user/getUserFans", "/user/getUserFollow", "/user/ifMy");
     }
 
 }

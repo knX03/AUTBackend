@@ -167,7 +167,7 @@ public interface UserMapper {
      * @param ID      另一个用户ID
      * @return 是否关注成功
      */
-    int followUser(@Param("user_ID") String user_ID, @Param("ID") String ID);
+    int followUser(@Param("user_ID") String user_ID, @Param("ID") String ID, @Param("feo") int feo);
 
 
     /**
@@ -189,12 +189,4 @@ public interface UserMapper {
     int addUserFan(@Param("user_ID") String user_ID, @Param("ID") String ID,
                    @Param("fanFoll") int fanFoll);
 
-    /**
-     * 删除ID用户的粉丝为user_ID用户
-     *
-     * @param user_ID 用户ID:粉丝
-     * @param ID      用户ID
-     * @return 是否删除成功
-     */
-    int delUserFan(@Param("user_ID") String user_ID, @Param("ID") String ID);
 }

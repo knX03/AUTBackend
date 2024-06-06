@@ -1,5 +1,6 @@
 package com.kn.initialmusic.controller;
 
+import com.kn.initialmusic.pojo.Album;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
 
 
 @RestController
@@ -39,4 +41,13 @@ public class fileController {
             }
         }*/
     }
+
+    @PostMapping("/uploadSong")
+    public void uploadSong(@RequestPart("file") MultipartFile file, @RequestPart("songName") String[] songNames, @RequestPart("album") Album album) {
+        System.out.println(file);
+        System.out.println(Arrays.toString(songNames));
+        System.out.println(album);
+    }
+
+
 }

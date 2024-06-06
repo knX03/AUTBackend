@@ -6,11 +6,11 @@
 
 
     <insert id="followUser">
-        insert into userfollow(user_id, follow_id)
-            value (#{user_ID}, #{ID})
+        insert into userfollow(user_id, follow_id, feo)
+            value (#{user_ID}, #{ID}, #{feo})
     </insert>
     <insert id="addUserFan">
-        insert into userfans(user_id, fan_id, fan_follow)
+        insert into userfollow(user_id, follow_ID, feo)
             value (#{ID}, #{user_ID}, #{fanFoll})
     </insert>
     <insert id="registerUser">
@@ -28,16 +28,16 @@
         where user_ID = #{user_ID}
     </update>
     <update id="userFollowFan">
-        update userfans
-        set fan_follow = 1
-        where user_id = #{user_ID}
-          and fan_id = #{fan_id}
+        update userfollow
+        set feo = 1
+        where user_id = #{fan_id}
+          and follow_ID = #{user_ID}
     </update>
     <update id="userUnfollowFan">
-        update userfans
-        set fan_follow = 0
-        where user_id = #{user_ID}
-          and fan_id = #{fan_id}
+        update userfollow
+        set feo = 0
+        where user_id = #{fan_id}
+          and follow_ID = #{user_ID}
     </update>
     <update id="changePassword">
         update user
@@ -50,12 +50,6 @@
         where user_id = #{user_ID}
           and follow_id = #{ID}
 
-    </delete>
-    <delete id="delUserFan">
-        delete
-        from userfans
-        where user_id = #{ID}
-          and fan_id = #{user_ID}
     </delete>
     <select id="selectPasswordByEmail" resultType="java.lang.String">
         select user_password
@@ -99,22 +93,22 @@
         where user_email = #{user_Email}
     </select>
     <select id="getUserFans" resultType="com.kn.initialmusic.pojo.userFans">
-        SELECT fan_id,
+        SELECT user.user_ID      as fan_ID,
                user_name         as fan_name,
                user_avatar       as fan_avatar,
                user_introduction as fan_introduction,
-               fan_follow
-        FROM userfans,
+               feo
+        FROM userfollow,
              user
-        WHERE userfans.user_id = #{user_ID}
-          AND userfans.fan_id = user.user_ID
+        WHERE userfollow.follow_ID = #{user_ID}
+          AND userfollow.user_ID = user.user_ID
     </select>
     <select id="getUserFollow" resultType="com.kn.initialmusic.pojo.User">
         select user.user_ID, user_name, user_avatar, user_introduction
         from userfollow,
              user
-        where userfollow.user_id = #{user_ID}
-          and userfollow.follow_id = user.user_ID
+        where userfollow.user_ID = #{user_ID}
+          and userfollow.follow_ID = user.user_ID
     </select>
     <select id="getSumFollowAndFan" resultType="java.util.Map">
         SELECT SUM(followSum) as followSum, SUM(fanSum) as fanSum
@@ -130,14 +124,14 @@
 
     <select id="ifFanForUser" resultType="java.lang.String">
         select *
-        from userfans
-        where userfans.user_id = #{user_ID}
-          and fan_id = #{ID}
+        from userfollow
+        where user_ID = #{ID}
+          and follow_ID = #{user_ID}
     </select>
     <select id="ifFollowUser" resultType="java.lang.String">
         select *
         from userfollow
-        where user_id = #{user_ID}
-          and follow_id = #{ID}
+        where user_ID = #{user_ID}
+          and follow_ID = #{ID}
     </select>
 </mapper>

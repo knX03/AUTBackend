@@ -139,27 +139,6 @@ public class UserServiceImpl implements UserService {
         return userFans;
     }
 
-    //暂时不用
-    @Override
-    public boolean userFollowFan(String user_ID, String fan_id) {
-        int flag = userMapper.userFollowFan(user_ID, fan_id);
-        //添加user_ID关注了fan_id
-        int foFlag = userMapper.followUser(user_ID, fan_id);
-        //添加user_ID成为fan_id的粉丝
-        int aFlag = userMapper.addUserFan(user_ID, fan_id, 1);
-        return flag > 0 && foFlag > 0;
-    }
-
-    //暂时不用
-    @Override
-    public boolean userUnfollowFan(String user_ID, String fan_id) {
-        int flag = userMapper.userUnfollowFan(user_ID, fan_id);
-        //删除user_ID关注fan_id的数据
-        int foFlag = userMapper.unFollowUser(user_ID, fan_id);
-        //删除user_ID成为fan_id的粉丝的数据
-        int i = userMapper.delUserFan(user_ID, fan_id);
-        return flag > 0 || foFlag > 0;
-    }
 
     @Override
     public List<User> getUserFollow(String user_ID) {
@@ -175,27 +154,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean followUser(String user_ID, String ID) {
-        int flag = userMapper.followUser(user_ID, ID);
         String ffFlag = userMapper.ifFanForUser(user_ID, ID);
         if (ffFlag == null) {
-            int aFlag = userMapper.addUserFan(user_ID, ID, 0);
-            return flag > 0 || aFlag > 0;
+            int flag = userMapper.followUser(user_ID, ID, 0);
+            return flag > 0;
         } else {
             int f = userMapper.userFollowFan(user_ID, ID);
-            //添加user_ID成为fan_id的粉丝
-            int aFlag = userMapper.addUserFan(user_ID, ID, 1);
-            return flag > 0 || f > 0;
+            //添加user_ID成为ID的粉丝
+            int aFlag = userMapper.followUser(user_ID, ID, 1);
+            return aFlag > 0 || f > 0;
         }
     }
 
     @Override
     public Boolean unFollowUser(String user_ID, String ID) {
-        int in = userMapper.userUnfollowFan(user_ID, ID);
-        //删除user_ID关注ID的数据
-        int flag = userMapper.unFollowUser(user_ID, ID);
-        //删除user_ID成为ID的粉丝的数据
-        int i = userMapper.delUserFan(user_ID, ID);
-        return flag > 0 || i > 0;
+        String ffFlag = userMapper.ifFanForUser(user_ID, ID);
+        if (ffFlag == null) {
+            //删除user_ID关注ID的数据
+            int flag = userMapper.unFollowUser(user_ID, ID);
+            return flag > 0;
+        } else {
+            int in = userMapper.userUnfollowFan(user_ID, ID);
+            int flag = userMapper.unFollowUser(user_ID, ID);
+            return flag > 0 || in > 0;
+        }
     }
 
     //暂时不用
