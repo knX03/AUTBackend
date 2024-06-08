@@ -25,7 +25,7 @@ public class songPlaylistsController {
             "D:\\Workspeace\\vue3\\src\\photos\\songPlaylistCover\\";
 
     //歌单封面项目路径
-    private final static String FILE_SAVE_PREFIX_songPlaylistCover = "static/photos/songPlaylistCover/";
+    private final static String FILE_SAVE_PREFIX_songPlaylistCover = "/src/photos/songPlaylistCover/";
 
     //歌单封面路径
     private static String songPlaylistCover_PATH;

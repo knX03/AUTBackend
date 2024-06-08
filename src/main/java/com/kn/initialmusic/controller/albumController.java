@@ -255,5 +255,20 @@ public class albumController {
         return result;
     }
 
-
+    /*歌手的专辑*/
+    @GetMapping("/getUserAlbums")
+    public Result getUserAlbums() {
+        Result result = new Result();
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        List<Album> albums = albumService.getUserAlbums(user_ID);
+        if (albums != null) {
+            result.setCode(200);
+            result.setData(albums);
+        } else {
+            result.setCode(302);
+            result.setMsg("用户为创建专辑！");
+        }
+        return result;
+    }
 }

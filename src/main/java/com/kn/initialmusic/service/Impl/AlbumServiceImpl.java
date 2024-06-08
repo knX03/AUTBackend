@@ -95,4 +95,10 @@ public class AlbumServiceImpl implements AlbumService {
     public List<Album> getSingerAlbums(String singer_ID) {
         return albumMapper.getSingerAlbums(singer_ID);
     }
+
+    @Override
+    public List<Album> getUserAlbums(String user_ID) {
+        List<Album> userAlbums = albumMapper.getUserAlbums(user_ID);
+        return userAlbums;
+    }
 }

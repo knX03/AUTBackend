@@ -26,12 +26,12 @@ import java.util.List;
 public class SongController {
 
     //歌曲存放的系统磁盘路径
-    private final static String SAVE_PATH_song = "D:\\Workspeace\\InitialMusic\\src\\main\\resources\\static\\songDirectory\\";
+    private final static String SAVE_PATH_song = "D:\\Workspeace\\vue3\\src\\songDirectory\\";
 
     private final static String SAVE_PATH_songCover = "D:\\Workspeace\\vue3\\src\\photos\\songCover\\";
 
     //项目路径
-    private final static String FILE_SAVE_PREFIX_song = "static/songDirectory/";
+    private final static String FILE_SAVE_PREFIX_song = "src/songDirectory/";
     //歌曲封面项目路径
     private final static String FILE_SAVE_PREFIX_songCover = "static/photos/songCover/";
 

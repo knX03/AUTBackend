@@ -104,4 +104,12 @@ public interface AlbumMapper {
      * @return
      */
     List<Album> getSingerAlbums(String singer_ID);
+
+    /**
+     * 用户的专辑
+     *
+     * @param user_ID 用户ID
+     * @return 专辑列表
+     */
+    List<Album> getUserAlbums(String user_ID);
 }
