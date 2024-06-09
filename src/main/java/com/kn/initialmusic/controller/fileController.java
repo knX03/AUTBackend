@@ -1,10 +1,14 @@
 package com.kn.initialmusic.controller;
 
-import com.kn.initialmusic.pojo.Album;
-import com.kn.initialmusic.pojo.Result;
+import com.kn.initialmusic.pojo.*;
+import com.kn.initialmusic.service.AlbumService;
+import com.kn.initialmusic.service.SongService;
+import com.kn.initialmusic.util.SingerHolder;
+import com.kn.initialmusic.util.UserHolder;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +16,9 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
+
+import static com.kn.initialmusic.controller.Code.SUCCESS;
+import static com.kn.initialmusic.controller.Code.VALUES_REPEAT;
 
 
 @RestController
@@ -25,7 +32,11 @@ public class fileController {
     //专辑封面绝对路径
     private final static String SAVE_PATH_ALBUMCOVER = "D:\\Workspeace\\vue3\\src\\photos\\albumCover\\";
 
-    private String ALBUMCOVER_PATH;
+    @Autowired
+    private AlbumService albumService;
+
+    @Autowired
+    private SongService songService;
 
     @PostMapping("/download")
     public void download(@RequestBody String filepath, HttpServletResponse response) throws IOException {
@@ -52,8 +63,8 @@ public class fileController {
         }*/
     }
 
-    @PostMapping("/uploadAlbumCover")
-    public Result uploadAlbumCover(@RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping("/uploadAlCover")
+    public Result uploadAlCover(@RequestParam("alCover") MultipartFile file) throws IOException {
         Result result = new Result();
         //获取文件名字
         String filename = file.getOriginalFilename();
@@ -67,17 +78,54 @@ public class fileController {
         outputStream.close();
         /*写入数据库*/
         /*封面路径*/
-        ALBUMCOVER_PATH = "src/photos/albumCover/" + filename;
         result.setCode(200);
         result.setData("src/photos/albumCover/" + filename);
         result.setMsg("上传成功！");
         return result;
     }
 
+    //todo 上传进入待审核表
     @PostMapping("/uploadSong")
-    public void uploadSong(@RequestParam("file") MultipartFile[] file, @RequestParam("songName") String[] songNames, @RequestPart("album") Album album) {
-        System.out.println(Arrays.toString(file));
-        System.out.println(Arrays.toString(songNames));
-        System.out.println(album);
+    public Result uploadSong(@RequestParam("file") MultipartFile[] file, @RequestParam("songName") String[] songNames, @RequestPart("album") Album album) throws IOException {
+        Result result = new Result();
+        Singer singer = SingerHolder.getSinger();
+        String singer_ID = singer.getSinger_ID();
+        String albumId = album.getAlbum_ID();
+        Song song = new Song();
+        if (albumId.isEmpty()) {
+            album.setSinger_ID(singer_ID);
+            albumId = albumService.createAlbum(album);
+        }
+        int i = 0;
+        for (MultipartFile multipartFile : file) {
+            //获取文件名字
+            String fileName = multipartFile.getOriginalFilename();//歌曲名称
+            String path = SAVE_PATH_song + fileName;
+            File filePath = new File(path);
+            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
+            outputStream.write(multipartFile.getBytes());
+            outputStream.flush();
+            outputStream.close();
+            /*存入数据库*/
+            String song_Directory = "src/songDirectory/" + fileName;//歌曲路径
+            Boolean eFlag = songService.ifExistBySongDirectory(song_Directory);
+            if (eFlag) {
+                result.setCode(VALUES_REPEAT);
+                result.setData(songNames[i]);
+                i++;
+                break;
+            } else {
+                song.setSong_Name(songNames[i]);
+                song.setSinger_ID(singer_ID);
+                song.setAlbum_ID(albumId);
+                song.setSong_Directory(song_Directory);
+                song.setSong_Cover(album.getAlbum_Cover());
+                songService.saveSong(song);
+                result.setCode(SUCCESS);
+                i++;
+            }
+        }
+        SingerHolder.removeSinger();
+        return result;
     }
 }

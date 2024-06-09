@@ -8,6 +8,7 @@ import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.util.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,16 +34,15 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public Boolean createAlbum(Album album) {
+    public String createAlbum(Album album) {
         String albumID = generateIDService.generateAlbumID();
         album.setAlbum_ID(albumID);
-        try {
-            albumMapper.creatAlbum(album);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        int flag = albumMapper.creatAlbum(album);
+        if (flag > 0) {
+            return albumID;
+        } else {
+            return null;
         }
-        return true;
     }
 
     @Override
@@ -97,8 +97,10 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public List<Album> getUserAlbums(String user_ID) {
-        List<Album> userAlbums = albumMapper.getUserAlbums(user_ID);
+    public List<Album> getUserAlbums(String singer_ID) {
+        List<Album> userAlbums = albumMapper.getUserAlbums(singer_ID);
         return userAlbums;
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.kn.initialmusic.service;
 
 import com.kn.initialmusic.pojo.Album;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface AlbumService {
      * @param album 专辑对象
      * @return 是否创建成功
      */
-    Boolean createAlbum(Album album);
+    String createAlbum(Album album);
 
     /**
      * 检查专辑名称是否重复
@@ -104,8 +105,9 @@ public interface AlbumService {
     /**
      * 用户的专辑
      *
-     * @param user_ID 用户ID
+     * @param singer_ID 用户ID
      * @return 专辑列表
      */
-    List<Album> getUserAlbums(String user_ID);
+    List<Album> getUserAlbums(String singer_ID);
+
 }

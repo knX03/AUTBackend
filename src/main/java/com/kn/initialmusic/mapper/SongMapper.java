@@ -14,7 +14,7 @@ public interface SongMapper {
      *
      * @param song
      */
-    void saveSong(Song song);
+    int saveSong(Song song);
 
 
     /**

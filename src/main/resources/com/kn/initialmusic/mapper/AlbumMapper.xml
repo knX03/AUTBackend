@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kn.initialmusic.mapper.AlbumMapper">
     <insert id="creatAlbum">
-        insert into album (album_ID, album_name, singer_ID, create_time, album_introduction, album_cover)
-            value (#{album_ID}, #{album_Name}, #{singer_ID}, #{create_Time}, #{album_Introduction},
+        insert into album (album_ID, album_name, singer_ID, album_introduction, album_cover)
+            value (#{album_ID}, #{album_Name}, #{singer_ID}, #{album_Introduction},
                    #{album_Cover})
     </insert>
     <insert id="creatSingerAlbum">
@@ -80,6 +80,6 @@
         from album,
              singer
         where album.singer_ID = singer.singer_ID
-          and singer.user_ID = #{user_ID}
+          and singer.singer_ID = #{singer_ID}
     </select>
 </mapper>

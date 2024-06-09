@@ -5,6 +5,7 @@ import cn.hutool.core.lang.UUID;
 import com.kn.initialmusic.mapper.UserMapper;
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.User;
+import com.kn.initialmusic.pojo.UserDTO;
 import com.kn.initialmusic.pojo.userFans;
 import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.service.UserService;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import static com.kn.initialmusic.controller.Code.SUCCESS;
 import static com.kn.initialmusic.util.RedisConstants.*;
 
 @Service
@@ -35,9 +37,31 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Boolean loginVerify(String user_email, String user_password) {
+    public Result loginVerify(Map<String, Object> map) {
+        Result result = new Result();
+        String user_email = (String) map.get("user_Email");
+        String user_password = (String) map.get("user_Password");
+        Boolean remFlag = (Boolean) map.get("remFlag");
         String password = userMapper.selectPasswordByEmail(user_email);
-        return user_password.equals(password);
+        if (user_password.equals(password)) {
+            User user = userMapper.selectDetailByEmail(user_email);
+            UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+            //生成token
+            String token = UUID.randomUUID().toString(true);
+            //将user信息存到redis
+            Map<String, Object> userMap = BeanUtil.beanToMap(userDTO);
+            String tokenKey = LOGIN_USER_KEY + token;
+            stringRedisTemplate.opsForHash().putAll(tokenKey,
+                    userMap);
+            stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.DAYS);
+            result.setCode(SUCCESS);
+            result.setData(token);
+        } else {
+            result.setCode(400);
+            result.setData("error");
+            result.setMsg("账号或密码错误，请重试！");
+        }
+        return result;
     }
 
     @Override
@@ -117,7 +141,6 @@ public class UserServiceImpl implements UserService {
         String tokenKey = LOGIN_USER_KEY + user_token;
         //Boolean delete = stringRedisTemplate.delete(tokenKey); 直接删除整个hash数据
         Set<Object> keys = stringRedisTemplate.opsForHash().keys(tokenKey);
-        int size = keys.size();
         if (!keys.isEmpty()) {
             stringRedisTemplate.opsForHash().delete(tokenKey, keys.toArray()); //可选择删除哈希数据里的对应键值
         } else {

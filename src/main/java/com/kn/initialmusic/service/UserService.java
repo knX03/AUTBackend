@@ -1,6 +1,7 @@
 package com.kn.initialmusic.service;
 
 import com.kn.initialmusic.pojo.Result;
+import com.kn.initialmusic.pojo.Singer;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.pojo.userFans;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +13,13 @@ import java.util.Map;
 public interface UserService {
 
     /**
-     * @param user_email    用户邮箱
-     * @param user_password 用户密码
-     * @return 是否存在此用户
+     * 验证邮箱密码
+     *
+     * @param map 用户的邮箱密码
+     * @return 用户的token
      */
 
-    Boolean loginVerify(String user_email, String user_password);
+    Result loginVerify(Map<String, Object> map);
 
     /**
      * @param map 登录表单，包含Email和验证码code
@@ -155,4 +157,6 @@ public interface UserService {
      * @return 是否取消关注成功
      */
     Boolean unFollowUser(String user_ID, String ID);
+
+
 }

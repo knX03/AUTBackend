@@ -37,7 +37,7 @@ public interface AlbumMapper {
      * @param album
      * @return
      */
-    void creatAlbum(Album album);
+    int creatAlbum(Album album);
 
     /**
      * 创建歌手与专辑的关系
@@ -108,8 +108,8 @@ public interface AlbumMapper {
     /**
      * 用户的专辑
      *
-     * @param user_ID 用户ID
+     * @param singer_ID 用户ID
      * @return 专辑列表
      */
-    List<Album> getUserAlbums(String user_ID);
+    List<Album> getUserAlbums(String singer_ID);
 }

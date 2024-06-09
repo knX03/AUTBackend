@@ -23,16 +23,10 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public Boolean saveSong(Song song) {
-
         String songID = generateIDService.generateSongID();
         song.setSong_ID(songID);
-        try {
-            songMapper.saveSong(song);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        int flag = songMapper.saveSong(song);
+        return flag > 0;
     }
 
 

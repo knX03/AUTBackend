@@ -15,6 +15,7 @@ public class Code {
     public static final Integer CODE_ERROR = 300;
     public static final Integer MAIN_VALUES_NULL = 301;
     public static final Integer MAIN_VALUES_REPEAT = 302;
+    public static final Integer VALUES_REPEAT = 303;
     public static final Integer RESULT_ERROR = 402;
     public static final Integer FORBIDDEN = 403;
     public static final Integer INTERNAL_SERVER_ERROR = 500;

@@ -5,9 +5,8 @@
 <mapper namespace="com.kn.initialmusic.mapper.SongMapper">
 
     <insert id="saveSong">
-        insert into song (song_ID, song_name, singer_name, album_name, created_time, song_directory, song_cover)
-            value (#{song_ID}, #{song_Name}, #{singer_name}, #{album_name}, #{created_Time}, #{song_Directory},
-                   #{song_Cover})
+        insert into song (song_ID, song_name, singer_ID, album_ID, song_directory, song_cover, examine)
+            value (#{song_ID}, #{song_Name}, #{singer_ID}, #{album_ID}, #{song_Directory}, #{song_Cover}, 0)
     </insert>
     <insert id="likeSong">
         insert into userlike(user_ID, song_ID)
@@ -32,39 +31,43 @@
     <select id="selectSongByAlbum" resultType="com.kn.initialmusic.pojo.Song">
         select song_ID,
                song_name,
-               singer_ID,
+               song.singer_ID,
                singer_name,
-               album.album_ID,
-               song.album_name as album_name,
+               song.album_ID,
+               album_name,
                song_directory,
                song_cover
         from song,
-             album
-        where album_ID = #{album_ID}
-          and song.album_name = album.album_name
+             album,
+             singer
+        where song.album_ID = #{album_ID}
+          and album.album_ID = #{album_ID}
+          and song.singer_ID = singer.singer_ID
+
     </select>
     <select id="selectSongBySinger" resultType="com.kn.initialmusic.pojo.Song">
         select song_ID,
                song_name,
+               song.singer_ID,
                singer_name,
-               album.album_ID,
-               song.album_name as album_name,
+               song.album_ID,
+               album.album_name as album_name,
                song_directory,
                song_cover
         from song,
-             album
-        where singer_name = (select singer_name
-                             from singer
-                             where singer_ID = #{singer_ID})
-          and song.album_name = album.album_name
+             album,
+             singer
+        where song.singer_ID = #{singer_ID}
+          and singer.singer_ID = #{singer_ID}
+          and song.album_ID = album.album_ID
     </select>
     <select id="selectSongByUser" resultType="com.kn.initialmusic.pojo.Song">
         select song_ID,
                song_name,
-               singer.singer_ID,
-               song.singer_name,
-               album.album_ID,
-               song.album_name,
+               singer.singer_name,
+               song.singer_ID,
+               album.album_name,
+               song.album_ID,
                song_cover,
                song_directory
         from song,
@@ -74,8 +77,8 @@
                                from userLike
                                where user_ID = #{user_ID}
                                  and song_ID is not null)
-          and singer.singer_name = song.singer_name
-          and album.album_name = song.album_name
+          and singer.singer_ID = song.singer_ID
+          and album.album_ID = song.album_ID
         limit #{begin},#{size}
     </select>
     <select id="searchSong" resultType="java.lang.String">

@@ -22,7 +22,7 @@ public class crossInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Methods", "*");
         //支持cookie跨域
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Headers", "authorization,Origin, X-Requested-With, Content-Type, Accept,Access-Token");
+        response.setHeader("Access-Control-Allow-Headers", "authorization,Origin, X-Requested-With, Content-Type, Accept,Access-Token,authorization-singer");
         //response.setHeader("Access-Control-Allow-Headers", "*");
         //如果使用REST风格的话，还需要加上下面这句，允许这些请求方法跨域
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PATCH, DELETE, PUT, OPTIONS");

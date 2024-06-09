@@ -41,13 +41,14 @@ public class userController {
 
 
     //头像项目路径
-    private final static String FILE_SAVE_PREFIX_userAvatar = "static/photos/userAvatar/";
+    private final static String FILE_SAVE_PREFIX_userAvatar = "src/photos/userAvatar/";
 
     //头像路径
     private static String userAvatar_PATH;
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private EmailSendService emailSendService;
     @Resource
@@ -73,41 +74,7 @@ public class userController {
     /*密码登录接口*/
     @PostMapping("/userLogin")
     public Result loginUser(HttpServletResponse response, @RequestBody Map<String, Object> map) {
-        Result result = new Result();
-        String email = (String) map.get("user_Email");
-        String password = (String) map.get("user_Password");
-        Boolean remFlag = (Boolean) map.get("remFlag");
-        Boolean flag = userService.loginVerify(email, password);
-        if (flag) {
-            if (remFlag) {
-                Cookie cUserEmail = new Cookie("user_Email", email);
-                Cookie cPassword = new Cookie("user_Password", password);
-                //设置Cookie存活时间
-                cUserEmail.setMaxAge(60 * 60 * 24 * 7);
-                cPassword.setMaxAge(60 * 60 * 24 * 7);
-                //发送Cookie
-                response.addCookie(cUserEmail);
-                response.addCookie(cPassword);
-            }
-            User user = userService.selectDetailByEmail(email);
-            UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
-            //生成token
-            String token = UUID.randomUUID().toString(true);
-            //将user信息存到redis
-            Map<String, Object> userMap = BeanUtil.beanToMap(userDTO);
-            String tokenKey = LOGIN_USER_KEY + token;
-            stringRedisTemplate.opsForHash().putAll(tokenKey,
-                    userMap);
-            stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.DAYS);
-            result.setCode(200);
-            result.setData(token);
-            result.setMsg("登录成功！");
-        } else {
-            result.setCode(400);
-            result.setData("error");
-            result.setMsg("账号或密码错误，请重试！");
-        }
-        return result;
+        return userService.loginVerify(map);
     }
 
 

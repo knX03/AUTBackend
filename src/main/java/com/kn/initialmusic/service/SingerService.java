@@ -1,5 +1,6 @@
 package com.kn.initialmusic.service;
 
+import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Singer;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,4 +33,20 @@ public interface SingerService {
      * @return 筛选后的歌手列表
      */
     List<Singer> singerSelector(String langType, String singerType, String alphabet);
+
+    /**
+     * 用户是否是歌手
+     *
+     * @param user_ID 用户ID
+     * @return 歌手信息
+     */
+    Result getSingerByUser(String user_ID);
+
+    /**
+     * 歌手信息退出
+     *
+     * @param singer_token 歌手token
+     * @return 是否成功退出
+     */
+    Boolean sinLogOff(String singer_token);
 }

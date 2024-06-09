@@ -30,4 +30,9 @@
           and if(#{singerType} = "全部", singer_type = singer_type, singer_type = #{singerType})
           and if(#{alphabet} = "热门", singer_name = singer_name, get_first_pinyin_char(singer_name) = #{alphabet})
     </select>
+    <select id="getSingerByUser" resultType="com.kn.initialmusic.pojo.Singer">
+        select singer_ID, singer_name, singer_avatar
+        from singer
+        where user_ID = #{user_ID}
+    </select>
 </mapper>

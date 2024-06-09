@@ -1,12 +1,10 @@
 package com.kn.initialmusic.controller;
 
-import com.kn.initialmusic.pojo.Album;
-import com.kn.initialmusic.pojo.Result;
-import com.kn.initialmusic.pojo.Song;
-import com.kn.initialmusic.pojo.User;
+import com.kn.initialmusic.pojo.*;
 import com.kn.initialmusic.service.AlbumService;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.service.SongService;
+import com.kn.initialmusic.util.SingerHolder;
 import com.kn.initialmusic.util.UserHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -120,9 +118,9 @@ public class albumController {
         String singer_name = album.getSinger_name();//歌手名称
         String create_time = album.getCreate_Time();//创建时间
         album.setAlbum_Cover(ALBUMCOVER_PATH);//专辑封面
-        Boolean alFlag = albumService.createAlbum(album);
-        albumService.creatSingerAlbum(singer_name, album_name);
-        if (alFlag) {
+        String alFlag = albumService.createAlbum(album);
+        //albumService.creatSingerAlbum(singer_name, album_name);
+        if (alFlag != null) {
             result.setCode(200);
         } else {
             result.setCode(500);
@@ -259,16 +257,17 @@ public class albumController {
     @GetMapping("/getUserAlbums")
     public Result getUserAlbums() {
         Result result = new Result();
-        User user = UserHolder.getUser();
-        String user_ID = user.getUser_ID();
-        List<Album> albums = albumService.getUserAlbums(user_ID);
-        if (albums != null) {
+        Singer singer = SingerHolder.getSinger();
+        String singer_ID = singer.getSinger_ID();
+        List<Album> albums = albumService.getUserAlbums(singer_ID);
+        if (!albums.isEmpty()) {
             result.setCode(200);
             result.setData(albums);
         } else {
             result.setCode(302);
-            result.setMsg("用户为创建专辑！");
+            result.setMsg("用户未创建专辑！");
         }
+        SingerHolder.removeSinger();
         return result;
     }
 }

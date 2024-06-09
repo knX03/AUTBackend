@@ -1,14 +1,17 @@
 package com.kn.initialmusic.controller;
 
-
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Singer;
+import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.service.SongService;
+import com.kn.initialmusic.util.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.kn.initialmusic.controller.Code.SUCCESS;
 
 @RestController
 @CrossOrigin
@@ -68,4 +71,22 @@ public class singerController {
     }
 
 
+    @GetMapping("/getSingerByUser")
+    public Result getSingerByUser() {
+        User userH = UserHolder.getUser();
+        String user_ID = userH.getUser_ID();
+        Result result = singerService.getSingerByUser(user_ID);
+        UserHolder.removeUser();
+        return result;
+    }
+
+    @GetMapping("/sinLogOff")
+    public Result sinLogOff(@RequestParam("singer_token") String singer_token) {
+        Boolean flag = singerService.sinLogOff(singer_token);
+        Result result = new Result();
+        result.setCode(SUCCESS);
+        result.setData(flag);
+        result.setMsg("退出登录");
+        return result;
+    }
 }
