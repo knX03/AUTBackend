@@ -5,6 +5,7 @@ import com.kn.initialmusic.pojo.Singer;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.service.SongService;
+import com.kn.initialmusic.util.SingerHolder;
 import com.kn.initialmusic.util.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -87,6 +88,16 @@ public class singerController {
         result.setCode(SUCCESS);
         result.setData(flag);
         result.setMsg("退出登录");
+        return result;
+    }
+
+    @GetMapping("/getArtists")
+    public Result getArtists() {
+        Singer singer = SingerHolder.getSinger();
+        Result result = new Result();
+        result.setCode(SUCCESS);
+        result.setData(singer);
+        UserHolder.removeUser();
         return result;
     }
 }
