@@ -43,6 +43,7 @@
         where song.album_ID = #{album_ID}
           and album.album_ID = #{album_ID}
           and song.singer_ID = singer.singer_ID
+          and examine = 1
 
     </select>
     <select id="selectSongBySinger" resultType="com.kn.initialmusic.pojo.Song">
@@ -60,6 +61,7 @@
         where song.singer_ID = #{singer_ID}
           and singer.singer_ID = #{singer_ID}
           and song.album_ID = album.album_ID
+          and examine = 1
     </select>
     <select id="selectSongByUser" resultType="com.kn.initialmusic.pojo.Song">
         select song_ID,
@@ -79,6 +81,7 @@
                                  and song_ID is not null)
           and singer.singer_ID = song.singer_ID
           and album.album_ID = song.album_ID
+          and song.examine = 1
         limit #{begin},#{size}
     </select>
     <select id="searchSong" resultType="java.lang.String">
@@ -95,7 +98,8 @@
     <select id="searchAll" resultMap="so,si,al">
         select song.song_name
         from song
-        where song.song_name like CONCAT('%', #{searchValue}, '%');
+        where song.song_name like CONCAT('%', #{searchValue}, '%')
+          and song.examine = 1;
 
         select singer.singer_name
         from singer

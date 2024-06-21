@@ -59,7 +59,8 @@ public class SongServiceImpl implements SongService {
         int totalCount = songMapper.selectTotalCount(user_ID);
 
         List<Song> songs = songMapper.selectSongByUser(user_ID, begin, size);
-        songUtil.formatSDirectory(songs);
+        //格式化歌曲路径
+//        songUtil.formatSDirectory(songs);
 
         PageBean<Song> pageBean = new PageBean<>();
         pageBean.setRows(songs);
