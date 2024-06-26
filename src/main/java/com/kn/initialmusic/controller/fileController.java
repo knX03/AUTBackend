@@ -2,6 +2,7 @@ package com.kn.initialmusic.controller;
 
 import com.kn.initialmusic.pojo.*;
 import com.kn.initialmusic.service.AlbumService;
+import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.service.SongService;
 import com.kn.initialmusic.util.SingerHolder;
 import com.kn.initialmusic.util.UserHolder;
@@ -31,12 +32,15 @@ public class fileController {
 
     //专辑封面绝对路径
     private final static String SAVE_PATH_ALBUMCOVER = "D:\\Workspeace\\vue3\\src\\photos\\albumCover\\";
+    private final static String SAVE_PATH_SINGERAVATAR = "D:\\Workspeace\\vue3\\src\\photos\\singerAvatar\\";
 
     @Autowired
     private AlbumService albumService;
 
     @Autowired
     private SongService songService;
+    @Autowired
+    private SingerService singerService;
 
     @PostMapping("/download")
     public void download(@RequestBody String filepath, HttpServletResponse response) throws IOException {
@@ -126,6 +130,25 @@ public class fileController {
             }
         }
         SingerHolder.removeSinger();
+        return result;
+    }
+
+    @PostMapping("/uploadSGAvatar")
+    public Result uploadSGAvatar(@RequestParam("singerAvatar") MultipartFile file) throws IOException {
+        Result result = new Result();
+        //获取文件名字
+        String filename = file.getOriginalFilename();
+        //以上述路径创建File对象
+        String path = SAVE_PATH_SINGERAVATAR + filename;
+        File filePath = new File(path);
+        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
+        outputStream.write(file.getBytes());
+        outputStream.flush();
+        outputStream.close();
+        /*封面路径*/
+        result.setCode(200);
+        result.setData("src/photos/singerAvatar/" + filename);
+        result.setMsg("上传成功！");
         return result;
     }
 }

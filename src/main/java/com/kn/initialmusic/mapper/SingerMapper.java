@@ -51,4 +51,13 @@ public interface SingerMapper {
      */
     Singer getSingerByUser(String user_ID);
 
+    /**
+     * 申请成为歌手
+     *
+     * @param singer 歌手对象
+     * @return 是否申请成功
+     */
+
+    int applySinger(Singer singer);
+
 }

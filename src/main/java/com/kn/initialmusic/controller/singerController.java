@@ -2,6 +2,7 @@ package com.kn.initialmusic.controller;
 
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Singer;
+import com.kn.initialmusic.pojo.SongPlaylists;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.service.SongService;
@@ -97,6 +98,18 @@ public class singerController {
         Result result = new Result();
         result.setCode(SUCCESS);
         result.setData(singer);
+        UserHolder.removeUser();
+        return result;
+    }
+
+    /*创建歌单*/
+    @PostMapping("/applySinger")
+    public Result applySinger(@RequestBody Singer singer) {
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        singer.setUser_ID(user_ID);
+        /*存入数据库*/
+        Result result = singerService.applySinger(singer);
         UserHolder.removeUser();
         return result;
     }

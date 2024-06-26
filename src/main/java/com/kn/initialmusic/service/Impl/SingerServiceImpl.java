@@ -7,6 +7,7 @@ import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Singer;
 import com.kn.initialmusic.pojo.SingerDTO;
 import com.kn.initialmusic.pojo.UserDTO;
+import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.util.UserHolder;
 import jakarta.annotation.Resource;
@@ -31,6 +32,9 @@ public class SingerServiceImpl implements SingerService {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private GenerateIDService generateIDService;
 
     @Override
     public List<Singer> selectAllSingers() {
@@ -79,5 +83,29 @@ public class SingerServiceImpl implements SingerService {
         Boolean delete = stringRedisTemplate.delete(tokenKey);
         UserHolder.removeUser();
         return delete;
+    }
+
+    @Override
+    public Result applySinger(Singer singer) {
+        Result result = new Result();
+        String singerID = generateIDService.generateSingerID();
+        singer.setSinger_ID(singerID);
+        int flag = singerMapper.applySinger(singer);
+        if (flag >= 1) {
+            SingerDTO singerDTO = BeanUtil.copyProperties(singer, SingerDTO.class);
+            //生成token
+            String token = UUID.randomUUID().toString(true);
+            //将user信息存到redis
+            Map<String, Object> singerMap = BeanUtil.beanToMap(singerDTO);
+            String tokenKey = LOGIN_SINGER_KEY + token;
+            stringRedisTemplate.opsForHash().putAll(tokenKey,
+                    singerMap);
+            stringRedisTemplate.expire(tokenKey, LOGIN_SINGER_TTL, TimeUnit.DAYS);
+            result.setCode(SUCCESS);
+            result.setData(token);
+        } else {
+            result.setCode(MAIN_VALUES_NULL);
+        }
+        return result;
     }
 }

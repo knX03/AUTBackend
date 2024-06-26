@@ -49,4 +49,14 @@ public interface SingerService {
      * @return 是否成功退出
      */
     Boolean sinLogOff(String singer_token);
+
+    /**
+     * 申请成为歌手
+     *
+     * @param singer 歌手对象
+     * @return 是否申请成功
+     */
+
+    Result applySinger(Singer singer);
+
 }
