@@ -1,6 +1,7 @@
 package com.kn.initialmusic.service;
 
 import com.kn.initialmusic.pojo.Album;
+import com.kn.initialmusic.pojo.Result;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,7 @@ public interface AlbumService {
      *
      * @return 所有专辑列表
      */
-    List<Album> selectAllAlbum();
+    Result selectAllAlbum();
 
 
     /**

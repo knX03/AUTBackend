@@ -8,9 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Result {
-    private Integer code;
-    private Boolean flag;
-    private String msg;
-    private Object data;
-
+    public Integer code;
+    public Boolean flag;
+    public String msg;
+    public Object data;
 }

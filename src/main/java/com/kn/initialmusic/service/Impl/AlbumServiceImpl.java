@@ -1,16 +1,28 @@
 package com.kn.initialmusic.service.Impl;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.kn.initialmusic.mapper.AlbumMapper;
 import com.kn.initialmusic.pojo.Album;
+import com.kn.initialmusic.pojo.Result;
+import com.kn.initialmusic.pojo.SongPlaylists;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.AlbumService;
 import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.util.UserHolder;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import static com.kn.initialmusic.controller.Code.SUCCESS;
+import static com.kn.initialmusic.util.RedisConstants.CACHE_ALALL_KEY;
+import static com.kn.initialmusic.util.RedisConstants.CACHE_SPALL_KEY;
 
 @Service
 public class AlbumServiceImpl implements AlbumService {
@@ -21,16 +33,43 @@ public class AlbumServiceImpl implements AlbumService {
     @Autowired
     private GenerateIDService generateIDService;
 
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
+
 
     @Override
-    public List<Album> selectAllAlbum() {
+    public Result selectAllAlbum() {
+        Result result = new Result();
+        String ALJson = stringRedisTemplate.opsForValue().get(CACHE_ALALL_KEY);
+        if (ALJson != null) {
+            //Json转List
+            JSONArray array = JSONUtil.parseArray(ALJson);
+            List<Album> albums = JSONUtil.toList(array, Album.class);
+            result.setCode(SUCCESS);
+            result.setData(albums);
+            return result;
+        }
         List<Album> albums = albumMapper.selectAllAlbum();
-        return albums;
+        stringRedisTemplate.opsForValue().set(CACHE_ALALL_KEY, JSONUtil.toJsonStr(albums));
+        result.setCode(SUCCESS);
+        result.setData(albums);
+        return result;
     }
 
     @Override
     public List<Album> TenRandomAlbum() {
-        return albumMapper.selectTenRandomAlbum();
+        Result result = selectAllAlbum();
+        List<Album> Albums = (List<Album>) result.getData();
+        List<Album> als = new ArrayList<>();
+        HashSet<Integer> set = new HashSet<>();
+        while (als.size() <= 9) {
+            int index = (int) (Math.random() * Albums.size());
+            if (set.add(index)) {
+                als.add(Albums.get(index));
+            }
+        }
+//        return albumMapper.selectTenRandomAlbum();
+        return als;
     }
 
     @Override

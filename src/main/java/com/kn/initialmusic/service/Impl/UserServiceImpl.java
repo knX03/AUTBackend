@@ -2,6 +2,7 @@ package com.kn.initialmusic.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.json.JSONUtil;
 import com.kn.initialmusic.mapper.UserMapper;
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.User;
@@ -14,6 +15,7 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -118,21 +120,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User selectDetailByID(String user_ID) {
+    public Result selectDetailByID(String user_ID) {
+        String key_user = CACHE_USER_KEY + user_ID;
+        Result result = new Result();
+        String userJson = stringRedisTemplate.opsForValue().get(key_user);
+        if (userJson != null) {
+            stringRedisTemplate.expire(key_user, CACHE_USER_KEY_TTL, TimeUnit.MINUTES);
+            User user = JSONUtil.toBean(userJson, User.class);
+            result.setCode(SUCCESS);
+            result.setData(user);
+            return result;
+        }
         User user = userMapper.selectDetailByID(user_ID);
-        return user;
+        stringRedisTemplate.opsForValue().set(key_user, JSONUtil.toJsonStr(user),
+                CACHE_USER_KEY_TTL, TimeUnit.MINUTES);
+//        stringRedisTemplate.expire(key_user, CACHE_USER_KEY_TTL, TimeUnit.MINUTES);
+        result.setCode(SUCCESS);
+        result.setData(user);
+        return result;
     }
 
     @Override
     public User selectDetailByEmail(String user_Email) {
-        User user = userMapper.selectDetailByEmail(user_Email);
-        return user;
+        return userMapper.selectDetailByEmail(user_Email);
     }
 
     @Override
+    @Transactional
     public Boolean changeUserInfo(User user, String user_ID) {
+        String key_User = CACHE_USER_KEY + user_ID;
         int changeNum = userMapper.changeUserInfo(user, user_ID);
-
+        //删除缓存
+        stringRedisTemplate.delete(key_User);
         return changeNum > 0;
     }
 

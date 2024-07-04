@@ -238,30 +238,13 @@ public class userController {
     /* 根据用户ID查询用户详情*/
     @GetMapping("/DetailByID")
     public Result selectDetailByID(@RequestParam String user_ID) {
-        Result result = new Result();
-        User user = userService.selectDetailByID(user_ID);
-        if (user != null) {
-            result.setCode(200);
-            result.setData(user);
-        } else {
-            result.setCode(500);
-            result.setMsg("内部服务器异常！");
-        }
-        return result;
+        return userService.selectDetailByID(user_ID);
     }
 
     @GetMapping("/userDetail")
     public Result userDetail() {
-        Result result = new Result();
         User user = UserHolder.getUser();
-        User lUser = userService.selectDetailByID(user.getUser_ID());
-        if (lUser != null) {
-            result.setCode(200);
-            result.setData(lUser);
-        } else {
-            result.setCode(401);
-            result.setMsg("用户未登录！");
-        }
+        Result result = userService.selectDetailByID(user.getUser_ID());
         UserHolder.removeUser();
         return result;
     }

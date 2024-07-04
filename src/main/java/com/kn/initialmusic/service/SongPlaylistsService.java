@@ -1,6 +1,7 @@
 package com.kn.initialmusic.service;
 
 import com.kn.initialmusic.pojo.PLTag;
+import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Song;
 import com.kn.initialmusic.pojo.SongPlaylists;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ public interface SongPlaylistsService {
      *
      * @return 所有歌单列表
      */
-    List<SongPlaylists> selectAllPlaylists();
+    Result selectAllPlaylists();
 
     /**
      * 检查歌单名是否存在
@@ -39,7 +40,7 @@ public interface SongPlaylistsService {
      * @param playlist_ID 歌单ID
      * @return 相应的歌单对象
      */
-    SongPlaylists selectDetailByID(String playlist_ID);
+    Result selectDetailByID(String playlist_ID);
 
     /**
      * 查询歌单的标签列表
@@ -55,7 +56,7 @@ public interface SongPlaylistsService {
      * @param user_ID 用户ID
      * @return 相应用户创建的歌单列表
      */
-    List<SongPlaylists> selectCreatePlaylist(String user_ID);
+    Result selectCreatePlaylist(String user_ID);
 
     /**
      * 查询用户收藏的歌单
@@ -63,7 +64,7 @@ public interface SongPlaylistsService {
      * @param user_ID 用户ID
      * @return 用户收藏的歌单列表
      */
-    List<SongPlaylists> selectLikePlaylist(String user_ID);
+    Result selectLikePlaylist(String user_ID);
 
     /**
      * 查询歌单内容
@@ -71,7 +72,7 @@ public interface SongPlaylistsService {
      * @param playlist_ID 歌单ID
      * @return 相应歌单的歌曲列表
      */
-    List<Song> selectSongByPlaylist(String playlist_ID);
+    Result selectSongByPlaylist(String playlist_ID);
 
 
     /**
@@ -155,7 +156,7 @@ public interface SongPlaylistsService {
      *
      * @return 是否修改日推成功
      */
-    Boolean changeDailyList();
+    Boolean changeDailyList(String playlist_ID);
 
     /**
      * 移除喜欢的歌单
@@ -179,5 +180,5 @@ public interface SongPlaylistsService {
      *
      * @return 歌单标签List
      */
-    List<PLTag> getAllPLTag();
+    Result getAllPLTag();
 }

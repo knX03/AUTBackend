@@ -80,7 +80,7 @@ public interface UserService {
      * @param user_ID 用户ID
      * @return 相应的用户对象
      */
-    User selectDetailByID(String user_ID);
+    Result selectDetailByID(String user_ID);
 
     /**
      * 根据用户邮箱查询详情

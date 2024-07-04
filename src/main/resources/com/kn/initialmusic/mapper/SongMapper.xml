@@ -98,16 +98,16 @@
     <select id="searchAll" resultMap="so,si,al">
         select song.song_name
         from song
-        where song.song_name like CONCAT('%', #{searchValue}, '%')
+        where song.song_name like CONCAT(#{searchValue}, '%')
           and song.examine = 1;
 
         select singer.singer_name
         from singer
-        where singer.singer_name like CONCAT('%', #{searchValue}, '%');
+        where singer.singer_name like CONCAT(#{searchValue}, '%');
 
         select album.album_name
         from album
-        where album.album_name like CONCAT('%', #{searchValue}, '%');
+        where album.album_name like CONCAT(#{searchValue}, '%');
     </select>
     <resultMap id="so" type="java.lang.String"/>
     <resultMap id="si" type="java.lang.String"/>

@@ -38,12 +38,7 @@ public class songPlaylistsController {
     /*查询所有歌单*/
     @GetMapping("/allPlaylists")
     public Result selectAllPlaylists() {
-        Result result = new Result();
-        List<SongPlaylists> songPlaylists = songPlaylistsService.selectAllPlaylists();
-
-        result.setCode(200);
-        result.setData(songPlaylists);
-        return result;
+        return songPlaylistsService.selectAllPlaylists();
     }
 
     /*歌单名称是否存在*/
@@ -80,16 +75,7 @@ public class songPlaylistsController {
     /*根据歌单ID查询歌单详情*/
     @GetMapping("/DetailByID")
     public Result selectByName(@RequestParam("playlist_ID") String playlist_ID) {
-        Result result = new Result();
-        SongPlaylists songPlaylist = songPlaylistsService.selectDetailByID(playlist_ID);
-        if (songPlaylist != null) {
-            result.setCode(200);
-            result.setData(songPlaylist);
-        } else {
-            result.setCode(500);
-            result.setMsg("内部服务器异常！");
-        }
-        return result;
+        return songPlaylistsService.selectDetailByID(playlist_ID);
     }
 
     /*查询歌单的标签列表*/
@@ -115,17 +101,10 @@ public class songPlaylistsController {
         if (user_ID.isEmpty()) {
             User user = UserHolder.getUser();
             String userID = user.getUser_ID();
-            songPlaylists = songPlaylistsService.selectCreatePlaylist(userID);
+            result = songPlaylistsService.selectCreatePlaylist(userID);
             UserHolder.removeUser();
         } else {
-            songPlaylists = songPlaylistsService.selectCreatePlaylist(user_ID);
-        }
-        if (songPlaylists != null) {
-            result.setCode(200);
-            result.setData(songPlaylists);
-        } else {
-            result.setCode(500);
-            result.setMsg("内部服务器异常！");
+            result = songPlaylistsService.selectCreatePlaylist(user_ID);
         }
         return result;
     }
@@ -138,17 +117,10 @@ public class songPlaylistsController {
         if (user_ID.isEmpty()) {
             User user = UserHolder.getUser();
             String userID = user.getUser_ID();
-            songPlaylists = songPlaylistsService.selectLikePlaylist(userID);
+            result = songPlaylistsService.selectLikePlaylist(userID);
             UserHolder.removeUser();
         } else {
-            songPlaylists = songPlaylistsService.selectLikePlaylist(user_ID);
-        }
-        if (songPlaylists != null) {
-            result.setCode(200);
-            result.setData(songPlaylists);
-        } else {
-            result.setCode(500);
-            result.setMsg("内部服务器异常！");
+            result = songPlaylistsService.selectLikePlaylist(user_ID);
         }
         return result;
     }
@@ -156,30 +128,21 @@ public class songPlaylistsController {
     /*查询歌单里的歌*/
     @GetMapping("/selectSongByPlaylist")
     public Result selectSongByPlaylist(@RequestParam("playlist_ID") String playlist_ID) {
-        Result result = new Result();
-        List<Song> songs = songPlaylistsService.selectSongByPlaylist(playlist_ID);
-        if (songs != null) {
-            result.setCode(200);
-            result.setData(songs);
-        } else {
-            result.setCode(500);
-            result.setMsg("内部服务器异常!");
-        }
-        return result;
+        return songPlaylistsService.selectSongByPlaylist(playlist_ID);
     }
 
     /*根据日常修改日推*/
     @GetMapping("/changeDailyList")
     public Result changeDailyList() {
-        Result result = new Result();
-        SongPlaylists songPlaylists = songPlaylistsService.selectDetailByID(DAILYLIST_ID);
-        String createTime = songPlaylists.getCreate_Time();
+        Result result = songPlaylistsService.selectDetailByID(DAILYLIST_ID);
+        SongPlaylists SP = (SongPlaylists) result.getData();
+        String createTime = SP.getCreate_Time();
         String date = String.valueOf(new Date(System.currentTimeMillis()));
         if (date.equals(createTime)) {
             result.setCode(200);
             return result;
         }
-        Boolean flag = songPlaylistsService.changeDailyList();
+        Boolean flag = songPlaylistsService.changeDailyList(DAILYLIST_ID);
         if (flag) {
             result.setCode(200);
         } else {
@@ -371,16 +334,7 @@ public class songPlaylistsController {
     /*查询所有歌单标签*/
     @GetMapping("/getAllPLTag")
     public Result getAllPLTag() {
-        Result result = new Result();
-        List<PLTag> plTags = songPlaylistsService.getAllPLTag();
-        if (!plTags.isEmpty()) {
-            result.setCode(200);
-            result.setData(plTags);
-        } else {
-            result.setCode(500);
-            result.setMsg("服务器内部错误！");
-        }
-        return result;
+        return songPlaylistsService.getAllPLTag();
     }
 
     /*根据歌单标签查询*/

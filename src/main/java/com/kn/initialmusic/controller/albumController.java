@@ -46,14 +46,11 @@ public class albumController {
     @Autowired
     private SingerService singerService;
 
+
     //查询所有专辑
     @GetMapping("/allAlbums")
     public Result selectAllAlbum() {
-        Result result = new Result();
-        List<Album> albums = albumService.selectAllAlbum();
-        result.setCode(200);
-        result.setData(albums);
-        return result;
+        return albumService.selectAllAlbum();
     }
 
     //随机查询10个专辑
