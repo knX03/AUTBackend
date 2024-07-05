@@ -84,18 +84,8 @@
           and song.examine = 1
         limit #{begin},#{size}
     </select>
-    <select id="searchSong" resultType="java.lang.String">
-        select song.song_name, singer.singer_name, album.album_name
-        from song
-                 join
-             singer
-                 join
-             album
-        where song.song_name like CONCAT('%', #{searchValue}, '%')
-           or singer.singer_name like CONCAT('%', #{searchValue}, '%')
-           or album.album_name like CONCAT('%', #{searchValue}, '%')
-    </select>
-    <select id="searchAll" resultMap="so,si,al">
+
+    <select id="searchAll" resultMap="son,sin,aln">
         select song.song_name
         from song
         where song.song_name like CONCAT(#{searchValue}, '%')
@@ -109,9 +99,9 @@
         from album
         where album.album_name like CONCAT(#{searchValue}, '%');
     </select>
-    <resultMap id="so" type="java.lang.String"/>
-    <resultMap id="si" type="java.lang.String"/>
-    <resultMap id="al" type="java.lang.String"/>
+    <resultMap id="son" type="java.lang.String"/>
+    <resultMap id="sin" type="java.lang.String"/>
+    <resultMap id="aln" type="java.lang.String"/>
 
     <select id="selectLikeSong" resultType="java.lang.String">
         select userlike.song_ID

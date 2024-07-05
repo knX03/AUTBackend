@@ -75,12 +75,6 @@ public interface SongMapper {
      */
     List<String> selectLikeSong(String user_ID);
 
-    /**
-     * 搜索功能
-     *
-     * @return
-     */
-    List<String> searchSong(String searchValue);
 
     /**
      * 搜索全部

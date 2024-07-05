@@ -157,16 +157,6 @@ public class SongController {
         return result;
     }
 
-    /*搜索歌曲*/
-    @GetMapping("/searchSong")
-    public Result searchSong(String searchValue) {
-        System.out.println(searchValue);
-        Result result = new Result();
-        List<String> strings = songService.searchSong(searchValue);
-        result.setCode(200);
-        result.setData(strings);
-        return result;
-    }
 
     /*查询喜欢的歌曲*/
     @GetMapping("/selectLikeSong")

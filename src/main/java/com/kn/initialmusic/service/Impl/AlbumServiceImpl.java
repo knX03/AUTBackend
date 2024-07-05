@@ -36,7 +36,7 @@ public class AlbumServiceImpl implements AlbumService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-
+    //todo 专辑改变时使用消息队列更新缓存
     @Override
     public Result selectAllAlbum() {
         Result result = new Result();
@@ -101,11 +101,13 @@ public class AlbumServiceImpl implements AlbumService {
         return true;
     }
 
+    //todo Redis缓存专辑详情
     @Override
     public Album selectDetailAlbum(String album_ID) {
         return albumMapper.selectDetailAlbum(album_ID);
     }
 
+    //todo Redis缓存收藏的专辑
     @Override
     public List<Album> selectLikeAlbum(String user_ID) {
         return albumMapper.selectLikeAlbum(user_ID);

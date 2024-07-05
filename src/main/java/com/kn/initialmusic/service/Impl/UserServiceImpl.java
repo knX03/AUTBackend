@@ -119,6 +119,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    //todo 用户信息改变时使用消息队列更新缓存
     @Override
     public Result selectDetailByID(String user_ID) {
         String key_user = CACHE_USER_KEY + user_ID;

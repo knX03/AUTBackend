@@ -201,7 +201,7 @@ public class albumController {
     }
 
     /*收藏专辑*/
-    @GetMapping("/collectAlbum")
+    @PutMapping("/collectAlbum")
     public Result collectAlbum(@RequestParam("album_ID") String album_ID) {
         Result result = new Result();
         User user = UserHolder.getUser();
@@ -219,7 +219,7 @@ public class albumController {
     }
 
     /*移除喜欢的专辑*/
-    @GetMapping("/deleteLikeAlbum")
+    @PutMapping("/deleteLikeAlbum")
     public Result deleteLikeAlbum(@RequestParam("album_ID") String album_ID) {
         Result result = new Result();
         User user = UserHolder.getUser();

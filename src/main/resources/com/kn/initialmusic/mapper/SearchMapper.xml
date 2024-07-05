@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kn.initialmusic.mapper.SearchMapper">
+
+    <select id="searchString" resultMap="so,si,al">
+        select song.song_name
+        from song;
+
+        select singer.singer_name
+        from singer;
+
+        select album.album_name
+        from album;
+    </select>
+    <resultMap id="so" type="java.lang.String"/>
+    <resultMap id="si" type="java.lang.String"/>
+    <resultMap id="al" type="java.lang.String"/>
+</mapper>

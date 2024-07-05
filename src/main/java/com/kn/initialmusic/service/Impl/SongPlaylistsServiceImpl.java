@@ -37,7 +37,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
     private static final String DAILY_COVER = "src/photos/Daily/";
     private static final int DAILYLIST_ID = 1000;
 
-
+    //todo 歌单改变时使用消息队列更新缓存
     @Override
     public Result selectAllPlaylists() {
         Result result = new Result();
@@ -81,6 +81,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         return playlists;
     }
 
+    //todo 歌单改变时使用消息队列更新缓存
     @Override
     public Result selectDetailByID(String playlist_ID) {
         Result result = new Result();
@@ -117,6 +118,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         return plTags;
     }
 
+    //todo 用户的歌单改变时使用消息队列更新缓存
     @Override
     public Result selectCreatePlaylist(String user_ID) {
         Result result = new Result();
@@ -140,6 +142,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         return result;
     }
 
+    //todo 用户的收藏歌单改变时使用消息队列更新缓存
     @Override
     public Result selectLikePlaylist(String user_ID) {
         Result result = new Result();
@@ -164,6 +167,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
 
     }
 
+    //todo 歌单歌曲改变时使用消息队列更新缓存
     @Override
     public Result selectSongByPlaylist(String playlist_ID) {
         Result result = new Result();
@@ -260,6 +264,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         return true;
     }
 
+    //todo 消息队列
     @Override
     public Boolean changeDailyList(String playlist_ID) {
         String key_SP_song = CACHE_SP_SONG_KEY + playlist_ID;
@@ -278,6 +283,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
                 temp++;
             }
             stringRedisTemplate.delete(key_SP_song);
+            stringRedisTemplate.delete(CACHE_SP_KEY + playlist_ID);
         } else {
             return false;
         }
@@ -295,6 +301,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         return songPlaylistsMapper.selectPlaylistByTag(playlist_tag);
     }
 
+    //todo 标签改变时使用消息队列更新缓存
     @Override
     public Result getAllPLTag() {
         Result result = new Result();

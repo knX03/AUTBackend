@@ -1,17 +1,26 @@
 package com.kn.initialmusic.service.Impl;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.kn.initialmusic.mapper.SongMapper;
 import com.kn.initialmusic.pojo.PageBean;
+import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Song;
 import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.service.SongService;
 import com.kn.initialmusic.util.songUtil;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kn.initialmusic.controller.Code.SUCCESS;
+import static com.kn.initialmusic.util.RedisConstants.CACHE_SEARCH_KEY;
+import static com.kn.initialmusic.util.songUtil.searchValue;
 
 @Service
 public class SongServiceImpl implements SongService {
@@ -20,6 +29,9 @@ public class SongServiceImpl implements SongService {
     private SongMapper songMapper;
     @Autowired
     private GenerateIDService generateIDService;
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public Boolean saveSong(Song song) {
@@ -81,19 +93,6 @@ public class SongServiceImpl implements SongService {
         return flag > 0;
     }
 
-
-    @Override
-    public List<String> searchSong(String searchValue) {
-        List<String> searchList = new ArrayList<>();
-        List<String> strings = songMapper.searchSong(searchValue);
-        List<List<String>> lists = songMapper.searchAll(searchValue);
-        for (List<String> list : lists) {
-            if (list != null && list.size() > 0) {
-                searchList.addAll(list);
-            }
-        }
-        return searchList;
-    }
 
     @Override
     public Boolean deleteLikeSong(String user_ID, String song_ID) {

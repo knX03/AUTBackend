@@ -1,6 +1,7 @@
 package com.kn.initialmusic.service;
 
 import com.kn.initialmusic.pojo.PageBean;
+import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Song;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,14 +68,6 @@ public interface SongService {
      */
     Boolean likeSong(String user_ID, String song_ID);
 
-
-    /**
-     * 搜索功能
-     *
-     * @param searchValue 搜索输入的值
-     * @return 匹配的歌曲列表
-     */
-    List<String> searchSong(String searchValue);
 
     /**
      * 移除喜欢的歌曲

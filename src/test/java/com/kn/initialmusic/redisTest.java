@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -64,13 +65,18 @@ public class redisTest {
     }
 
     @Test
-    void test3(){
-        Map<String, Integer> sumFollowAndFan = userMapper.getSumFollowAndFan("46540");
+    void test3() {
+/*        Map<String, Integer> sumFollowAndFan = userMapper.getSumFollowAndFan("46540");
         for (String s : sumFollowAndFan.keySet()) {
             System.out.println(s);
             Integer i = sumFollowAndFan.get(s);
             System.out.println(i);
-        }
+        }*/
+        String key = "testList";
+        stringRedisTemplate.opsForSet().add(key, "3");
+        stringRedisTemplate.delete(key);
+        Set<String> strings = stringRedisTemplate.opsForSet().members(key);
+        System.out.println(strings);
     }
 
 }
