@@ -19,7 +19,6 @@ public class searchController {
 
     @GetMapping("/{searchValue}")
     public Result searchString(@PathVariable String searchValue) {
-        System.out.println(searchValue);
         return searchService.searchString(searchValue);
     }
 
@@ -48,5 +47,10 @@ public class searchController {
         User user = UserHolder.getUser();
         String user_ID = user.getUser_ID();
         return searchService.delSearchHistory(user_ID);
+    }
+
+    @GetMapping("/searchALL")
+    public Result searchALL(@RequestParam("searchValue") String searchValue) {
+        return searchService.searchALL(searchValue);
     }
 }

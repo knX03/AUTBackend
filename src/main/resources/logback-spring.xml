@@ -71,7 +71,7 @@
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="WEB_CONSOLE"/>
-    </root>-->
+    </root>
 
 </configuration>
 

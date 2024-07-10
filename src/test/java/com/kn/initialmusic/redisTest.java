@@ -1,6 +1,8 @@
 package com.kn.initialmusic;
 
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,10 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.kn.initialmusic.util.RedisConstants.LOGIN_USER_KEY;
 
@@ -73,10 +72,13 @@ public class redisTest {
             System.out.println(i);
         }*/
         String key = "testList";
-        stringRedisTemplate.opsForSet().add(key, "3");
-        stringRedisTemplate.delete(key);
-        Set<String> strings = stringRedisTemplate.opsForSet().members(key);
-        System.out.println(strings);
+//        stringRedisTemplate.opsForSet().add(key, "3");
+        stringRedisTemplate.opsForList().remove(key, 0, "3");
+        stringRedisTemplate.opsForList().leftPush(key, "3");
+//        stringRedisTemplate.delete(key);
+//        Set<String> strings = stringRedisTemplate.opsForSet().members(key);
+        List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
+        System.out.println(range);
     }
 
 }

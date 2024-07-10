@@ -13,8 +13,66 @@
 
         select album.album_name
         from album;
+
+        select songplaylists.playlist_name
+        from songplaylists;
     </select>
     <resultMap id="so" type="java.lang.String"/>
     <resultMap id="si" type="java.lang.String"/>
     <resultMap id="al" type="java.lang.String"/>
+    <select id="songSearch" resultType="com.kn.initialmusic.pojo.Song">
+        select DISTINCT song_ID, song_name, singer.singer_name, album.album_name, song_cover, song_directory
+        from song,
+             singer,
+             album
+        where song_name = #{searchValue}
+          and song.singer_ID = singer.singer_ID
+          and song.album_ID = album.album_ID
+    </select>
+    <select id="singerSearch" resultType="com.kn.initialmusic.pojo.Singer">
+        select DISTINCT singer.singer_ID, singer.singer_name, singer.singer_avatar
+        from singer,
+             song
+        where singer.singer_name like CONCAT('%', #{searchValue}, '%')
+           or song.song_name = #{searchValue}
+            and singer.singer_ID = song.singer_ID;
+    </select>
+    <select id="albumSearch" resultType="com.kn.initialmusic.pojo.Album">
+        select DISTINCT album.album_ID,
+                        album.album_name,
+                        album.album_cover,
+                        (select singer_name
+                         from singer
+                         where singer.singer_ID = album.singer_ID) as singer_name,
+                        create_time
+        from album,
+             song
+        where album.album_name like CONCAT('%', #{searchValue}, '%')
+           or song.song_name = #{searchValue}
+            and song.album_ID = album.album_ID;
+    </select>
+    <select id="spSearch" resultType="com.kn.initialmusic.pojo.SongPlaylists">
+        select DISTINCT songplaylists.playlist_ID,
+                        songplaylists.playlist_name,
+                        songplaylists.playlist_cover,
+                        (select user_name
+                         from user
+                         where user.user_ID = songplaylists.create_by) as user_name,
+                        playlist_introduction,
+                        create_time
+        from songplaylists,
+             playlistdetail,
+             song
+        where songplaylists.playlist_name like CONCAT('%', #{searchValue}, '%')
+           or song.song_name = #{searchValue}
+            and song.song_ID = playlistdetail.song_ID
+            and songplaylists.playlist_ID = playlistdetail.playlist_ID
+    </select>
+    <select id="userSearch" resultType="com.kn.initialmusic.pojo.User">
+        select user_ID, user_name, user_avatar, user_introduction
+        from user
+        where user_name like CONCAT('%', #{searchValue}, '%')
+    </select>
+
+
 </mapper>
