@@ -41,7 +41,8 @@ public class SpringMVCConfig implements WebMvcConfigurer {
                 "/user/userFollowFan", "/user/userUnfollowFan", "/user/ifFollowUser", "/user/followUser",
                 "/user/getSumFollowAndFan", "/user/getUserFans", "/user/getUserFollow", "/user/ifMy",
                 "/singer/getSingerByUser", "/singer/applySinger",
-                "/search/searchDetail", "/search/searchHistory", "/search/delSearchHistory");
+                "/search/searchDetail", "/search/searchHistory", "/search/delSearchHistory",
+                "ws://localhost/message/**");
 
         registry.addInterceptor(sinLoginInterceptor).addPathPatterns(
                 "/album/getUserAlbums", "/file/uploadSong", "/singer/getArtists");

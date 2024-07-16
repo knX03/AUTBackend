@@ -9,6 +9,7 @@ import com.kn.initialmusic.pojo.userFans;
 import com.kn.initialmusic.service.*;
 import com.kn.initialmusic.util.UserHolder;
 import com.kn.initialmusic.util.randomUtil;
+import com.kn.initialmusic.webSocket.pojo.Message;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
