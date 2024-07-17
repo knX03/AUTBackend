@@ -6,6 +6,7 @@ import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.UserService;
 import com.kn.initialmusic.webSocket.pojo.FormatMess;
+import com.kn.initialmusic.webSocket.pojo.MessUser;
 import com.kn.initialmusic.webSocket.pojo.Message;
 import com.kn.initialmusic.webSocket.pojo.mess;
 import jakarta.annotation.Resource;
@@ -36,10 +37,10 @@ public class MessageService {
 
     public Result getMessageUser(String user_ID) {
         Result result = new Result();
-        List<User> messageUserList = messageMapper.getMessageUser(user_ID);
+        List<MessUser> messageUserList = messageMapper.getMessageUser(user_ID);
         //todo 使用消息队列判断缓存是否存在，若不存在则存入缓存,暂时使用方法代替
         ArrayList<String> strings = new ArrayList<>();
-        for (User user : messageUserList) {
+        for (MessUser user : messageUserList) {
             strings.add(user.getUser_ID());
         }
         saveCacheMessage(strings, user_ID);
@@ -70,7 +71,7 @@ public class MessageService {
                 sUserID = s;
             }
             List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
-            if (range != null) {
+            if (!range.isEmpty()) {
                 stringRedisTemplate.expire(key, CACHE_MESS_TTL, TimeUnit.DAYS);
             } else {
                 List<FormatMess> messagesList = messageMapper.getMessagesList(fUserID, sUserID);
@@ -143,7 +144,7 @@ public class MessageService {
         return formatMessesList;
     }
 
-    public mess formatMessage(Message message) {
+    public mess formatMessageT(Message message) {
         Result posterRE = userService.selectDetailByID(message.getPoster_ID());
         Result RecipientRE = userService.selectDetailByID(message.getRecipient_ID());
         User poster = (User) posterRE.getData();
@@ -163,7 +164,7 @@ public class MessageService {
         return mess;
     }
 
-    public String formatMessageP(String message) {
+    public String formatMessage(String message) {
         Message msg = JSONUtil.toBean(message, Message.class);
         String posterId = msg.getPoster_ID();
         Result posterRE = userService.selectDetailByID(posterId);
@@ -185,9 +186,9 @@ public class MessageService {
         int posterIdI = Integer.parseInt(posterId);
         int recipientIdI = Integer.parseInt(recipientId);
         if (posterIdI > recipientIdI) {
-            key_message_reUser = MESS_U1U2 + posterId + "-" + recipientId;
+            key_message_reUser = MESS_U1U2 + posterId + recipientId;
         } else {
-            key_message_reUser = MESS_U1U2 + recipientId + "-" + posterId;
+            key_message_reUser = MESS_U1U2 + recipientId + posterId;
         }
         String messageText = posterId + "-" + message.getMessage() + "-" + message.getPost_time();
         stringRedisTemplate.opsForList().rightPush(key_message_reUser, messageText);

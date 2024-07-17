@@ -93,15 +93,4 @@ public class GenerateIDService {
         return AdminID;
     }
 
-    public String generateMessageID() {
-        String MessageID = null;
-        MessageID = String.valueOf((int) ((Math.random() * 9 + 1) * 10000));
-        String repeatedByID = messageMapper.isRepeatedByID(MessageID);
-        while (repeatedByID != null) {
-            MessageID = String.valueOf((int) ((Math.random() * 9 + 1) * 10000));
-            repeatedByID = messageMapper.isRepeatedByID(MessageID);
-        }
-        return MessageID;
-    }
-
 }

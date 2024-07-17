@@ -80,8 +80,10 @@ public class MyWebSocketHandler implements WebSocketHandler {
             saveMess(msg);
         } else {
             try {
-                String formatMess = formatMess(msg.getMessage());
+                String formatMess = formatMess(message);
+                System.out.println(formatMess);
                 webSocketSessionR.sendMessage(new TextMessage(formatMess));
+                saveMess(msg);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -96,7 +98,7 @@ public class MyWebSocketHandler implements WebSocketHandler {
 
     private static String formatMess(String message) {
         MessageService messageService = applicationContext.getBean(MessageService.class);
-        return messageService.formatMessageP(message);
+        return messageService.formatMessage(message);
     }
 
 }

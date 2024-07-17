@@ -168,3 +168,17 @@ java.net.SocketException: Connection reset
 2024-07-16 18:37:26.791 WARN  --- [lettuce-nioEventLoop-4-14] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
 2024-07-16 18:37:34.996 INFO  --- [lettuce-eventExecutorLoop-1-11] io.lettuce.core.protocol.ConnectionWatchdog Line:171 - Reconnecting, last destination was localhost/<unresolved>:6379
 2024-07-16 18:37:35.005 WARN  --- [lettuce-nioEventLoop-4-15] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
+2024-07-16 18:37:51.488 INFO  --- [lettuce-eventExecutorLoop-1-9] io.lettuce.core.protocol.ConnectionWatchdog Line:171 - Reconnecting, last destination was localhost/<unresolved>:6379
+2024-07-16 18:37:51.494 WARN  --- [lettuce-nioEventLoop-4-16] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
+2024-07-16 18:38:21.590 INFO  --- [lettuce-eventExecutorLoop-1-5] io.lettuce.core.protocol.ConnectionWatchdog Line:171 - Reconnecting, last destination was localhost/<unresolved>:6379
+2024-07-16 18:38:21.597 WARN  --- [lettuce-nioEventLoop-4-1] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
+2024-07-16 18:38:51.684 INFO  --- [lettuce-eventExecutorLoop-1-8] io.lettuce.core.protocol.ConnectionWatchdog Line:171 - Reconnecting, last destination was localhost/<unresolved>:6379
+2024-07-16 18:38:51.685 WARN  --- [lettuce-nioEventLoop-4-2] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
+2024-07-16 18:39:21.785 INFO  --- [lettuce-eventExecutorLoop-1-12] io.lettuce.core.protocol.ConnectionWatchdog Line:171 - Reconnecting, last destination was localhost/<unresolved>:6379
+2024-07-16 18:39:21.787 WARN  --- [lettuce-nioEventLoop-4-3] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
+2024-07-16 18:39:51.884 INFO  --- [lettuce-eventExecutorLoop-1-14] io.lettuce.core.protocol.ConnectionWatchdog Line:171 - Reconnecting, last destination was localhost/<unresolved>:6379
+2024-07-16 18:39:51.886 WARN  --- [lettuce-nioEventLoop-4-4] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
+2024-07-16 18:40:21.985 INFO  --- [lettuce-eventExecutorLoop-1-16] io.lettuce.core.protocol.ConnectionWatchdog Line:171 - Reconnecting, last destination was localhost/<unresolved>:6379
+2024-07-16 18:40:21.992 WARN  --- [lettuce-nioEventLoop-4-5] io.lettuce.core.protocol.ConnectionWatchdog Line:151 - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: no further information: localhost/127.0.0.1:6379
+2024-07-16 18:40:51.767 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1885 - {dataSource-1} closing ...
+2024-07-16 18:40:51.769 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1955 - {dataSource-1} closed
