@@ -12,4 +12,5 @@ public class Message {
     private String poster_ID;
     private String post_time;
     private String message;
+    private String messageType;
 }

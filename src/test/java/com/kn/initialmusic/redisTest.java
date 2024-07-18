@@ -11,7 +11,6 @@ import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.webSocket.pojo.FormatMess;
 import com.kn.initialmusic.webSocket.pojo.Message;
-import com.kn.initialmusic.webSocket.pojo.mess;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

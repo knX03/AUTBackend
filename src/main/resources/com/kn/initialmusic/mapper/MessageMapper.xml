@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kn.initialmusic.mapper.MessageMapper">
+    <insert id="saveMsgUserDB">
+        insert into messageuser(fUser_id, sUser_id)
+            value (#{fUser_ID}, #{sUser_ID})
+    </insert>
 
     <select id="getMessagesList" resultType="com.kn.initialmusic.webSocket.pojo.FormatMess">
         select user_ID         as poster_ID,

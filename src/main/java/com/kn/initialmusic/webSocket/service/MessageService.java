@@ -8,7 +8,6 @@ import com.kn.initialmusic.service.UserService;
 import com.kn.initialmusic.webSocket.pojo.FormatMess;
 import com.kn.initialmusic.webSocket.pojo.MessUser;
 import com.kn.initialmusic.webSocket.pojo.Message;
-import com.kn.initialmusic.webSocket.pojo.mess;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -62,11 +61,11 @@ public class MessageService {
             int id = Integer.parseInt(s);
             int id2 = Integer.parseInt(user_ID);
             if (id > id2) {
-                key = MESS_U1U2 + s + user_ID;
+                key = MESS_U1U2 + s + "-" + user_ID;
                 fUserID = s;
                 sUserID = user_ID;
             } else {
-                key = MESS_U1U2 + user_ID + s;
+                key = MESS_U1U2 + user_ID + "-" + s;
                 fUserID = user_ID;
                 sUserID = s;
             }
@@ -77,7 +76,7 @@ public class MessageService {
                 List<FormatMess> messagesList = messageMapper.getMessagesList(fUserID, sUserID);
                 for (FormatMess formatMess : messagesList) {
                     String messText = formatMess.getPoster_ID() + "-" + formatMess.getMessageText()
-                            + "-" + formatMess.getPost_Time();
+                            + "-" + formatMess.getPost_Time() + "-" + formatMess.getMessageType();
                     stringRedisTemplate.opsForList().rightPush(key, messText);
                 }
                 stringRedisTemplate.expire(key, CACHE_MESS_TTL, TimeUnit.DAYS);
@@ -124,7 +123,7 @@ public class MessageService {
      */
     public List<FormatMess> getMessageByCache(String fUser_ID, String sUser_ID) {
         List<FormatMess> formatMessesList = new ArrayList<>();
-        String key = MESS_U1U2 + fUser_ID + sUser_ID;
+        String key = MESS_U1U2 + fUser_ID + "-" + sUser_ID;
         List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
         if (range != null) {
             for (String s : range) {
@@ -138,30 +137,11 @@ public class MessageService {
                 formatMess.setPoster_Avatar(poster.getUser_Avatar());
                 formatMess.setMessageText(strings[1]);
                 formatMess.setPost_Time(strings[2]);
+                formatMess.setMessageType(strings[3]);
                 formatMessesList.add(formatMess);
             }
         }
         return formatMessesList;
-    }
-
-    public mess formatMessageT(Message message) {
-        Result posterRE = userService.selectDetailByID(message.getPoster_ID());
-        Result RecipientRE = userService.selectDetailByID(message.getRecipient_ID());
-        User poster = (User) posterRE.getData();
-        User Recipient = (User) RecipientRE.getData();
-        mess mess = new mess();
-        mess.setPoster_ID(poster.getUser_ID());
-        mess.setPoster_Name(poster.getUser_Name());
-        mess.setPoster_Avatar(poster.getUser_Avatar());
-
-        mess.setRecipient_ID(Recipient.getUser_ID());
-        mess.setRecipient_Name(Recipient.getUser_Name());
-        mess.setRecipient_Avatar(Recipient.getUser_Avatar());
-
-        mess.setMessageText(message.getMessage());
-        mess.setPost_Time(message.getPost_time());
-
-        return mess;
     }
 
     public String formatMessage(String message) {
@@ -186,12 +166,66 @@ public class MessageService {
         int posterIdI = Integer.parseInt(posterId);
         int recipientIdI = Integer.parseInt(recipientId);
         if (posterIdI > recipientIdI) {
-            key_message_reUser = MESS_U1U2 + posterId + recipientId;
+            key_message_reUser = MESS_U1U2 + posterId + "-" + recipientId;
         } else {
-            key_message_reUser = MESS_U1U2 + recipientId + posterId;
+            key_message_reUser = MESS_U1U2 + recipientId + "-" + posterId;
         }
-        String messageText = posterId + "-" + message.getMessage() + "-" + message.getPost_time();
+        String messageText = posterId + "-" + message.getMessage() + "-" +
+                message.getPost_time() + "-" + message.getMessageType();
         stringRedisTemplate.opsForList().rightPush(key_message_reUser, messageText);
+        boolean flag = false;
+        List<MessUser> messageUserList = messageMapper.getMessageUser(posterId);
+        for (MessUser messUser : messageUserList) {
+            if (recipientId.equals(messUser.getUser_ID())) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            saveMsgUserDB(posterId, recipientId);
+        }
+    }
+
+    /**
+     * 将新聊天对象存入数据库
+     *
+     * @param fUserID 第一用户ID
+     * @param sUserID 第二用户ID
+     */
+    public void saveMsgUserDB(String fUserID, String sUserID) {
+        int ID1 = Integer.parseInt(fUserID);
+        int ID2 = Integer.parseInt(sUserID);
+        String fID;
+        String sID;
+        if (ID1 > ID2) {
+            fID = fUserID;
+            sID = sUserID;
+        } else {
+            fID = sUserID;
+            sID = fUserID;
+        }
+        messageMapper.saveMsgUserDB(fID, sID);
+    }
+
+    /**
+     * todo 将聊天记录存入数据库
+     *
+     * @param fUserID
+     * @param sUserID
+     */
+    public void setMsgDB(String fUserID, String sUserID) {
+        int ID1 = Integer.parseInt(fUserID);
+        int ID2 = Integer.parseInt(sUserID);
+        String fID;
+        String sID;
+        if (ID1 > ID2) {
+            fID = fUserID;
+            sID = sUserID;
+        } else {
+            fID = sUserID;
+            sID = fUserID;
+        }
+        String key = MESS_U1U2 + fID + "-" + sID;
     }
 
     //todo 暂时无法实现

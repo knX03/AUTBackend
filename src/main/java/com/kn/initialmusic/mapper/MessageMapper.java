@@ -31,4 +31,14 @@ public interface MessageMapper {
     List<FormatMess> getMessagesList(@Param("fUser_ID") String fUser_ID
             , @Param("sUser_ID") String sUser_ID);
 
+    /**
+     * 开展新的聊天
+     *
+     * @param fUser_ID 第一用户
+     * @param sUser_ID 第二用户
+     * @return 插入数据条数
+     */
+    int saveMsgUserDB(@Param("fUser_ID") String fUser_ID
+            , @Param("sUser_ID") String sUser_ID);
+
 }
