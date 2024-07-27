@@ -11,6 +11,15 @@ import java.util.List;
 @Transactional
 public interface SongService {
 
+
+    /**
+     * 歌曲的详细信息
+     *
+     * @param song_ID 歌曲ID
+     * @return 详细信息
+     */
+    Result songDetail(String song_ID);
+
     /**
      * 创建新歌曲
      *

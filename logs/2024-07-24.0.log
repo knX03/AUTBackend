@@ -1,0 +1,133 @@
+2024-07-24 15:16:40.056 INFO  --- [restartedMain] com.kn.initialmusic.InitialMusicApplication Line:51  - Starting InitialMusicApplication using Java 17 with PID 18512 (D:\Workspeace\InitialMusic\target\classes started by 窃宁康 in D:\Workspeace\InitialMusic)
+2024-07-24 15:16:40.059 INFO  --- [restartedMain] com.kn.initialmusic.InitialMusicApplication Line:632 - No active profile set, falling back to 1 default profile: "default"
+2024-07-24 15:16:40.095 INFO  --- [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor Line:250 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-07-24 15:16:40.096 INFO  --- [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor Line:250 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-07-24 15:16:40.852 INFO  --- [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:291 - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-07-24 15:16:40.855 INFO  --- [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:138 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-07-24 15:16:40.885 INFO  --- [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:208 - Finished Spring Data repository scanning in 15 ms. Found 0 Redis repository interfaces.
+2024-07-24 15:16:41.802 INFO  --- [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:108 - Tomcat initialized with port(s): 8800 (http)
+2024-07-24 15:16:41.812 INFO  --- [restartedMain] org.apache.coyote.http11.Http11NioProtocol Line:173 - Initializing ProtocolHandler ["http-nio-8800"]
+2024-07-24 15:16:41.814 INFO  --- [restartedMain] org.apache.catalina.core.StandardService Line:173 - Starting service [Tomcat]
+2024-07-24 15:16:41.814 INFO  --- [restartedMain] org.apache.catalina.core.StandardEngine Line:173 - Starting Servlet engine: [Apache Tomcat/10.1.13]
+2024-07-24 15:16:41.885 INFO  --- [restartedMain] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Line:173 - Initializing Spring embedded WebApplicationContext
+2024-07-24 15:16:41.886 INFO  --- [restartedMain] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Line:291 - Root WebApplicationContext: initialization completed in 1789 ms
+2024-07-24 15:16:43.222 INFO  --- [restartedMain] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping Line:59  - Adding welcome page: class path resource [static/index.html]
+2024-07-24 15:16:43.620 INFO  --- [restartedMain] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer Line:59  - LiveReload server is running on port 35729
+2024-07-24 15:16:43.666 INFO  --- [restartedMain] org.apache.coyote.http11.Http11NioProtocol Line:173 - Starting ProtocolHandler ["http-nio-8800"]
+2024-07-24 15:16:43.731 INFO  --- [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:220 - Tomcat started on port(s): 8800 (http) with context path ''
+2024-07-24 15:16:43.742 INFO  --- [restartedMain] com.kn.initialmusic.InitialMusicApplication Line:57  - Started InitialMusicApplication in 4.132 seconds (process running for 5.016)
+2024-07-24 15:17:04.050 INFO  --- [http-nio-8800-exec-2] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Line:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-07-24 15:17:04.050 INFO  --- [http-nio-8800-exec-2] org.springframework.web.servlet.DispatcherServlet Line:532 - Initializing Servlet 'dispatcherServlet'
+2024-07-24 15:17:04.051 INFO  --- [http-nio-8800-exec-2] org.springframework.web.servlet.DispatcherServlet Line:554 - Completed initialization in 1 ms
+2024-07-24 15:17:04.217 INFO  --- [http-nio-8800-exec-4] com.alibaba.druid.pool.DruidDataSource Line:1002 - {dataSource-1} inited
+2024-07-24 15:17:04.645 WARN  --- [http-nio-8800-exec-6] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.645 WARN  --- [http-nio-8800-exec-2] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.645 WARN  --- [http-nio-8800-exec-4] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.645 WARN  --- [http-nio-8800-exec-1] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.645 WARN  --- [http-nio-8800-exec-10] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.645 WARN  --- [http-nio-8800-exec-3] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.656 WARN  --- [http-nio-8800-exec-9] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.660 WARN  --- [http-nio-8800-exec-5] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:04.664 WARN  --- [http-nio-8800-exec-7] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.480 WARN  --- [http-nio-8800-exec-10] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.484 WARN  --- [http-nio-8800-exec-5] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.520 WARN  --- [http-nio-8800-exec-9] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.532 WARN  --- [http-nio-8800-exec-10] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.542 WARN  --- [http-nio-8800-exec-9] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.548 WARN  --- [http-nio-8800-exec-8] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.554 WARN  --- [http-nio-8800-exec-3] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.557 WARN  --- [http-nio-8800-exec-4] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:09.559 WARN  --- [http-nio-8800-exec-6] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.705 WARN  --- [http-nio-8800-exec-10] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.706 WARN  --- [http-nio-8800-exec-8] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.720 WARN  --- [http-nio-8800-exec-1] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.721 WARN  --- [http-nio-8800-exec-10] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.724 WARN  --- [http-nio-8800-exec-8] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.725 WARN  --- [http-nio-8800-exec-3] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.727 WARN  --- [http-nio-8800-exec-4] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.728 WARN  --- [http-nio-8800-exec-2] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:17:18.731 WARN  --- [http-nio-8800-exec-7] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver Line:207 - Resolved [org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis]
+2024-07-24 15:25:04.302 INFO  --- [main] com.kn.initialmusic.InitialMusicApplicationTests Line:51  - Starting InitialMusicApplicationTests using Java 17 with PID 5660 (started by 窃宁康 in D:\Workspeace\InitialMusic)
+2024-07-24 15:25:04.305 INFO  --- [main] com.kn.initialmusic.InitialMusicApplicationTests Line:632 - No active profile set, falling back to 1 default profile: "default"
+2024-07-24 15:25:04.955 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:291 - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-07-24 15:25:04.958 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:138 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-07-24 15:25:04.990 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:208 - Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2024-07-24 15:25:06.349 INFO  --- [main] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping Line:59  - Adding welcome page: class path resource [static/index.html]
+2024-07-24 15:25:06.547 INFO  --- [main] com.kn.initialmusic.InitialMusicApplicationTests Line:57  - Started InitialMusicApplicationTests in 2.623 seconds (process running for 3.492)
+2024-07-24 15:25:07.028 INFO  --- [main] org.springframework.test.context.support.AnnotationConfigContextLoaderUtils Line:83  - Could not detect default configuration classes for test class [com.kn.initialmusic.redisTest]: redisTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-24 15:25:07.031 INFO  --- [main] org.springframework.boot.test.context.SpringBootTestContextBootstrapper Line:248 - Found @SpringBootConfiguration com.kn.initialmusic.InitialMusicApplication for test class com.kn.initialmusic.redisTest
+2024-07-24 15:25:07.081 INFO  --- [main] com.kn.initialmusic.redisTest Line:51  - Starting redisTest using Java 17 with PID 5660 (started by 窃宁康 in D:\Workspeace\InitialMusic)
+2024-07-24 15:25:07.081 INFO  --- [main] com.kn.initialmusic.redisTest Line:632 - No active profile set, falling back to 1 default profile: "default"
+2024-07-24 15:25:07.262 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:291 - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-07-24 15:25:07.263 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:138 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-07-24 15:25:07.276 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:208 - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2024-07-24 15:25:07.576 INFO  --- [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:108 - Tomcat initialized with port(s): 0 (http)
+2024-07-24 15:25:07.586 INFO  --- [main] org.apache.coyote.http11.Http11NioProtocol Line:173 - Initializing ProtocolHandler ["http-nio-auto-1"]
+2024-07-24 15:25:07.588 INFO  --- [main] org.apache.catalina.core.StandardService Line:173 - Starting service [Tomcat]
+2024-07-24 15:25:07.588 INFO  --- [main] org.apache.catalina.core.StandardEngine Line:173 - Starting Servlet engine: [Apache Tomcat/10.1.13]
+2024-07-24 15:25:07.695 INFO  --- [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Line:173 - Initializing Spring embedded WebApplicationContext
+2024-07-24 15:25:07.698 INFO  --- [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Line:291 - Root WebApplicationContext: initialization completed in 612 ms
+2024-07-24 15:25:07.960 INFO  --- [main] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping Line:59  - Adding welcome page: class path resource [static/index.html]
+2024-07-24 15:25:08.031 INFO  --- [main] org.apache.coyote.http11.Http11NioProtocol Line:173 - Starting ProtocolHandler ["http-nio-auto-1"]
+2024-07-24 15:25:08.058 INFO  --- [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:220 - Tomcat started on port(s): 2165 (http) with context path ''
+2024-07-24 15:25:08.062 INFO  --- [main] com.kn.initialmusic.redisTest Line:57  - Started redisTest in 1.025 seconds (process running for 5.008)
+2024-07-24 15:25:08.634 INFO  --- [main] org.springframework.test.context.support.AnnotationConfigContextLoaderUtils Line:83  - Could not detect default configuration classes for test class [com.kn.initialmusic.service.ServiceTest]: ServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-24 15:25:08.649 INFO  --- [main] org.springframework.boot.test.context.SpringBootTestContextBootstrapper Line:248 - Found @SpringBootConfiguration com.kn.initialmusic.InitialMusicApplication for test class com.kn.initialmusic.service.ServiceTest
+2024-07-24 15:25:08.712 INFO  --- [main] com.alibaba.druid.pool.DruidDataSource Line:1002 - {dataSource-1} inited
+2024-07-24 15:25:09.257 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1885 - {dataSource-1} closing ...
+2024-07-24 15:25:09.261 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1955 - {dataSource-1} closed
+2024-07-24 15:25:09.425 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1885 - {dataSource-0} closing ...
+2024-07-24 15:28:24.310 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1885 - {dataSource-1} closing ...
+2024-07-24 15:28:24.314 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1955 - {dataSource-1} closed
+2024-07-24 15:28:29.073 INFO  --- [restartedMain] com.kn.initialmusic.InitialMusicApplication Line:51  - Starting InitialMusicApplication using Java 17 with PID 22436 (D:\Workspeace\InitialMusic\target\classes started by 窃宁康 in D:\Workspeace\InitialMusic)
+2024-07-24 15:28:29.075 INFO  --- [restartedMain] com.kn.initialmusic.InitialMusicApplication Line:632 - No active profile set, falling back to 1 default profile: "default"
+2024-07-24 15:28:29.108 INFO  --- [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor Line:250 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-07-24 15:28:29.108 INFO  --- [restartedMain] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor Line:250 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-07-24 15:28:29.619 INFO  --- [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:291 - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-07-24 15:28:29.621 INFO  --- [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:138 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-07-24 15:28:29.649 INFO  --- [restartedMain] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:208 - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2024-07-24 15:28:30.148 INFO  --- [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:108 - Tomcat initialized with port(s): 8800 (http)
+2024-07-24 15:28:30.154 INFO  --- [restartedMain] org.apache.coyote.http11.Http11NioProtocol Line:173 - Initializing ProtocolHandler ["http-nio-8800"]
+2024-07-24 15:28:30.156 INFO  --- [restartedMain] org.apache.catalina.core.StandardService Line:173 - Starting service [Tomcat]
+2024-07-24 15:28:30.156 INFO  --- [restartedMain] org.apache.catalina.core.StandardEngine Line:173 - Starting Servlet engine: [Apache Tomcat/10.1.13]
+2024-07-24 15:28:30.203 INFO  --- [restartedMain] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Line:173 - Initializing Spring embedded WebApplicationContext
+2024-07-24 15:28:30.203 INFO  --- [restartedMain] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Line:291 - Root WebApplicationContext: initialization completed in 1094 ms
+2024-07-24 15:28:30.827 INFO  --- [restartedMain] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping Line:59  - Adding welcome page: class path resource [static/index.html]
+2024-07-24 15:28:30.971 INFO  --- [restartedMain] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer Line:59  - LiveReload server is running on port 35729
+2024-07-24 15:28:30.987 INFO  --- [restartedMain] org.apache.coyote.http11.Http11NioProtocol Line:173 - Starting ProtocolHandler ["http-nio-8800"]
+2024-07-24 15:28:31.005 INFO  --- [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:220 - Tomcat started on port(s): 8800 (http) with context path ''
+2024-07-24 15:28:31.012 INFO  --- [restartedMain] com.kn.initialmusic.InitialMusicApplication Line:57  - Started InitialMusicApplication in 2.352 seconds (process running for 2.981)
+2024-07-24 15:28:46.369 INFO  --- [main] com.kn.initialmusic.InitialMusicApplicationTests Line:51  - Starting InitialMusicApplicationTests using Java 17 with PID 6464 (started by 窃宁康 in D:\Workspeace\InitialMusic)
+2024-07-24 15:28:46.372 INFO  --- [main] com.kn.initialmusic.InitialMusicApplicationTests Line:632 - No active profile set, falling back to 1 default profile: "default"
+2024-07-24 15:28:47.074 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:291 - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-07-24 15:28:47.077 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:138 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-07-24 15:28:47.110 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:208 - Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2024-07-24 15:28:48.638 INFO  --- [main] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping Line:59  - Adding welcome page: class path resource [static/index.html]
+2024-07-24 15:28:48.911 INFO  --- [main] com.kn.initialmusic.InitialMusicApplicationTests Line:57  - Started InitialMusicApplicationTests in 2.919 seconds (process running for 4.087)
+2024-07-24 15:28:49.430 INFO  --- [main] org.springframework.test.context.support.AnnotationConfigContextLoaderUtils Line:83  - Could not detect default configuration classes for test class [com.kn.initialmusic.redisTest]: redisTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-24 15:28:49.433 INFO  --- [main] org.springframework.boot.test.context.SpringBootTestContextBootstrapper Line:248 - Found @SpringBootConfiguration com.kn.initialmusic.InitialMusicApplication for test class com.kn.initialmusic.redisTest
+2024-07-24 15:28:49.474 INFO  --- [main] com.kn.initialmusic.redisTest Line:51  - Starting redisTest using Java 17 with PID 6464 (started by 窃宁康 in D:\Workspeace\InitialMusic)
+2024-07-24 15:28:49.475 INFO  --- [main] com.kn.initialmusic.redisTest Line:632 - No active profile set, falling back to 1 default profile: "default"
+2024-07-24 15:28:49.693 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:291 - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-07-24 15:28:49.694 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:138 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-07-24 15:28:49.708 INFO  --- [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate Line:208 - Finished Spring Data repository scanning in 13 ms. Found 0 Redis repository interfaces.
+2024-07-24 15:28:50.073 INFO  --- [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:108 - Tomcat initialized with port(s): 0 (http)
+2024-07-24 15:28:50.082 INFO  --- [main] org.apache.coyote.http11.Http11NioProtocol Line:173 - Initializing ProtocolHandler ["http-nio-auto-1"]
+2024-07-24 15:28:50.085 INFO  --- [main] org.apache.catalina.core.StandardService Line:173 - Starting service [Tomcat]
+2024-07-24 15:28:50.085 INFO  --- [main] org.apache.catalina.core.StandardEngine Line:173 - Starting Servlet engine: [Apache Tomcat/10.1.13]
+2024-07-24 15:28:50.202 INFO  --- [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Line:173 - Initializing Spring embedded WebApplicationContext
+2024-07-24 15:28:50.203 INFO  --- [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Line:291 - Root WebApplicationContext: initialization completed in 724 ms
+2024-07-24 15:28:50.532 INFO  --- [main] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping Line:59  - Adding welcome page: class path resource [static/index.html]
+2024-07-24 15:28:50.623 INFO  --- [main] org.apache.coyote.http11.Http11NioProtocol Line:173 - Starting ProtocolHandler ["http-nio-auto-1"]
+2024-07-24 15:28:50.655 INFO  --- [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer Line:220 - Tomcat started on port(s): 3231 (http) with context path ''
+2024-07-24 15:28:50.659 INFO  --- [main] com.kn.initialmusic.redisTest Line:57  - Started redisTest in 1.222 seconds (process running for 5.837)
+2024-07-24 15:28:51.198 INFO  --- [main] org.springframework.test.context.support.AnnotationConfigContextLoaderUtils Line:83  - Could not detect default configuration classes for test class [com.kn.initialmusic.service.ServiceTest]: ServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-07-24 15:28:51.221 INFO  --- [main] org.springframework.boot.test.context.SpringBootTestContextBootstrapper Line:248 - Found @SpringBootConfiguration com.kn.initialmusic.InitialMusicApplication for test class com.kn.initialmusic.service.ServiceTest
+2024-07-24 15:28:51.280 INFO  --- [main] com.alibaba.druid.pool.DruidDataSource Line:1002 - {dataSource-1} inited
+2024-07-24 15:28:51.708 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1885 - {dataSource-1} closing ...
+2024-07-24 15:28:51.715 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1955 - {dataSource-1} closed
+2024-07-24 15:28:51.868 INFO  --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource Line:1885 - {dataSource-0} closing ...
+2024-07-24 15:28:57.370 INFO  --- [http-nio-8800-exec-5] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Line:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-07-24 15:28:57.371 INFO  --- [http-nio-8800-exec-5] org.springframework.web.servlet.DispatcherServlet Line:532 - Initializing Servlet 'dispatcherServlet'
+2024-07-24 15:28:57.373 INFO  --- [http-nio-8800-exec-5] org.springframework.web.servlet.DispatcherServlet Line:554 - Completed initialization in 2 ms
+2024-07-24 15:28:57.518 INFO  --- [http-nio-8800-exec-2] com.alibaba.druid.pool.DruidDataSource Line:1002 - {dataSource-1} inited

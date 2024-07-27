@@ -19,20 +19,6 @@ import static com.kn.initialmusic.controller.Code.SUCCESS;
 @CrossOrigin
 @RequestMapping("/singer")
 public class singerController {
-    //项目路径
-    private final static String FILE_SAVE_PREFIX_song = "static/songDirectory/";
-
-    //歌曲绝对路径
-    private final static String SAVE_PATH_SONG = "D:\\Workspeace\\vue3\\src\\songDirectory\\";
-
-    //歌曲绝对项目路径
-    private final static String SAVE_PATH_SONGCOVER = "D:\\Workspeace\\vue3\\src\\photos\\songCover\\";
-
-    //歌曲封面项目路径
-    private final static String FILE_SAVE_PREFIX_singerCover = "static/photos/albumCover/";
-
-    //歌曲封面路径
-    private static String albumCover_PATH;
 
     @Autowired
     private SongService songService;

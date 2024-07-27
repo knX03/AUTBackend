@@ -106,7 +106,6 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         //3.存入缓存
         stringRedisTemplate.opsForValue().set(key_SPDetail, JSONUtil.toJsonStr(songPlaylist),
                 CACHE_SP_KEY_TTL, TimeUnit.MINUTES);
-//        stringRedisTemplate.expire(key_SPDetail, CACHE_SP_KEY_TTL, TimeUnit.MINUTES);
         result.setCode(SUCCESS);
         result.setData(songPlaylist);
         return result;
@@ -134,8 +133,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
             return result;
         }
         List<SongPlaylists> songPlaylists = songPlaylistsMapper.selectCreatePlaylist(user_ID);
-        stringRedisTemplate.opsForValue().set(key_user_SP, JSONUtil.toJsonStr(songPlaylists),
-                CACHE_USERSP_KEY_TTL, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(key_user_SP, JSONUtil.toJsonStr(songPlaylists), CACHE_USERSP_KEY_TTL, TimeUnit.MINUTES);
 //        stringRedisTemplate.expire(key_user_SP, CACHE_USERSP_KEY_TTL, TimeUnit.MINUTES);
         result.setCode(SUCCESS);
         result.setData(songPlaylists);
@@ -158,8 +156,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
             return result;
         }
         List<SongPlaylists> songPlaylists = songPlaylistsMapper.selectLikePlaylist(user_ID);
-        stringRedisTemplate.opsForValue().set(key_user_LISP, JSONUtil.toJsonStr(songPlaylists),
-                CACHE_USERSP_KEY_TTL, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(key_user_LISP, JSONUtil.toJsonStr(songPlaylists), CACHE_USERSP_KEY_TTL, TimeUnit.MINUTES);
 //        stringRedisTemplate.expire(key_user_LISP, CACHE_USERSP_KEY_TTL, TimeUnit.MINUTES);
         result.setCode(SUCCESS);
         result.setData(songPlaylists);
@@ -184,8 +181,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         }
         List<Song> songs = songPlaylistsMapper.selectSongByPlaylist(playlist_ID);
         songUtil.formatSDirectory(songs);
-        stringRedisTemplate.opsForValue().set(key_SP_song, JSONUtil.toJsonStr(songs),
-                CACHE_SP_KEY_TTL, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(key_SP_song, JSONUtil.toJsonStr(songs), CACHE_SP_KEY_TTL, TimeUnit.MINUTES);
         result.setCode(SUCCESS);
         result.setData(songs);
         return result;
@@ -211,9 +207,8 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
 
     @Override
     @Transactional
-    public Boolean changePlaylistInfo(SongPlaylists songPlaylists) {
+    public Result changePlaylistInfo(SongPlaylists songPlaylists) {
         String key_SP = CACHE_SP_KEY + songPlaylists.getPlaylist_ID();
-
         int flag = songPlaylistsMapper.changePlaylistInfo(songPlaylists);
         String playlistId = songPlaylists.getPlaylist_ID();
         String[] playlistTags = songPlaylists.getPlaylist_Tag();
@@ -224,11 +219,11 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
 
         //删除缓存
         stringRedisTemplate.delete(key_SP);
-        return flag > 0;
+        return selectDetailByID(key_SP);
     }
 
     @Override
-    public Boolean createNewPlaylist(SongPlaylists songPlaylists) {
+    public Result createNewPlaylist(SongPlaylists songPlaylists) {
         String playlist_ID = generateIDService.generateSongPlaylistsID();
         songPlaylists.setPlaylist_ID(playlist_ID);
         int flag = songPlaylistsMapper.createNewPlaylist(songPlaylists);
@@ -236,7 +231,10 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
         for (String playlistTag : playlistTags) {
             songPlaylistsMapper.insertPlaylistTag(playlist_ID, playlistTag);
         }
-        return flag > 0;
+        String user_ID = songPlaylists.getCreate_By();
+        String key_user_SP = CACHE_USERSP_KEY + user_ID;
+        stringRedisTemplate.delete(key_user_SP);
+        return selectCreatePlaylist(user_ID);
     }
 
     @Override

@@ -34,6 +34,17 @@ public class SongServiceImpl implements SongService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
+    public Result songDetail(String song_ID) {
+        Result result = new Result();
+        Song song = songMapper.songDetail(song_ID);
+        if (song != null) {
+            result.setCode(SUCCESS);
+            result.setData(song);
+        }
+        return result;
+    }
+
+    @Override
     public Boolean saveSong(Song song) {
         String songID = generateIDService.generateSongID();
         song.setSong_ID(songID);

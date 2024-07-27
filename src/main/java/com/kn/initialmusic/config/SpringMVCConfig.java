@@ -28,7 +28,6 @@ public class SpringMVCConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(crossInterceptor).addPathPatterns("/**");
-        //todo "/album/getUserAlbums","/album/uploadSong"由新的拦截器拦截（歌手拦截器）,
         registry.addInterceptor(loginInterceptor).addPathPatterns(
                 "/album/likeAlbum", "/album/ifCollectAlbum", "/album/collectAlbum", "/album/deleteLikeAlbum",
                 "/comment/postComment",

@@ -39,10 +39,13 @@ public class userController {
     //头像绝对路径
     private final static String SAVE_PATH_USERAVATAR =
             "D:\\Workspeace\\vue3\\src\\photos\\userAvatar\\";
-
+    //头像绝对路径
+    private final static String onLine_SAVE_PATH_USERAVATAR =
+            "/www/wwwroot/AUTMusic/vue3/assets/userAvatar";
 
     //头像项目路径
-    private final static String FILE_SAVE_PREFIX_userAvatar = "src/photos/userAvatar/";
+    private final static String FILE_SAVE_PREFIX_userAvatar = "/src/photos/userAvatar/";
+    private final static String onLine_FILE_SAVE_PREFIX_userAvatar = "/assets/userAvatar/";
 
     //头像路径
     private static String userAvatar_PATH;
@@ -286,9 +289,9 @@ public class userController {
         outputStream.flush();
         outputStream.close();
         /*头像路径*/
-        userAvatar_PATH = "src/photos/userAvatar/" + filename;
+        userAvatar_PATH = "/src/photos/userAvatar/" + filename;
         result.setCode(200);
-        result.setData("src/photos/userAvatar/" + filename);
+        result.setData("/src/photos/userAvatar/" + filename);
         result.setMsg("上传成功！");
         return result;
     }

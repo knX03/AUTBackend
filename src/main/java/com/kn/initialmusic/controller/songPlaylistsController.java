@@ -24,8 +24,13 @@ public class songPlaylistsController {
     private final static String SAVE_PATH_songPlaylistCover =
             "D:\\Workspeace\\vue3\\src\\photos\\songPlaylistCover\\";
 
-    //歌单封面项目路径
-    private final static String FILE_SAVE_PREFIX_songPlaylistCover = "/src/photos/songPlaylistCover/";
+
+    //线上歌单封面存放的系统磁盘路径
+    private final static String onLine_SAVE_PATH_songPlaylistCover = "/www/wwwroot/AUTMusic/vue3/assets/songPlaylistCover";
+
+    //线上歌单封面项目路径
+    private final static String onLine_FILE_SAVE_PREFIX_songPlaylistCover = "/assets/songPlaylistCover/";
+
 
     //歌单封面路径
     private static String songPlaylistCover_PATH;
@@ -204,17 +209,7 @@ public class songPlaylistsController {
     /*修改歌单资料*/
     @PostMapping("/changePlaylistInfo")
     public Result changeUserInfo(@RequestBody SongPlaylists songPlaylists) {
-        Result result = new Result();
-        Boolean spFlag = songPlaylistsService.changePlaylistInfo(songPlaylists);
-        if (spFlag) {
-            result.setCode(200);
-            result.setData(spFlag);
-            result.setMsg("修改成功！");
-        } else {
-            result.setCode(500);
-            result.setMsg("内部服务器异常！");
-        }
-        return result;
+        return songPlaylistsService.changePlaylistInfo(songPlaylists);
     }
 
 
@@ -233,9 +228,9 @@ public class songPlaylistsController {
         outputStream.flush();
         outputStream.close();
         /*头像路径*/
-        songPlaylistCover_PATH = "src/photos/songPlaylistCover/" + filename;
+        songPlaylistCover_PATH = "/src/photos/songPlaylistCover/" + filename;
         result.setCode(200);
-        result.setData("src/photos/songPlaylistCover/" + filename);
+        result.setData("/src/photos/songPlaylistCover/" + filename);
         result.setMsg("上传成功！");
         return result;
     }
@@ -243,21 +238,13 @@ public class songPlaylistsController {
     /*创建歌单*/
     @PostMapping("/createNewPlaylist")
     public Result createNewPlaylist(@RequestBody SongPlaylists songPlaylists) {
-        Result result = new Result();
         User user = UserHolder.getUser();
         String user_ID = user.getUser_ID();
         songPlaylists.setCreate_By(user_ID);
         /*存入数据库*/
-        Boolean flag = songPlaylistsService.createNewPlaylist(songPlaylists);
-        if (flag) {
-            result.setCode(200);
-            result.setMsg("创建成功！");
-        } else {
-            result.setCode(500);
-            result.setMsg("内部服务器异常！");
-        }
+        Result newPlaylist = songPlaylistsService.createNewPlaylist(songPlaylists);
         UserHolder.removeUser();
-        return result;
+        return newPlaylist;
     }
 
     /*歌曲是否已经收藏至歌单*/

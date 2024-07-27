@@ -84,7 +84,6 @@ public class redisTest {
 //        Set<String> strings = stringRedisTemplate.opsForSet().members(key);
         List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
         System.out.println(range);*/
-        //todo 还需添加时间戳
         String key0 = MESS_U1U2;
         String key = "message:ID1ID2:2227-0875";
         String key1 = "message:ID1ID2:2227-0015";

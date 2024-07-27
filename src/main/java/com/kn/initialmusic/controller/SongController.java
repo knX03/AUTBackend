@@ -30,10 +30,6 @@ public class SongController {
 
     private final static String SAVE_PATH_songCover = "D:\\Workspeace\\vue3\\src\\photos\\songCover\\";
 
-    //项目路径
-    private final static String FILE_SAVE_PREFIX_song = "src/songDirectory/";
-    //歌曲封面项目路径
-    private final static String FILE_SAVE_PREFIX_songCover = "static/photos/songCover/";
 
     //歌曲封面路径
     private static String songCover_PATH;
@@ -41,6 +37,10 @@ public class SongController {
     @Autowired
     private SongService songService;
 
+    @GetMapping("/songDE")
+    public Result songDetail(@RequestParam("songID") String songID) {
+        return songService.songDetail(songID);
+    }
 
     @PostMapping("/uploadMusic")
     /*将路径加文件名称与歌曲信息存储至数据库（路径即path：项目路径）*/
@@ -61,7 +61,7 @@ public class SongController {
         outputStream.close();
 
         /*写入数据库*/
-        String song_Directory = "src/songDirectory/" + filename;
+        String song_Directory = "/src/songDirectory/" + filename;
         song.setSong_Directory(song_Directory);
         song.setSong_Cover(songCover_PATH);
         Boolean saveSongFlag = songService.saveSong(song);
@@ -92,9 +92,9 @@ public class SongController {
         outputStream.close();
         /*写入数据库*/
         /*封面路径*/
-        songCover_PATH = "src/photos/songCover/" + filename;
+        songCover_PATH = "/src/photos/songCover/" + filename;
         result.setCode(200);
-        result.setData("src/photos/songCover/" + filename);
+        result.setData("/src/photos/songCover/" + filename);
         result.setMsg("上传成功！");
         return result;
     }

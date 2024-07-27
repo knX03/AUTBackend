@@ -23,18 +23,6 @@ import java.util.List;
 @RequestMapping("/album")
 public class albumController {
 
-    //项目路径
-    private final static String SAVE_PATH_song = "D:\\Workspeace\\InitialMusic\\src\\main\\resources\\static\\songDirectory\\";
-    private final static String FILE_SAVE_PREFIX_song = "static/songDirectory/";
-
-    //专辑封面绝对路径
-    private final static String SAVE_PATH_ALBUMCOVER = "D:\\Workspeace\\vue3\\src\\photos\\albumCover\\";
-
-    //专辑封面项目路径
-    private final static String FILE_SAVE_PREFIX_albumCover = "static/photos/albumCover/";
-
-    //歌曲封面路径
-    private static String ALBUMCOVER_PATH;
 
 
     @Autowired
@@ -79,82 +67,6 @@ public class albumController {
             result.setMsg("专辑已存在！");
         } else {
             result.setCode(200);
-        }
-        return result;
-    }
-
-    /*将路径加文件名称与歌曲信息存储至数据库*/
-    @PostMapping("/uploadMuCover")
-    public Result upCover(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Result result = new Result();
-        //获取文件名字
-        String filename = file.getOriginalFilename();
-        String filePathmu = new String(SAVE_PATH_ALBUMCOVER);
-        //以上述路径创建File对象
-        String path = filePathmu + filename;
-        File filePath = new File(path);
-        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-        outputStream.write(file.getBytes());
-        outputStream.flush();
-        outputStream.close();
-        /*写入数据库*/
-        /*封面路径*/
-        ALBUMCOVER_PATH = "src/photos/albumCover/" + filename;
-        result.setCode(200);
-        result.setData("src/photos/albumCover/" + filename);
-        result.setMsg("上传成功！");
-        return result;
-    }
-
-
-    /*多文件上传 */
-    @PostMapping("/uploadMore")
-    public Result uploadMore(@RequestParam("file") MultipartFile[] file, @RequestPart("album") Album album, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Result result = new Result();
-        String album_name = album.getAlbum_Name();//专辑名称
-        String singer_name = album.getSinger_name();//歌手名称
-        String create_time = album.getCreate_Time();//创建时间
-        album.setAlbum_Cover(ALBUMCOVER_PATH);//专辑封面
-        String alFlag = albumService.createAlbum(album);
-        //albumService.creatSingerAlbum(singer_name, album_name);
-        if (alFlag != null) {
-            result.setCode(200);
-        } else {
-            result.setCode(500);
-        }
-        for (MultipartFile multipartFile : file) {
-            //获取文件名字
-            String filename = multipartFile.getOriginalFilename();//歌曲名称
-
-            //通过缓存区输出流BufferedOutputStream的对象来将上传的文件写入filePathmu文件夹中
-            String filePathmu = new String(SAVE_PATH_song);
-            String path = filePathmu + filename;
-            File filePath = new File(path);
-            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-            outputStream.write(multipartFile.getBytes());
-            outputStream.flush();
-            outputStream.close();
-            /*存入数据库*/
-            String song_Directory = "src/songDirectory/" + filename;//歌曲路径
-
-            Boolean eFlag = songService.ifExistBySongDirectory(song_Directory);
-            if (eFlag) {
-                break;
-            } else {
-                Song song = new Song();
-                song.setSong_Name(filename);
-                song.setSong_Cover(ALBUMCOVER_PATH);
-                song.setSong_Directory(song_Directory);
-                song.setAlbum_ID(album_name);
-                song.setCreated_Time(create_time);
-                song.setSinger_ID(singer_name);
-                Boolean sFlag = songService.saveSong(song);
-                if (sFlag) {
-                    result.setCode(200);
-                } else {
-                    result.setCode(500);
-                }
-            }
         }
         return result;
     }

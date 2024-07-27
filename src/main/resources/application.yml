@@ -1,14 +1,14 @@
 server:
-  port: 80
+  port: 8800
 spring:
-  profiles:
-    active: dev
+  #  profiles:
+  #    active: dev
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_music?allowMultiQueries=true&characterEncoding=utf8 #?servierTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/autmusicdb?allowMultiQueries=true&characterEncoding=utf8 #?servierTimezone=UTC
     username: admin
-    password: 123456
+    password: 030518
   redis:
     host: 127.0.0.1
     port: 6379
@@ -33,10 +33,12 @@ spring:
     freemarker:
       cache: false    #页面不加载缓存，修改即时生效
   mail:
-    host: smtp.qq.com                # 主机协议 如果是qq，那么不变，如果是163，将qq换成163
-    userName: 2254990841@qq.com  #邮箱账号，这里用的qq的
-    passWord: oyakttnzplztdiba #授权码，不是qq密码
-    default-encoding: UTF-8
+    host: smtp.163.com              # 主机协议 如果是qq，那么不变，如果是163，将qq换成163
+    userName: x15007623521@163.com    #邮箱账号，这里用的qq的
+    passWord: FSHHYPMUKAFKTICH      #授权码，不是qq密码
+    port: 465                       # 端口
+    default-encoding: UTF-8         # 默认编码
+    protocol: smtps                 # 使用的协议
     properties:
       mail:
         smtp:

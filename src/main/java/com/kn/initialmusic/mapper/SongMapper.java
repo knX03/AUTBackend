@@ -1,13 +1,23 @@
 package com.kn.initialmusic.mapper;
 
+import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Song;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface SongMapper {
+
+    /**
+     * 歌曲的详细信息
+     *
+     * @param song_ID 歌曲ID
+     * @return 详细信息
+     */
+     Song songDetail(String song_ID);
 
     /**
      * 保存歌曲

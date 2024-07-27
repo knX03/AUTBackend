@@ -107,13 +107,13 @@ public interface SongPlaylistsService {
      * @param songPlaylists 修改后的歌单对象
      * @return 是否修改成功
      */
-    Boolean changePlaylistInfo(SongPlaylists songPlaylists);
+    Result changePlaylistInfo(SongPlaylists songPlaylists);
 
     /**
      * @param songPlaylists 待创建的歌单对象
      * @return 是否创建成功
      */
-    Boolean createNewPlaylist(SongPlaylists songPlaylists);
+    Result createNewPlaylist(SongPlaylists songPlaylists);
 
     /**
      * 歌曲是否已经收藏至歌单

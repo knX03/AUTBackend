@@ -30,9 +30,20 @@ public class fileController {
     //歌曲存储绝对路径
     private final static String SAVE_PATH_song = "D:\\Workspeace\\vue3\\src\\songDirectory\\";
 
+
     //专辑封面绝对路径
     private final static String SAVE_PATH_ALBUMCOVER = "D:\\Workspeace\\vue3\\src\\photos\\albumCover\\";
     private final static String SAVE_PATH_SINGERAVATAR = "D:\\Workspeace\\vue3\\src\\photos\\singerAvatar\\";
+
+    //线上存储绝对路径
+    private final static String online_SAVE_PATH_song = "/www/wwwroot/AUTMusic/vue3/assets/songDirectory/";
+    private final static String onLine_SAVE_PATH_ALBUMCOVER = "/www/wwwroot/AUTMusic/vue3/assets/albumCover/";
+    private final static String onLine_SAVE_PATH_SINGERAVATAR = "/www/wwwroot/AUTMusic/vue3/assets/singerAvatar/";
+    //线上项目路径
+    private final static String onLine_FILE_SAVE_PREFIX_songDirectory = "/assets/songDirectory/";
+    private final static String onLine_FILE_SAVE_PREFIX_songCover = "/assets/singerAvatar/";
+    private final static String onLine_FILE_SAVE_PREFIX_albumCover = "/assets/albumCover/";
+
 
     @Autowired
     private AlbumService albumService;
@@ -83,7 +94,7 @@ public class fileController {
         /*写入数据库*/
         /*封面路径*/
         result.setCode(200);
-        result.setData("src/photos/albumCover/" + filename);
+        result.setData("/src/photos/albumCover/" + filename);
         result.setMsg("上传成功！");
         return result;
     }
@@ -111,7 +122,7 @@ public class fileController {
             outputStream.flush();
             outputStream.close();
             /*存入数据库*/
-            String song_Directory = "src/songDirectory/" + fileName;//歌曲路径
+            String song_Directory = "/src/songDirectory/" + fileName;//歌曲路径
             Boolean eFlag = songService.ifExistBySongDirectory(song_Directory);
             if (eFlag) {
                 result.setCode(VALUES_REPEAT);
@@ -147,7 +158,7 @@ public class fileController {
         outputStream.close();
         /*封面路径*/
         result.setCode(200);
-        result.setData("src/photos/singerAvatar/" + filename);
+        result.setData("/src/photos/singerAvatar/" + filename);
         result.setMsg("上传成功！");
         return result;
     }

@@ -117,5 +117,14 @@
                           where user_ID = #{user_ID}
                             and song_ID is not null)
     </select>
+    <select id="songDetail" resultType="com.kn.initialmusic.pojo.Song">
+        select song_ID, song_name, singer_name, album_name, song_cover
+        from song,
+             singer,
+             album
+        where song_ID = #{song_ID}
+          and song.singer_ID = singer.singer_ID
+          and album.album_ID = song.album_ID
+    </select>
 
 </mapper>

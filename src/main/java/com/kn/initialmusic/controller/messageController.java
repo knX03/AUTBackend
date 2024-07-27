@@ -38,14 +38,4 @@ public class messageController {
         return result;
     }
 
-    //todo 发送消息
-    /*@GetMapping("/postMess")
-    public Result postMess(@RequestParam("user_ID") String user_ID) {
-        Boolean flag = messageService.postMessage();
-        Result result = new Result();
-        if (flag) {
-            result.setCode(200);
-        }
-        return result;
-    }*/
 }
