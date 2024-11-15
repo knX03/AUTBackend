@@ -26,7 +26,7 @@ public class songPlaylistsController {
 
 
     //线上歌单封面存放的系统磁盘路径
-    private final static String onLine_SAVE_PATH_songPlaylistCover = "/www/wwwroot/AUTMusic/vue3/assets/songPlaylistCover";
+    private final static String onLine_SAVE_PATH_songPlaylistCover = "/www/wwwroot/AUTMusic/vue3/assets/songPlaylistCover/";
 
     //线上歌单封面项目路径
     private final static String onLine_FILE_SAVE_PREFIX_songPlaylistCover = "/assets/songPlaylistCover/";
@@ -209,6 +209,7 @@ public class songPlaylistsController {
     /*修改歌单资料*/
     @PostMapping("/changePlaylistInfo")
     public Result changeUserInfo(@RequestBody SongPlaylists songPlaylists) {
+
         return songPlaylistsService.changePlaylistInfo(songPlaylists);
     }
 

@@ -1,7 +1,6 @@
 package com.kn.initialmusic;
 
 import com.kn.initialmusic.webSocket.MyWebSocketHandler;
-import com.kn.initialmusic.webSocket.WebSocketServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

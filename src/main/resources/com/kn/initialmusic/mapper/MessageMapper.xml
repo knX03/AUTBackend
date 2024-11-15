@@ -13,6 +13,7 @@
                user_name       as poster_Name,
                user_avatar     as poster_Avatar,
                message_content as messageText,
+               message_type    as messageType,
                post_time       as post_Time
         from message,
              user
@@ -32,5 +33,10 @@
              user
         where sUser_id = #{user_ID}
           and user_ID = fUser_id;
+    </select>
+    <select id="getSysMess" resultType="com.kn.initialmusic.pojo.SysMess">
+        select mess_title, mess_text, mess_time
+        from sysmessage
+        where user_ID = #{user_ID}
     </select>
 </mapper>

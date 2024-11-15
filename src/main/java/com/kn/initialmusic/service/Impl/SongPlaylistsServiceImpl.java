@@ -219,7 +219,7 @@ public class SongPlaylistsServiceImpl implements SongPlaylistsService {
 
         //删除缓存
         stringRedisTemplate.delete(key_SP);
-        return selectDetailByID(key_SP);
+        return selectDetailByID(songPlaylists.getPlaylist_ID());
     }
 
     @Override

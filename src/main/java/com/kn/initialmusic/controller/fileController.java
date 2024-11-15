@@ -41,8 +41,8 @@ public class fileController {
     private final static String onLine_SAVE_PATH_SINGERAVATAR = "/www/wwwroot/AUTMusic/vue3/assets/singerAvatar/";
     //线上项目路径
     private final static String onLine_FILE_SAVE_PREFIX_songDirectory = "/assets/songDirectory/";
-    private final static String onLine_FILE_SAVE_PREFIX_songCover = "/assets/singerAvatar/";
     private final static String onLine_FILE_SAVE_PREFIX_albumCover = "/assets/albumCover/";
+    private final static String onLine_FILE_SAVE_PREFIX_singerAvatar = "/assets/singerAvatar/";
 
 
     @Autowired
@@ -140,6 +140,7 @@ public class fileController {
                 i++;
             }
         }
+        //发送消息通知用户
         SingerHolder.removeSinger();
         return result;
     }

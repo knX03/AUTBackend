@@ -1,6 +1,5 @@
 package com.kn.initialmusic.controller;
 
-import com.kn.initialmusic.pojo.Message;
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.util.UserHolder;
@@ -38,4 +37,13 @@ public class messageController {
         return result;
     }
 
+    @GetMapping("/getSysMess")
+    public Result getUserMess() {
+        Result result;
+        User user = UserHolder.getUser();
+        String user_ID = user.getUser_ID();
+        result = messageService.getSysMess(user_ID);
+        UserHolder.removeUser();
+        return result;
+    }
 }

@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class SongPlaylists {
-    private Integer id;
     private String playlist_ID;
     private String playlist_Name;
     private String create_By;

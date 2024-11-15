@@ -1,7 +1,5 @@
 package com.kn.initialmusic.service.Impl;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONUtil;
 import com.kn.initialmusic.mapper.SongMapper;
 import com.kn.initialmusic.pojo.PageBean;
 import com.kn.initialmusic.pojo.Result;
@@ -14,13 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.kn.initialmusic.controller.Code.SUCCESS;
-import static com.kn.initialmusic.util.RedisConstants.CACHE_SEARCH_KEY;
-import static com.kn.initialmusic.util.songUtil.searchValue;
 
 @Service
 public class SongServiceImpl implements SongService {

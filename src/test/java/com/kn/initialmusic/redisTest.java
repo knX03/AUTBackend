@@ -151,4 +151,10 @@ public class redisTest {
         System.out.println(formatMessesList1);
     }
 
+    @Test
+    public void tt() {
+        String s = "123_-_asdkh_-_2024-04-01_-_0";
+        String[] strings = s.split("_-_");
+        System.out.println(Arrays.toString(strings));
+    }
 }

@@ -6,10 +6,8 @@ import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.util.UserHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,7 +43,6 @@ public class loginInterceptor implements HandlerInterceptor {
         User user = BeanUtil.fillBeanWithMap(userMap, new User(), false);
 
         UserHolder.saveUser(user);
-
         redisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.DAYS);
 
         return true;

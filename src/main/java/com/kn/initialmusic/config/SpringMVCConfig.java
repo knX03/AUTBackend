@@ -31,7 +31,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor).addPathPatterns(
                 "/album/likeAlbum", "/album/ifCollectAlbum", "/album/collectAlbum", "/album/deleteLikeAlbum",
                 "/comment/postComment",
-                "/message/delMess", "/message/getUserMessages", "/message/UserMess",
+                "/message/delMess", "/message/getUserMessages", "/message/UserMess", "/message/getSysMess",
                 "/song/SongByUser", "/song/selectLikeSong", "/song/likeSong", "/song/deleteLikeSong",
                 "/songPlaylist/collectPlaylist", "/songPlaylist/ifCollectPlaylist", "/songPlaylist/changePlaylistInfo",
                 "/songPlaylist/deleteLikePlaylist", "/songPlaylist/ifMyPlaylist", "/songPlaylist/createPlaylist",

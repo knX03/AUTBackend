@@ -3,6 +3,7 @@ package com.kn.initialmusic.webSocket.service;
 import cn.hutool.json.JSONUtil;
 import com.kn.initialmusic.mapper.MessageMapper;
 import com.kn.initialmusic.pojo.Result;
+import com.kn.initialmusic.pojo.SysMess;
 import com.kn.initialmusic.pojo.User;
 import com.kn.initialmusic.service.UserService;
 import com.kn.initialmusic.webSocket.pojo.FormatMess;
@@ -43,7 +44,6 @@ public class MessageService {
             strings.add(user.getUser_ID());
         }
         saveCacheMessage(strings, user_ID);
-
         if (!messageUserList.isEmpty()) {
             result.setCode(SUCCESS);
             result.setData(messageUserList);
@@ -70,13 +70,13 @@ public class MessageService {
                 sUserID = s;
             }
             List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
-            if (!range.isEmpty()) {
+            if (!range.isEmpty() || range.size() != 0) {
                 stringRedisTemplate.expire(key, CACHE_MESS_TTL, TimeUnit.DAYS);
             } else {
                 List<FormatMess> messagesList = messageMapper.getMessagesList(fUserID, sUserID);
                 for (FormatMess formatMess : messagesList) {
-                    String messText = formatMess.getPoster_ID() + "-" + formatMess.getMessageText()
-                            + "-" + formatMess.getPost_Time() + "-" + formatMess.getMessageType();
+                    String messText = formatMess.getPoster_ID() + "_-_" + formatMess.getMessageText()
+                            + "_-_" + formatMess.getPost_Time() + "_-_" + formatMess.getMessageType();
                     stringRedisTemplate.opsForList().rightPush(key, messText);
                 }
                 stringRedisTemplate.expire(key, CACHE_MESS_TTL, TimeUnit.DAYS);
@@ -85,6 +85,13 @@ public class MessageService {
         return true;
     }
 
+    /**
+     * 获取两个用户间聊天记录
+     *
+     * @param fUser_ID
+     * @param sUser_ID
+     * @return
+     */
     public Result getMessage(String fUser_ID, String sUser_ID) {
         Result result = new Result();
         List<FormatMess> formatMessesList;
@@ -127,7 +134,7 @@ public class MessageService {
         List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
         if (range != null) {
             for (String s : range) {
-                String[] strings = s.split("-");
+                String[] strings = s.split("_-_");
                 String userID = strings[0];
                 FormatMess formatMess = new FormatMess();
                 Result result = userService.selectDetailByID(userID);
@@ -144,6 +151,12 @@ public class MessageService {
         return formatMessesList;
     }
 
+    /**
+     * 格式化消息
+     *
+     * @param message
+     * @return
+     */
     public String formatMessage(String message) {
         Message msg = JSONUtil.toBean(message, Message.class);
         String posterId = msg.getPoster_ID();
@@ -158,6 +171,11 @@ public class MessageService {
         return JSONUtil.toJsonStr(formatMess);
     }
 
+    /**
+     * 保存消息至缓存
+     *
+     * @param message
+     */
     public void saveMessage(Message message) {
         //todo 还需添加时间戳
         String key_message_reUser;
@@ -170,8 +188,8 @@ public class MessageService {
         } else {
             key_message_reUser = MESS_U1U2 + recipientId + "-" + posterId;
         }
-        String messageText = posterId + "-" + message.getMessage() + "-" +
-                message.getPost_time() + "-" + message.getMessageType();
+        String messageText = posterId + "_-_" + message.getMessage() + "_-_" +
+                message.getPost_time() + "_-_" + message.getMessageType();
         stringRedisTemplate.opsForList().rightPush(key_message_reUser, messageText);
         boolean flag = false;
         List<MessUser> messageUserList = messageMapper.getMessageUser(posterId);
@@ -236,6 +254,17 @@ public class MessageService {
 
     }
 
+    public Result getSysMess(String user_ID) {
+        Result result = new Result();
+        List<SysMess> sysMess = messageMapper.getSysMess(user_ID);
+        if (!sysMess.isEmpty()) {
+            result.setCode(SUCCESS);
+            result.setData(sysMess);
+        } else {
+            result.setCode(MAIN_VALUES_NULL);
+        }
+        return result;
+    }
 
     public Map<Object, Object> getUndeliveredMessages(Message message) {
         String key_message_reUser = MESS_U1U2 + message.getPoster_ID() + message.getRecipient_ID();
