@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -153,8 +154,8 @@ public class redisTest {
 
     @Test
     public void tt() {
-        String s = "123_-_asdkh_-_2024-04-01_-_0";
+/*        String s = "123_-_asdkh_-_2024-04-01_-_0";
         String[] strings = s.split("_-_");
-        System.out.println(Arrays.toString(strings));
+        System.out.println(Arrays.toString(strings));*/
     }
 }

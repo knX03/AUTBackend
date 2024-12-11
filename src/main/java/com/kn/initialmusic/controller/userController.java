@@ -308,12 +308,7 @@ public class userController {
     }
 
 
-    @PostMapping("/test")
-    public String test() {
-        System.out.println("successTest");
-        return "successTest";
-    }
-
+    //获取用户的关注与粉丝数
     @GetMapping("/getSumFollowAndFan")
     public Result getSumFollowAndFan(@RequestParam("user_ID") String userID) {
         Result result = new Result();
@@ -335,6 +330,7 @@ public class userController {
         return result;
     }
 
+    //获取用户的粉丝列表
     @GetMapping("/getUserFans")
     public Result getUserFans(@RequestParam("user_ID") String userID) {
         Result result = new Result();
@@ -356,6 +352,7 @@ public class userController {
         return result;
     }
 
+    //用户取消关注另一个用户
     @GetMapping("/userUnfollowFan")
     public Result userUnfollowFan(@RequestParam("fan_id") String fan_id) {
         Result result = new Result();
@@ -369,6 +366,7 @@ public class userController {
         return result;
     }
 
+    //获取用户的关注列表
     @GetMapping("/getUserFollow")
     public Result getUserFollow(@RequestParam("user_ID") String userID) {
         Result result = new Result();
@@ -390,6 +388,7 @@ public class userController {
         return result;
     }
 
+    //判断用户是否关注另一个用户
     @GetMapping("/ifFollowUser")
     public Result ifFollowUser(@RequestParam("ID") String ID) {
         Result result = new Result();
@@ -401,6 +400,7 @@ public class userController {
         return result;
     }
 
+    //用户关注另一个用户
     @GetMapping("/followUser")
     public Result followUser(@RequestParam("ID") String ID) {
         Result result = new Result();
@@ -414,6 +414,7 @@ public class userController {
         return result;
     }
 
+    //自我判断
     @GetMapping("/ifMy")
     public Result ifMy(@RequestParam("ID") String user_ID) {
         Result result = new Result();

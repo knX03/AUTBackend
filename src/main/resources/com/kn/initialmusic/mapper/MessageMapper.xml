@@ -7,6 +7,10 @@
         insert into messageuser(fUser_id, sUser_id)
             value (#{fUser_ID}, #{sUser_ID})
     </insert>
+    <insert id="savaMess">
+        insert into message(fUser_id, sUser_id, poster_id, message_content, message_type)
+            value (#{fUser_ID}, #{sUser_ID}, #{poster_ID}, #{message}, #{messageType})
+    </insert>
 
     <select id="getMessagesList" resultType="com.kn.initialmusic.webSocket.pojo.FormatMess">
         select user_ID         as poster_ID,

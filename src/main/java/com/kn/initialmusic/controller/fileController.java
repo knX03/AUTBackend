@@ -78,6 +78,7 @@ public class fileController {
         }*/
     }
 
+    //保存专辑封面
     @PostMapping("/uploadAlCover")
     public Result uploadAlCover(@RequestParam("alCover") MultipartFile file) throws IOException {
         Result result = new Result();
@@ -100,6 +101,7 @@ public class fileController {
     }
 
     //todo 上传进入待审核表
+    //保存歌曲数据
     @PostMapping("/uploadSong")
     public Result uploadSong(@RequestParam("file") MultipartFile[] file, @RequestParam("songName") String[] songNames, @RequestPart("album") Album album) throws IOException {
         Result result = new Result();
@@ -145,6 +147,7 @@ public class fileController {
         return result;
     }
 
+    //保存歌手头像
     @PostMapping("/uploadSGAvatar")
     public Result uploadSGAvatar(@RequestParam("singerAvatar") MultipartFile file) throws IOException {
         Result result = new Result();

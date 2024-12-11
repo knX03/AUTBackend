@@ -37,90 +37,10 @@ public class SongController {
     @Autowired
     private SongService songService;
 
+    //歌曲的详细信息
     @GetMapping("/songDE")
     public Result songDetail(@RequestParam("songID") String songID) {
         return songService.songDetail(songID);
-    }
-
-    @PostMapping("/uploadMusic")
-    /*将路径加文件名称与歌曲信息存储至数据库（路径即path：项目路径）*/
-    public Result upMusic(@RequestParam("file") MultipartFile file, @RequestPart("song") Song song, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Result result = new Result();
-        //获取文件名字
-        String filename = file.getOriginalFilename();
-        String filePathmu = new String(SAVE_PATH_song);
-        //String filePathmu = new String(SAVE_PATH_song);
-
-        /*绝对路径*/
-        String path = filePathmu + filename;
-        File filePath = new File(path);
-        //通过缓存区输出流BufferedOutputStream的对象来将上传的文件写入filePathmu文件夹中
-        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-        outputStream.write(file.getBytes());
-        outputStream.flush();
-        outputStream.close();
-
-        /*写入数据库*/
-        String song_Directory = "/src/songDirectory/" + filename;
-        song.setSong_Directory(song_Directory);
-        song.setSong_Cover(songCover_PATH);
-        Boolean saveSongFlag = songService.saveSong(song);
-        if (saveSongFlag) {
-            result.setCode(200);
-            result.setMsg("上传成功！");
-        } else {
-            result.setCode(500);
-            result.setMsg("存储数据库失败！");
-        }
-        return result;
-    }
-
-    /*将路径加文件名称与歌曲信息存储至数据库（路径即path：项目路径）*/
-    @PostMapping("/uploadMuCover")
-    public Result upCover(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Result result = new Result();
-        //获取文件名字
-        String filename = file.getOriginalFilename();
-        //String filePathmu = new String("src/main/resources/" + FILE_SAVE_PREFIX_songCover);
-        String filePathmu = new String(SAVE_PATH_songCover);
-        //以上述路径创建File对象
-        String path = filePathmu + filename;
-        File filePath = new File(path);
-        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-        outputStream.write(file.getBytes());
-        outputStream.flush();
-        outputStream.close();
-        /*写入数据库*/
-        /*封面路径*/
-        songCover_PATH = "/src/photos/songCover/" + filename;
-        result.setCode(200);
-        result.setData("/src/photos/songCover/" + filename);
-        result.setMsg("上传成功！");
-        return result;
-    }
-
-
-    /*多文件上传 */
-    @PostMapping("/uploadMore")
-    public Result uploadMore(@RequestParam("file") MultipartFile[] file, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Result result = new Result();
-
-        for (MultipartFile multipartFile : file) {
-            //获取文件名字
-            String filename = multipartFile.getOriginalFilename();
-
-            //通过缓存区输出流BufferedOutputStream的对象来将上传的文件写入filePathmu文件夹中
-            String filePathmu = new String(SAVE_PATH_song);
-            String path = filePathmu + filename;
-            File filePath = new File(path);
-            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
-            outputStream.write(multipartFile.getBytes());
-            outputStream.flush();
-            outputStream.close();
-            result.setCode(200);
-            result.setMsg("上传成功！");
-        }
-        return result;
     }
 
     /*查询相关专辑的歌曲*/

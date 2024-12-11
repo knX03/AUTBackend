@@ -3,6 +3,7 @@ package com.kn.initialmusic.mapper;
 import com.kn.initialmusic.pojo.SysMess;
 import com.kn.initialmusic.webSocket.pojo.FormatMess;
 import com.kn.initialmusic.webSocket.pojo.MessUser;
+import com.kn.initialmusic.webSocket.pojo.Message;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +49,9 @@ public interface MessageMapper {
      */
     List<SysMess> getSysMess(String user_ID);
 
+    /**
+     * 将聊天记录存入数据库
+     * @return 新增数据数
+     */
+    int savaMess(Message message);
 }

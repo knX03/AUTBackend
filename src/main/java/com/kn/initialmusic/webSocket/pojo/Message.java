@@ -8,6 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Message {
+    private String fUser_ID;
+    private String sUser_ID;
     private String recipient_ID;
     private String poster_ID;
     private String post_time;

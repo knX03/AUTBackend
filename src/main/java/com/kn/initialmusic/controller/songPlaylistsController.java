@@ -193,6 +193,7 @@ public class songPlaylistsController {
         return result;
     }
 
+    //判断是否自己创建的歌单
     @GetMapping("/ifMyPlaylist")
     public Result ifMyPlaylist(@RequestParam("playlist_ID") String playlist_ID) {
         Result result = new Result();

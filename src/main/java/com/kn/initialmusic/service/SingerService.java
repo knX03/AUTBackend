@@ -35,7 +35,7 @@ public interface SingerService {
     List<Singer> singerSelector(String langType, String singerType, String alphabet);
 
     /**
-     * 用户是否是歌手
+     * 判断用户是否是歌手
      *
      * @param user_ID 用户ID
      * @return 歌手信息

@@ -35,6 +35,12 @@ public class MessageService {
     @Autowired
     private MessageMapper messageMapper;
 
+    /**
+     * 获取当前用户的聊天记录
+     *
+     * @param user_ID 用户ID
+     * @return 用户的聊天记录
+     */
     public Result getMessageUser(String user_ID) {
         Result result = new Result();
         List<MessUser> messageUserList = messageMapper.getMessageUser(user_ID);
@@ -53,6 +59,13 @@ public class MessageService {
         return result;
     }
 
+    /**
+     * 将数据库的消息数据保存至缓存中
+     *
+     * @param userIDList 用户的聊天对象列表
+     * @param user_ID    当前用户ID
+     * @return 保存成功与否
+     */
     public boolean saveCacheMessage(List<String> userIDList, String user_ID) {
         String key;
         String fUserID;
@@ -177,7 +190,6 @@ public class MessageService {
      * @param message
      */
     public void saveMessage(Message message) {
-        //todo 还需添加时间戳
         String key_message_reUser;
         String posterId = message.getPoster_ID();
         String recipientId = message.getRecipient_ID();
@@ -185,8 +197,12 @@ public class MessageService {
         int recipientIdI = Integer.parseInt(recipientId);
         if (posterIdI > recipientIdI) {
             key_message_reUser = MESS_U1U2 + posterId + "-" + recipientId;
+            message.setFUser_ID(posterId);
+            message.setSUser_ID(recipientId);
         } else {
             key_message_reUser = MESS_U1U2 + recipientId + "-" + posterId;
+            message.setFUser_ID(recipientId);
+            message.setSUser_ID(posterId);
         }
         String messageText = posterId + "_-_" + message.getMessage() + "_-_" +
                 message.getPost_time() + "_-_" + message.getMessageType();
@@ -202,6 +218,7 @@ public class MessageService {
         if (!flag) {
             saveMsgUserDB(posterId, recipientId);
         }
+        setMsgDB(message);
     }
 
     /**
@@ -226,27 +243,15 @@ public class MessageService {
     }
 
     /**
-     * todo 将聊天记录存入数据库
+     * todo 将聊天记录存入数据库（考虑使用消息队列）
      *
-     * @param fUserID
-     * @param sUserID
+     * @param message 消息对象
      */
-    public void setMsgDB(String fUserID, String sUserID) {
-        int ID1 = Integer.parseInt(fUserID);
-        int ID2 = Integer.parseInt(sUserID);
-        String fID;
-        String sID;
-        if (ID1 > ID2) {
-            fID = fUserID;
-            sID = sUserID;
-        } else {
-            fID = sUserID;
-            sID = fUserID;
-        }
-        String key = MESS_U1U2 + fID + "-" + sID;
+    public void setMsgDB(Message message) {
+        messageMapper.savaMess(message);
     }
 
-    //todo 暂时无法实现
+    //删除聊天对象 todo 暂时无法实现
     public void deleteMessage(Message message) {
         String key_message_reUser = MESS_U1U2 + message.getPoster_ID() + message.getRecipient_ID();
         stringRedisTemplate.opsForHash().delete(key_message_reUser,
@@ -254,6 +259,7 @@ public class MessageService {
 
     }
 
+    //获取当前用户的系统消息
     public Result getSysMess(String user_ID) {
         Result result = new Result();
         List<SysMess> sysMess = messageMapper.getSysMess(user_ID);

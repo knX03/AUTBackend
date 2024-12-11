@@ -12,6 +12,7 @@ import org.springframework.web.socket.TextMessage;
 @RequestMapping("/msg")
 public class webSocketController {
 
+    //发送信息
     @PostMapping("/send")
     public HttpStatus sendMessage(@RequestBody Message msg) {
         String message = JSONUtil.toJsonStr(msg);

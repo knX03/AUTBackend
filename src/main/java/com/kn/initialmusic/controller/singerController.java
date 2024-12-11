@@ -58,7 +58,7 @@ public class singerController {
         return result;
     }
 
-
+    //判断用户是否是歌手
     @GetMapping("/getSingerByUser")
     public Result getSingerByUser() {
         User userH = UserHolder.getUser();
@@ -68,6 +68,7 @@ public class singerController {
         return result;
     }
 
+    //歌手信息退出
     @GetMapping("/sinLogOff")
     public Result sinLogOff(@RequestParam("singer_token") String singer_token) {
         Boolean flag = singerService.sinLogOff(singer_token);
@@ -78,6 +79,7 @@ public class singerController {
         return result;
     }
 
+    //获取歌手信息
     @GetMapping("/getArtists")
     public Result getArtists() {
         Singer singer = SingerHolder.getSinger();

@@ -28,5 +28,8 @@ public class RedisConstants {
     public static final Long CACHE_SP_KEY_TTL = 60L;
     public static final Long CACHE_USERSP_KEY_TTL = 60L;
     public static final Long CACHE_SEARCH_HOT_KEY_TTL = 1L;
-    public static final Long CACHE_MESS_TTL = 30L;
+    public static final Long CACHE_MESS_TTL = 7L;
+
+
+
 }

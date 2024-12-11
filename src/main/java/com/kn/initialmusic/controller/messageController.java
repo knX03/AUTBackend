@@ -17,6 +17,7 @@ public class messageController {
     @Autowired
     private MessageService messageService;
 
+    //获取当前用户的聊天记录
     @GetMapping("/getUserMessages")
     public Result getUserMessages() {
         Result result;
@@ -27,6 +28,7 @@ public class messageController {
         return result;
     }
 
+    //获取两个用户间聊天记录
     @GetMapping("/UserMess")
     public Result getUserMess(@RequestParam String userID) {
         Result result;
@@ -37,6 +39,7 @@ public class messageController {
         return result;
     }
 
+    //获取当前用户的系统消息
     @GetMapping("/getSysMess")
     public Result getUserMess() {
         Result result;
