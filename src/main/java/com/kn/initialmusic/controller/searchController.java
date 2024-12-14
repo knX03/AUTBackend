@@ -17,13 +17,15 @@ public class searchController {
     @Autowired
     private SearchServiceImpl searchService;
 
+    //todo 实时搜索（全文检索）
     @GetMapping("/{searchValue}")
     public Result searchString(@PathVariable String searchValue) {
         return searchService.searchString(searchValue);
     }
 
-    @GetMapping("/searchDetail")
-    public Result searchDetail(@RequestParam("searchValue") String searchValue) {
+    //保存搜索历史
+    @GetMapping("/aSaveSearchHS")
+    public Result aSaveSearchHS(@RequestParam("searchValue") String searchValue) {
         User user = UserHolder.getUser();
         String user_ID = user.getUser_ID();
         return searchService.cacheSearchHistory(searchValue, user_ID);
@@ -36,7 +38,7 @@ public class searchController {
         return searchService.getSearchHistory(user_ID);
     }
 
-    //todo 搜索热度榜
+    //todo 搜索热度榜（全文搜索权重进行排行）
     @GetMapping("/hotSearch")
     public Result getHotSearch() {
         return searchService.getHotSearch();

@@ -181,6 +181,8 @@ public class MessageService {
         formatMess.setPoster_Avatar(poster.getUser_Avatar());
         formatMess.setMessageText(msg.getMessage());
         formatMess.setPost_Time(msg.getPost_time());
+        //todo 此处判断消息类型
+        formatMess.setMessageType("0");
         return JSONUtil.toJsonStr(formatMess);
     }
 
@@ -251,7 +253,7 @@ public class MessageService {
         messageMapper.savaMess(message);
     }
 
-    //删除聊天对象 todo 暂时无法实现
+    //删除聊天对象 todo 还未实现
     public void deleteMessage(Message message) {
         String key_message_reUser = MESS_U1U2 + message.getPoster_ID() + message.getRecipient_ID();
         stringRedisTemplate.opsForHash().delete(key_message_reUser,

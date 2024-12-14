@@ -27,7 +27,7 @@ public class SearchServiceImpl {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-
+    //todo 实时检索需要重构（使用缓存）
     public Result searchString(String searchValue) {
         Result result = new Result();
         List<String> searchList = new ArrayList<>();
@@ -133,6 +133,7 @@ public class SearchServiceImpl {
         return result;
     }
 
+    //todo 具体搜索（考虑使用全文检索）
     public Result searchALL(String searchValue) {
         Result result = new Result();
         ArrayList<Object> lists = new ArrayList<>();
