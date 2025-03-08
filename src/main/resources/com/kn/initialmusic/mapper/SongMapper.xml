@@ -118,7 +118,7 @@
                             and song_ID is not null)
     </select>
     <select id="songDetail" resultType="com.kn.initialmusic.pojo.Song">
-        select song_ID, song_name, singer_name, album_name, song_cover
+        select song_ID, song_name, singer_name, album_name, song_cover,lyric
         from song,
              singer,
              album

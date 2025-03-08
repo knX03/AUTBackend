@@ -59,4 +59,11 @@ public interface SingerService {
 
     Result applySinger(Singer singer);
 
+    /**
+     * 查询歌手的粉丝数据
+     *
+     * @param singer_ID 歌手ID
+     * @return 粉丝数据
+     */
+    Result selectArtistsFansData(String singer_ID);
 }

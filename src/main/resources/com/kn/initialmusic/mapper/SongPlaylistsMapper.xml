@@ -140,9 +140,11 @@
         where playlist_name = #{playlist_Name}
     </select>
     <select id="selectAllPlaylists" resultType="com.kn.initialmusic.pojo.SongPlaylists">
-        select playlist_ID, playlist_name, playlist_cover
-        from songplaylists
+        select user_name as create_by, playlist_ID, playlist_name, playlist_cover
+        from songplaylists,
+             user
         where playlist_ID != 10000
+          and user_ID = create_by
     </select>
     <select id="ifExistSong" resultType="java.lang.String">
         select playlist_ID

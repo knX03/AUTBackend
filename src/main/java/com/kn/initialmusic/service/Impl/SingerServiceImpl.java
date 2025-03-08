@@ -108,4 +108,12 @@ public class SingerServiceImpl implements SingerService {
         }
         return result;
     }
+
+    public Result selectArtistsFansData(String singer_ID) {
+        Result result = new Result();
+        int fansNum = singerMapper.selectArtistsFansNum(singer_ID);
+        result.setCode(SUCCESS);
+        result.data = fansNum;
+        return result;
+    }
 }

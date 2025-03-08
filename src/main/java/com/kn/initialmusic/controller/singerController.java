@@ -1,9 +1,6 @@
 package com.kn.initialmusic.controller;
 
-import com.kn.initialmusic.pojo.Result;
-import com.kn.initialmusic.pojo.Singer;
-import com.kn.initialmusic.pojo.SongPlaylists;
-import com.kn.initialmusic.pojo.User;
+import com.kn.initialmusic.pojo.*;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.service.SongService;
 import com.kn.initialmusic.util.SingerHolder;
@@ -100,5 +97,12 @@ public class singerController {
         Result result = singerService.applySinger(singer);
         UserHolder.removeUser();
         return result;
+    }
+
+    @GetMapping("/aSelectArtistsFansData")
+    public Result aSelectArtistsFansData() {
+        Singer singer = SingerHolder.getSinger();
+        String singer_ID = singer.getSinger_ID();
+        return singerService.selectArtistsFansData(singer_ID);
     }
 }

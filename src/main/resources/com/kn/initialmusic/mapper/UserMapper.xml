@@ -119,7 +119,7 @@
                   ALL
               SELECT 0 followSum, COUNT(*) fanSum
               FROM userfollow
-              where userfollow.follow_id = #{user_ID}) t;
+              where userfollow.follow_id = #{user_ID}) TFollowAndFan;
     </select>
 
     <select id="ifFanForUser" resultType="java.lang.String">

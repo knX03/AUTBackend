@@ -1,10 +1,12 @@
 package com.kn.initialmusic.mapper;
 
+import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Singer;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface SingerMapper {
@@ -60,4 +62,14 @@ public interface SingerMapper {
 
     int applySinger(Singer singer);
 
+    /**
+     * 查询歌手的粉丝数量
+     *
+     * @param singer_ID 歌手ID
+     * @return 粉丝数据
+     */
+    int selectArtistsFansNum(String singer_ID);
+
+
+//    Map<String, Integer> aselectArtistsFansNum(String singer_ID);
 }

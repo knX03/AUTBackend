@@ -18,4 +18,5 @@ public class Song {
     private String created_Time;
     private String song_Directory;
     private String song_Cover;
+    private String lyric;
 }

@@ -35,4 +35,11 @@
         from singer
         where user_ID = #{user_ID}
     </select>
+    <select id="selectArtistsFansNum" resultType="java.lang.Integer">
+        select count(*) as fansNum
+        from userfollow
+        where follow_ID = (select user_ID
+                           from singer
+                           where singer_ID = #{singer_ID})
+    </select>
 </mapper>
