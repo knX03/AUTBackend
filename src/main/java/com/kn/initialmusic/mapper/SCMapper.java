@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface SongCommentMapper {
+public interface SCMapper {
 
     /**
      * @param ID 歌单ID
@@ -29,35 +29,32 @@ public interface SongCommentMapper {
 
 
     /**
-     *
      * @param user_ID
      * @param ID
      * @param comment
      * @return
      */
     int postPlaylistComment(@Param("user_ID") String user_ID,
-                            @Param("ID")String ID,
-                            @Param("comment")String comment);
+                            @Param("ID") String ID,
+                            @Param("comment") String comment);
 
     /**
-     *
      * @param user_ID
      * @param ID
      * @param comment
      * @return
      */
     int postSongComment(@Param("user_ID") String user_ID,
-                        @Param("ID")String ID,
-                        @Param("comment")String comment);
+                        @Param("ID") String ID,
+                        @Param("comment") String comment);
 
     /**
-     *
      * @param user_ID
      * @param ID
      * @param comment
      * @return
      */
     int postAlbumComment(@Param("user_ID") String user_ID,
-                         @Param("ID")String ID,
-                         @Param("comment")String comment);
+                         @Param("ID") String ID,
+                         @Param("comment") String comment);
 }

@@ -2,6 +2,7 @@ package com.kn.initialmusic.mapper;
 
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Singer;
+import com.kn.initialmusic.pojo.Song;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -68,8 +69,23 @@ public interface SingerMapper {
      * @param singer_ID 歌手ID
      * @return 粉丝数据
      */
-    int selectArtistsFansNum(String singer_ID);
+    int selectArtistFansNum(String singer_ID);
+    //    Map<String, Integer> aselectArtistsFansNum(String singer_ID);
+
+    /**
+     * 查询歌手的作品数据
+     *
+     * @param singer_ID 歌手的ID
+     * @return 作品数据
+     */
+    List<Integer> selectArtistWorkData(String singer_ID);
 
 
-//    Map<String, Integer> aselectArtistsFansNum(String singer_ID);
+    /**
+     * 查询歌手的歌曲数据
+     *
+     * @param singer_ID 歌手的ID
+     * @return 歌曲数据
+     */
+    List<Song> selectArtistSongData(String singer_ID);
 }

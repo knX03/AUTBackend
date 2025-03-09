@@ -65,5 +65,22 @@ public interface SingerService {
      * @param singer_ID 歌手ID
      * @return 粉丝数据
      */
-    Result selectArtistsFansData(String singer_ID);
+    Result selectArtistFansData(String singer_ID);
+
+    /**
+     * 查询歌手的作品数据
+     *
+     * @param singer_ID 歌手的ID
+     * @return 作品数据
+     */
+    Result selectArtistWorkData(String singer_ID);
+
+
+    /**
+     * 查询歌手的歌曲数据
+     *
+     * @param singer_ID 歌手的ID
+     * @return 歌曲数据
+     */
+    Result selectArtistSongData(String singer_ID);
 }

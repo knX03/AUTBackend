@@ -3,10 +3,7 @@ package com.kn.initialmusic.service.Impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import com.kn.initialmusic.mapper.SingerMapper;
-import com.kn.initialmusic.pojo.Result;
-import com.kn.initialmusic.pojo.Singer;
-import com.kn.initialmusic.pojo.SingerDTO;
-import com.kn.initialmusic.pojo.UserDTO;
+import com.kn.initialmusic.pojo.*;
 import com.kn.initialmusic.service.GenerateIDService;
 import com.kn.initialmusic.service.SingerService;
 import com.kn.initialmusic.util.UserHolder;
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -109,11 +107,31 @@ public class SingerServiceImpl implements SingerService {
         return result;
     }
 
-    public Result selectArtistsFansData(String singer_ID) {
+    public Result selectArtistFansData(String singer_ID) {
         Result result = new Result();
-        int fansNum = singerMapper.selectArtistsFansNum(singer_ID);
+        int fansNum = singerMapper.selectArtistFansNum(singer_ID);
         result.setCode(SUCCESS);
         result.data = fansNum;
         return result;
     }
+
+    @Override
+    public Result selectArtistWorkData(String singer_ID) {
+        Result result = new Result();
+        List<Integer> workRawData = singerMapper.selectArtistWorkData(singer_ID);
+        //输出：索引0为workNUm，1为AlbumNum
+        result.setCode(SUCCESS);
+        result.data = workRawData;
+        return result;
+    }
+
+    @Override
+    public Result selectArtistSongData(String singer_ID) {
+        List<Song> songs = singerMapper.selectArtistSongData(singer_ID);
+        Result result = new Result();
+        result.setCode(SUCCESS);
+        result.data = songs;
+        return result;
+    }
+
 }

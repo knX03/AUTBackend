@@ -1,6 +1,6 @@
 package com.kn.initialmusic.service.Impl;
 
-import com.kn.initialmusic.mapper.SongCommentMapper;
+import com.kn.initialmusic.mapper.SCMapper;
 import com.kn.initialmusic.pojo.commentList;
 import com.kn.initialmusic.service.SongCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +13,20 @@ import java.util.List;
 public class SongCommentServiceImpl implements SongCommentService {
 
     @Autowired
-    private SongCommentMapper songCommentMapper;
+    private SCMapper SCMapper;
 
     @Override
     public List<commentList> getComments(String ID, String type) {
         List<commentList> songComments = new ArrayList<>();
         switch (type) {
             case "song":
-                songComments = songCommentMapper.getSongComments(ID);
+                songComments = SCMapper.getSongComments(ID);
                 break;
             case "album":
-                songComments = songCommentMapper.getAlbumComments(ID);
+                songComments = SCMapper.getAlbumComments(ID);
                 break;
             case "playlist":
-                songComments = songCommentMapper.getPlaylistComments(ID);
+                songComments = SCMapper.getPlaylistComments(ID);
                 break;
         }
         return songComments;
@@ -35,9 +35,9 @@ public class SongCommentServiceImpl implements SongCommentService {
     @Override
     public boolean postComment(String user_ID, String ID, String comment, String type) {
         int num = switch (type) {
-            case "song" -> songCommentMapper.postSongComment(user_ID, ID, comment);
-            case "album" -> songCommentMapper.postAlbumComment(user_ID, ID, comment);
-            case "playlist" -> songCommentMapper.postPlaylistComment(user_ID, ID, comment);
+            case "song" -> SCMapper.postSongComment(user_ID, ID, comment);
+            case "album" -> SCMapper.postAlbumComment(user_ID, ID, comment);
+            case "playlist" -> SCMapper.postPlaylistComment(user_ID, ID, comment);
             default -> 0;
         };
         return num > 0;

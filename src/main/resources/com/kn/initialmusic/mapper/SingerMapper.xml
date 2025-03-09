@@ -35,11 +35,37 @@
         from singer
         where user_ID = #{user_ID}
     </select>
-    <select id="selectArtistsFansNum" resultType="java.lang.Integer">
+    <select id="selectArtistFansNum" resultType="java.lang.Integer">
         select count(*) as fansNum
         from userfollow
         where follow_ID = (select user_ID
                            from singer
                            where singer_ID = #{singer_ID})
     </select>
+    <select id="selectArtistWorkData" resultMap="wn,an">
+        select count(song.song_ID) as WorkNum
+        from song
+        where song.singer_ID = #{singer_ID};
+
+        select count(*) as AlbumNum
+        from album
+        where singer_ID = #{singer_ID}
+    </select>
+    <resultMap id="wn" type="java.lang.Integer"/>
+    <resultMap id="an" type="java.lang.Integer"/>
+    <select id="selectArtistSongData" resultType="com.kn.initialmusic.pojo.Song">
+        select song_ID,
+               song_name,
+               singer_name,
+               album.album_name as album_name,
+               song_cover,
+               examine
+        from song,
+             album,
+             singer
+        where song.singer_ID = #{singer_ID}
+          and singer.singer_ID = #{singer_ID}
+          and song.album_ID = album.album_ID
+    </select>
+
 </mapper>

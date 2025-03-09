@@ -103,6 +103,21 @@ public class singerController {
     public Result aSelectArtistsFansData() {
         Singer singer = SingerHolder.getSinger();
         String singer_ID = singer.getSinger_ID();
-        return singerService.selectArtistsFansData(singer_ID);
+        return singerService.selectArtistFansData(singer_ID);
+    }
+
+    @GetMapping("/aSelectWorkData")
+    public Result aSelectWorkData(){
+        Singer singer = SingerHolder.getSinger();
+        String singer_ID = singer.getSinger_ID();
+        return singerService.selectArtistWorkData(singer_ID);
+    }
+
+
+    @GetMapping("/aWorkBySinger")
+    public Result aWorkBySinger(){
+        Singer singer = SingerHolder.getSinger();
+        String singer_ID = singer.getSinger_ID();
+        return singerService.selectArtistSongData(singer_ID);
     }
 }
