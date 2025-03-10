@@ -1,5 +1,6 @@
 package com.kn.initialmusic.mapper;
 
+import com.kn.initialmusic.pojo.Album;
 import com.kn.initialmusic.pojo.Result;
 import com.kn.initialmusic.pojo.Singer;
 import com.kn.initialmusic.pojo.Song;
@@ -88,4 +89,12 @@ public interface SingerMapper {
      * @return 歌曲数据
      */
     List<Song> selectArtistSongData(String singer_ID);
+
+    /**
+     * 查询歌手的专辑数据
+     *
+     * @param singer_ID 歌手的ID
+     * @return 专辑数据
+     */
+    List<Album> selectArtistAlbumData(String singer_ID);
 }

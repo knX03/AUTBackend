@@ -134,4 +134,12 @@ public class SingerServiceImpl implements SingerService {
         return result;
     }
 
+    @Override
+    public Result selectArtistAlbumData(String singer_ID) {
+        List<Album> albums = singerMapper.selectArtistAlbumData(singer_ID);
+        Result result = new Result();
+        result.setCode(SUCCESS);
+        result.data = albums;
+        return result;
+    }
 }

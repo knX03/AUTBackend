@@ -67,5 +67,10 @@
           and singer.singer_ID = #{singer_ID}
           and song.album_ID = album.album_ID
     </select>
+    <select id="selectArtistAlbumData" resultType="com.kn.initialmusic.pojo.Album">
+        select album_ID, album_name, album_cover, create_time, album_introduction
+        from album
+        where album.singer_ID = #{singer_ID}
+    </select>
 
 </mapper>
